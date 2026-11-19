@@ -1,0 +1,35 @@
+.page {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 48rem;
+}
+
+.page h1 {
+  font-size: var(--text-2xl);
+}
+
+.narrow {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 28rem;
+}
+
+.narrow h1 {
+  font-size: var(--text-2xl);
+}
+
+.prose {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 60ch;
+}
+
+/* Work screens (calendar) use the full width. */
+.wide {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.wide h1 {
+  font-size: var(--text-2xl);
+}

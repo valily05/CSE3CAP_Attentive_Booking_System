@@ -1,0 +1,301 @@
+.layout {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.card h2 {
+  font-size: var(--text-md);
+}
+
+.cardHead {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* The usual week: a time axis and one lane per weekday, hatched where not working. */
+.week {
+  display: grid;
+  grid-template-columns: 3rem repeat(7, minmax(5.5rem, 1fr));
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+.axis {
+  position: relative;
+  margin-top: 2.75rem;
+  border-right: 1px solid var(--line);
+}
+
+.axis span {
+  position: absolute;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.axis span:first-child {
+  transform: none;
+}
+
+.day + .day {
+  border-left: 1px solid var(--line);
+}
+
+.dayHead {
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-2);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.add {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add:hover {
+  border-color: var(--ink);
+}
+
+.lane {
+  position: relative;
+  background: repeating-linear-gradient(135deg, var(--surface) 0 6px, color-mix(in srgb, var(--mist) 70%, var(--surface)) 6px 12px);
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+.block {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  font: inherit;
+  text-align: left;
+  display: grid;
+  align-content: start;
+  gap: 0.1rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.75rem;
+}
+
+.block[data-mode="in_person"] {
+  background: var(--open-day);
+  border: 1px solid var(--brass);
+}
+
+.block[data-mode="online"] {
+  background: var(--mist);
+  border: 1px solid var(--line-strong);
+}
+
+.block[aria-pressed="true"] {
+  outline: 3px solid var(--ink);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: end;
+  padding: var(--space-4);
+  background: var(--surface);
+  border-radius: 0.75rem;
+}
+
+.editorTitle {
+  font-weight: 800;
+  align-self: center;
+  min-width: 6rem;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.saveRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.notice:empty {
+  display: none;
+}
+
+.notice {
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--brass);
+  background: var(--dawn);
+  font-weight: 600;
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* Time off: a month calendar where you tap the first and last day. */
+.kinds {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.625rem;
+  overflow: hidden;
+  justify-self: start;
+}
+
+.kind {
+  position: relative;
+}
+
+.kind input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.kind span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0 var(--space-4);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.kind input:checked + span {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.kind input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+
+.monthHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav:disabled {
+  color: var(--line-strong);
+  cursor: default;
+}
+
+.month {
+  display: grid;
+  gap: 2px;
+}
+
+.monthRow {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.monthWeekday {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+.monthDay {
+  width: 100%;
+  height: 2.5rem;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.monthDay:hover:not(:disabled) {
+  background: var(--surface);
+}
+
+.monthDay:disabled {
+  color: var(--line-strong);
+  cursor: default;
+}
+
+.monthDay[data-in-range] {
+  background: var(--open-day);
+  border-radius: 0;
+}
+
+.monthDay[data-edge] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.blockTimes {
+  display: flex;
+  gap: var(--space-3);
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 21rem;
+  }
+}

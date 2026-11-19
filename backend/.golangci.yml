@@ -1,0 +1,103 @@
+version: "2"
+
+# Lint rules for the Care Connect API.
+# Project-specific rules are marked [CC] and explained inline.
+
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - bodyclose
+    - depguard
+    - errorlint
+    - exhaustive
+    - forbidigo
+    - gocritic
+    - gosec
+    - misspell
+    - noctx
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - unconvert
+    - usestdlibvars
+
+  settings:
+    exhaustive:
+      # Every switch on booking.Status must handle all statuses or have a default.
+      default-signifies-exhaustive: true
+
+    forbidigo:
+      analyze-types: true
+      forbid:
+        # [CC] Time is a business input (24h lead, 08:00 cutoff, reminders).
+        # Inject a clock so tests can set "now"; only main and the clock may read the wall clock.
+        - pattern: ^time\.Now$
+          msg: "inject a clock.Clock instead of calling time.Now (only cmd/ and internal/platform/clock may)"
+        # [CC] Business times are WIB. time.Local depends on the server's zone.
+        - pattern: ^time\.Local$
+          msg: "use wib.Zone; server time zones must not change business rules"
+        - pattern: ^fmt\.Print(f|ln)?$
+          msg: "use log/slog; stdout prints can leak client data into logs"
+        - pattern: ^log\.(Fatal|Panic)(f|ln)?$
+          msg: "return errors; only cmd/ may exit"
+        # [CC] math/rand is guessable; booking codes and tokens use crypto/rand.
+        - pattern: ^math/rand(/v2)?\.
+          msg: "use crypto/rand"
+
+    depguard:
+      rules:
+        # [CC] The domain layer is pure business rules: no DB, no HTTP, no outside services.
+        domain-is-pure:
+          files: ["**/internal/domain/**"]
+          deny:
+            - pkg: net/http
+              desc: domain rules must not know about HTTP
+            - pkg: database/sql
+              desc: domain rules must not know about storage
+            - pkg: github.com/jackc/pgx/v5
+              desc: domain rules must not know about storage
+            - pkg: careconnect/internal/store
+              desc: dependencies point inward, toward the domain
+            - pkg: careconnect/internal/httpapi
+              desc: dependencies point inward, toward the domain
+        # [CC] Handlers go through the store, never raw SQL.
+        http-no-sql:
+          files: ["**/internal/httpapi/**"]
+          deny:
+            - pkg: github.com/jackc/pgx/v5
+              desc: use the store package
+            - pkg: database/sql
+              desc: use the store package
+
+    revive:
+      rules:
+        - name: exported
+          arguments: [disableStutteringCheck, disableChecksOnConstants, disableChecksOnVariables]
+        - name: context-as-argument
+        - name: error-return
+        - name: error-strings
+        - name: increment-decrement
+        - name: var-naming
+        - name: unused-parameter
+        - name: early-return
+
+    gosec:
+      excludes:
+        - G104 # covered by errcheck
+
+  exclusions:
+    presets: [std-error-handling]
+    rules:
+      - path: _test\.go
+        linters: [gosec, forbidigo, revive]
+      - path: (^|/)cmd/
+        linters: [forbidigo]
+      - path: internal/platform/clock/
+        text: time\.Now
+        linters: [forbidigo]
+
+formatters:
+  enable: [gofmt, goimports]
+  settings:
+    goimports:
+      local-prefixes: [careconnect]

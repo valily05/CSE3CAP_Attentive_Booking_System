@@ -1,0 +1,19 @@
+# secrets
+.env
+.env.*
+!**/.env.example
+
+# frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/test-results/
+frontend/playwright-report/
+frontend/next-env.d.ts
+*.tsbuildinfo
+
+# backend
+backend/bin/
+backend/.local-postgres/
+
+.DS_Store

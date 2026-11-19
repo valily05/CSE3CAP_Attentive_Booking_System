@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "Attentive Care Connect | Buat janji dengan psikolog",
+    "description": "Temukan psikolog dan buat janji secara daring atau tatap muka."
+  },
+  "brand": "Attentive Care Connect",
+  "locale": { "label": "Bahasa", "id": "Bahasa Indonesia", "en": "Inggris", "shortId": "ID", "shortEn": "EN" },
+  "nav": {
+    "skip": "Lewati ke konten", "menu": "Menu utama", "find": "Cari psikolog", "myBookings": "Janji saya",
+    "mySchedule": "Jadwal saya", "myHours": "Jam kerja", "calendar": "Kalender", "newBooking": "Janji baru",
+    "reports": "Laporan", "settings": "Pengaturan", "history": "Riwayat", "signIn": "Masuk", "signOut": "Keluar"
+  },
+  "home": {
+    "title": "Temukan layanan yang sesuai dengan keseharian Anda",
+    "lede": "Pilih dari {count} psikolog dan temukan waktu yang cocok untuk Anda.",
+    "privacy": "Detail janji Anda tetap pribadi. Kami tidak menanyakan hal yang Anda bahas selama sesi.",
+    "howTitle": "Langkah mudah menuju sesi Anda",
+    "step1Title": "Temukan psikolog", "step1": "Pilih layanan dan psikolog yang sesuai dengan kebutuhan Anda.",
+    "step2Title": "Pilih waktu", "step2": "Lihat waktu yang tersedia dan pilih sesi daring atau tatap muka.",
+    "step3Title": "Buat janji dengan tenang", "step3": "Simpan kode janji untuk mengelola jadwal Anda."
+  },
+  "directory": {
+    "label": "Daftar psikolog", "clear": "Hapus filter", "count": "{count} psikolog",
+    "sort": "Urutkan", "sortSoonest": "Waktu terdekat", "sortName": "Nama", "empty": "Tidak ada psikolog yang sesuai dengan filter tersebut.",
+    "onlineOnly": "Sesi daring", "places": "Di {places}", "weekLabel": "Sesi tersedia untuk {name}",
+    "perDay": "Waktu tersedia minggu ini", "nextOpen": "Jadwal terdekat: {when}", "noneSoon": "Belum ada jadwal yang tersedia",
+    "seeTimes": "Lihat jadwal {name}", "seeTimesShort": "Lihat jadwal"
+  },
+  "filter": { "who": "Untuk", "how": "Jenis sesi", "where": "Lokasi", "online": "Daring", "inPerson": "Tatap muka" },
+  "ageGroupName": { "adult": "Dewasa", "child_teen": "Anak dan remaja", "family_couple": "Keluarga dan pasangan" },
+  "sessionType": { "chat": "Obrolan", "voice": "Panggilan suara", "video": "Panggilan video" },
+  "common": { "loading": "Memuat…", "close": "Tutup" },
+  "errors": {
+    "bad_request": "Periksa informasi Anda lalu coba lagi.", "json_required": "Kirim permintaan yang valid.",
+    "unauthenticated": "Silakan masuk untuk melanjutkan.", "bad_credentials": "Email atau kata sandi salah.",
+    "email_not_verified": "Verifikasi email Anda sebelum masuk.", "forbidden": "Anda tidak memiliki izin untuk melakukan tindakan tersebut.",
+    "account_locked": "Terlalu banyak kata sandi yang salah. Coba lagi dalam 15 menit.", "change_window_closed": "Hubungi admin untuk mengubah janji ini.",
+    "slot_unavailable": "Waktu tersebut sudah tidak tersedia. Silakan pilih waktu lain.", "channel_required": "Pilih jenis sesi daring.",
+    "service_not_offered": "Psikolog tersebut tidak menyediakan layanan ini.", "privacy_required": "Setujui pemberitahuan privasi untuk melanjutkan.",
+    "name_required": "Masukkan nama Anda.", "invalid_email": "Masukkan alamat email yang valid.", "invalid_phone": "Masukkan nomor telepon yang valid.",
+    "weak_password": "Gunakan kata sandi minimal 8 karakter.", "in_past": "Pilih waktu di masa mendatang.", "too_soon": "Pilih waktu yang lebih jauh.",
+    "invalid_transition": "Janji ini tidak dapat diubah lagi.", "session_not_started": "Sesi ini belum dimulai.",
+    "invalid_range": "Pilih rentang tanggal dan waktu yang valid.", "overlapping_hours": "Jam kerja ini bertumpuk. Silakan sesuaikan.",
+    "location_required": "Pilih lokasi untuk sesi tatap muka.", "online_has_location": "Sesi daring tidak memerlukan lokasi.",
+    "email_taken": "Akun dengan email ini sudah ada. Silakan masuk.", "not_found": "Data tersebut tidak ditemukan.",
+    "slot_taken": "Maaf, waktu ini baru saja dipesan. Silakan pilih waktu lain.", "not_changeable": "Janji ini tidak dapat diubah lagi.",
+    "invalid_setting": "Pengaturan tersebut tidak valid.", "internal": "Terjadi kesalahan. Silakan coba lagi.", "network": "Layanan tidak dapat dihubungi. Silakan coba lagi."
+  },
+  "profile": {
+    "back": "Kembali ke daftar psikolog", "step": { "service": "1. Pilih layanan", "how": "2. Pilih jenis sesi", "date": "3. Pilih tanggal dan waktu" },
+    "minutes": "{minutes} menit", "leadNote": "Waktu tersedia ditampilkan dalam Waktu Indonesia Barat (WIB).",
+    "summaryTitle": "Sesi Anda", "with": "Psikolog", "session": "Layanan", "how": "Jenis sesi", "date": "Tanggal", "time": "Waktu",
+    "timeWib": "{time} WIB", "pickDate": "Pilih tanggal", "pickTime": "Pilih waktu", "confirming": "Membuat janji…", "confirm": "Konfirmasi janji",
+    "signInToBook": "Masuk untuk membuat janji", "changeNote": "Anda dapat mengubah atau membatalkan janji hingga pukul 08.00 WIB sehari sebelumnya.",
+    "privacy": "Kami hanya menyimpan informasi yang diperlukan untuk mengelola janji Anda.", "weekOf": "Minggu mulai {date}"
+  },
+  "card": {
+    "title": "Janji Anda berhasil dibuat", "with": "Dengan", "when": "Waktu", "where": "Lokasi",
+    "keep": "Anda dapat mengubah atau membatalkan hingga {deadline}.", "toBookings": "Lihat janji saya", "code": "Kode janji"
+  },
+  "band": { "prevMonth": "Bulan sebelumnya", "nextMonth": "Bulan berikutnya" },
+  "prevMonth": "Bulan sebelumnya", "nextMonth": "Bulan berikutnya", "legendToday": "Hari ini", "legendOpen": "Tersedia", "legendChosen": "Dipilih", "legendNone": "Tidak tersedia", "emptyMonth": "Tidak ada waktu yang tersedia bulan ini.", "noneInGroup": "Tidak ada waktu tersedia", "wib": "WIB",
+  "bookings": {
+    "title": "Janji saya", "upcoming": "Jadwal mendatang", "emptyUpcoming": "Belum ada janji mendatang.", "bookOne": "Cari psikolog", "later": "Sesi berikutnya", "past": "Sesi sebelumnya", "emptyPast": "Sesi sebelumnya akan muncul di sini.",
+    "attendThanks": "Terima kasih sudah melakukan check-in.", "next": "Sesi berikutnya", "calendarLabel": "Janji bulan {month}", "colDate": "Tanggal dan waktu", "colWith": "Psikolog", "colSession": "Sesi", "colStatus": "Status",
+    "reschedule": "Ubah waktu", "cancel": "Batalkan", "contactAdmin": "Hubungi admin untuk mengubah janji.", "changeUntil": "Perubahan dapat dilakukan hingga {deadline}.", "pickNewTime": "Pilih waktu baru", "moved": "Jadwal sesi Anda diubah menjadi {date} pukul {time}.", "cancelled": "Janji Anda telah dibatalkan.",
+    "status": { "waiting_payment": "Menunggu pembayaran", "confirmed": "Dikonfirmasi", "attended": "Hadir", "no_show": "Tidak hadir", "cancelled": "Dibatalkan", "expired": "Kedaluwarsa", "paid_late": "Terlambat dibayar" },
+    "cancelTitle": "Batalkan janji ini?", "cancelBody": "Waktu yang Anda pilih akan tersedia untuk orang lain.", "reasonLabel": "Alasan (opsional)", "confirmCancel": "Konfirmasi pembatalan", "keep": "Pertahankan janji",
+    "reason": { "none": "Pilih alasan", "schedule_conflict": "Jadwal bentrok", "travel": "Rencana perjalanan", "cost": "Biaya", "other": "Lainnya" }
+  },
+  "auth": {
+    "signInTitle": "Selamat datang kembali", "signUpTitle": "Buat akun", "forgotTitle": "Atur ulang kata sandi", "resetTitle": "Buat kata sandi baru",
+    "name": "Nama lengkap", "email": "Email", "phone": "Nomor telepon", "phoneHint": "Cantumkan kode negara jika Anda berada di luar Indonesia.",
+    "password": "Kata sandi", "passwordHint": "Minimal 8 karakter.", "privacy": "Saya telah membaca dan menyetujui <link>Pemberitahuan Privasi</link>.",
+    "checkIn": "Saya bersedia menerima email check-in janji (opsional).", "checkInHint": "Persetujuan ini opsional dan dapat dibatalkan kapan saja.",
+    "submitSignUp": "Buat akun", "submitSignIn": "Masuk", "forgot": "Lupa kata sandi?", "haveAccount": "Sudah punya akun? <link>Masuk</link>", "noAccount": "Belum punya akun? <link>Buat akun</link>",
+    "checkEmail": "Tautan verifikasi telah dikirim ke {email}.", "forgotBody": "Masukkan alamat email Anda dan kami akan mengirim tautan untuk mengatur ulang kata sandi.", "linkSent": "Jika email tersebut terdaftar, tautan untuk mengatur ulang kata sandi akan segera dikirim.", "sendLink": "Kirim tautan",
+    "passwordSaved": "Kata sandi Anda telah diperbarui.", "newPassword": "Kata sandi baru", "savePassword": "Simpan kata sandi", "verifying": "Memverifikasi email…", "verified": "Email Anda telah diverifikasi. Silakan masuk.", "unsubscribing": "Memperbarui preferensi email…", "unsubscribed": "Anda tidak akan menerima email check-in lagi."
+  },
+  "privacy": {
+    "title": "Pemberitahuan privasi", "p1": "Kami menggunakan detail kontak dan informasi janji Anda untuk mengelola jadwal dan mengirim pesan layanan penting.",
+    "p2": "Email check-in opsional hanya dikirim jika Anda menyetujuinya. Anda dapat berhenti berlangganan kapan saja.",
+    "p3": "Kami tidak mengumpulkan atau menyimpan informasi tentang hal yang Anda bahas selama sesi."
+  },
+  "admin": {
+    "calendarTitle": "Kalender janji", "newBookingTitle": "Buat janji", "reportsTitle": "Laporan", "settingsTitle": "Pengaturan janji", "historyTitle": "Riwayat perubahan",
+    "newBooking": "Janji baru", "psychologist": "Psikolog", "needsMarking": "Perlu mencatat kehadiran", "key": "Keterangan kalender", "keyInPerson": "Tatap muka", "keyOnline": "Daring", "keyOff": "Tidak tersedia",
+    "prevWeek": "Minggu sebelumnya", "nextWeek": "Minggu berikutnya", "prevDay": "Hari sebelumnya", "nextDay": "Hari berikutnya", "location": "Lokasi", "allPlaces": "Semua lokasi", "online": "Daring", "view": "Tampilan kalender", "empty": "Tidak ada janji untuk periode ini.",
+    "working": "Jam kerja {from}–{to}: {where}", "client": "Klien", "service": "Layanan", "when": "Waktu", "where": "Lokasi", "didTheyCome": "Apakah klien hadir?", "moveTo": "Pindahkan ke", "move": "Pindahkan janji", "ruleBreakNote": "Janji akan dikonfirmasi dan perubahan akan dicatat.",
+    "historyEmpty": "Belum ada perubahan yang dicatat.", "historyRow": "{actor}: {action}", "action": { "created": "membuat janji", "reschedule": "mengubah waktu janji", "settings": "memperbarui pengaturan", "status": "mengubah status menjadi {to}" },
+    "findClient": "Cari klien", "newClient": "Klien baru", "createClient": "Buat klien", "channel": "Jenis sesi daring", "start": "Waktu mulai", "book": "Buat janji", "booked": "Janji dibuat: {code}",
+    "period": "Periode", "periodWeek": "Minggu ini", "periodMonth": "Bulan ini", "startDate": "Tanggal mulai", "sessions": "Sesi", "cancellations": "Pembatalan", "noShowRate": "Tingkat tidak hadir", "noShowRateValue": "{rate}%", "reportNote": "Laporan hanya menampilkan jumlah janji tanpa nama klien.", "byPsychologist": "Menurut psikolog", "byPlace": "Menurut lokasi", "byService": "Menurut layanan",
+    "settingsBody": "Atur ketentuan pemesanan dan waktu pengingat.", "settingsSaved": "Pengaturan disimpan.", "saveSettings": "Simpan pengaturan", "minLeadMinutes": "Jeda minimal sebelum janji (menit)", "changeCutoffMinute": "Batas perubahan (menit setelah tengah malam WIB)", "breakMinutes": "Jeda antar sesi (menit)", "reminderFirstMinutes": "Pengingat pertama (menit sebelum sesi)", "reminderSecondMinutes": "Pengingat kedua (menit sebelum sesi)", "followUpDays": "Tindak lanjut setelah", "followUpCooldownDays": "Jeda tindak lanjut (hari)", "days": "{days} hari", "sessionsCount": "{count} sesi", "blockLabel": "{time}, {client}, {status}"
+  },
+  "psy": {
+    "scheduleTitle": "Jadwal saya", "hoursTitle": "Jam kerja saya", "today": "Hari ini", "week": "Minggu", "day": "Hari", "prev": "Minggu sebelumnya", "next": "Minggu berikutnya", "empty": "Tidak ada sesi minggu ini.", "markAttended": "Tandai hadir", "markNoShow": "Tandai tidak hadir",
+    "online": "Daring", "outsideHours": "Janji berikut berada di luar jam kerja baru Anda: {codes}", "hoursSaved": "Jam kerja disimpan.", "usualWeek": "Jadwal mingguan", "hoursBody": "Pilih blok waktu untuk mengubah ketersediaan mingguan.", "selectedHours": "Jam kerja yang dipilih", "from": "Dari", "to": "Sampai", "mode": "Jenis sesi", "saveHours": "Simpan jam kerja", "gridHint": "Pilih blok untuk mengubahnya atau tambahkan jam kerja ke hari tertentu.", "addHoursOn": "Tambahkan jam kerja pada {day}", "remove": "Hapus jam kerja",
+    "timeOffTitle": "Cuti dan waktu yang diblokir", "kind": "Cuti atau blokir waktu", "timeOff": "Cuti", "block": "Blokir waktu", "pickRange": "Pilih rentang tanggal", "pickDay": "Pilih hari", "label": "Label (opsional)", "timeOffAdded": "Cuti berhasil ditambahkan.", "addRange": "Tambahkan cuti untuk {range}", "blockOn": "Blokir tanggal {date} dari pukul {from} hingga {to}"
+  }
+}

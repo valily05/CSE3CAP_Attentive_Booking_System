@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "title": "Attentive Care Connect | Book a psychologist",
+    "description": "Find a psychologist and book a session online or in person."
+  },
+  "brand": "Attentive Care Connect",
+  "locale": { "label": "Language", "id": "Bahasa Indonesia", "en": "English", "shortId": "ID", "shortEn": "EN" },
+  "nav": {
+    "skip": "Skip to content", "menu": "Main menu", "find": "Find a psychologist", "myBookings": "My bookings",
+    "mySchedule": "My schedule", "myHours": "Working hours", "calendar": "Calendar", "newBooking": "New booking",
+    "reports": "Reports", "settings": "Settings", "history": "History", "signIn": "Sign in", "signOut": "Sign out"
+  },
+  "home": {
+    "title": "Find care that fits your life",
+    "lede": "Choose from {count} psychologists and find a time that works for you.",
+    "privacy": "Your booking details stay private. We never ask what you discuss in a session.",
+    "howTitle": "A clear path to your session",
+    "step1Title": "Find your psychologist", "step1": "Choose a service and a psychologist who fits your needs.",
+    "step2Title": "Choose a time", "step2": "See open times and pick an online or in-person session.",
+    "step3Title": "Book with confidence", "step3": "Keep your booking code handy to manage your appointment."
+  },
+  "directory": {
+    "label": "Psychologist directory", "clear": "Clear filters", "count": "{count} psychologists",
+    "sort": "Sort by", "sortSoonest": "Soonest available", "sortName": "Name", "empty": "No psychologists match those filters.",
+    "onlineOnly": "Online sessions", "places": "At {places}", "weekLabel": "Open sessions for {name}",
+    "perDay": "Open times this week", "nextOpen": "Next available: {when}", "noneSoon": "No times available soon",
+    "seeTimes": "See times for {name}", "seeTimesShort": "See times"
+  },
+  "filter": { "who": "For", "how": "Session type", "where": "Location", "online": "Online", "inPerson": "In person" },
+  "ageGroupName": { "adult": "Adults", "child_teen": "Children and teens", "family_couple": "Families and couples" },
+  "sessionType": { "chat": "Chat", "voice": "Voice call", "video": "Video call" },
+  "common": { "loading": "Loading…", "close": "Close" },
+  "errors": {
+    "bad_request": "Please check the information and try again.", "json_required": "Please submit a valid request.",
+    "unauthenticated": "Please sign in to continue.", "bad_credentials": "Email or password is incorrect.",
+    "email_not_verified": "Please verify your email before signing in.", "forbidden": "You do not have permission to do that.",
+    "account_locked": "Too many wrong passwords. Try again in 15 minutes.", "change_window_closed": "Please contact our admin to change this booking.",
+    "slot_unavailable": "That time is no longer available. Please choose another.", "channel_required": "Choose an online session type.",
+    "service_not_offered": "This service is not available for that psychologist.", "privacy_required": "Please agree to the privacy notice.",
+    "name_required": "Enter your name.", "invalid_email": "Enter a valid email address.", "invalid_phone": "Enter a valid phone number.",
+    "weak_password": "Use a password with at least 8 characters.", "in_past": "Choose a time in the future.", "too_soon": "Choose a time further ahead.",
+    "invalid_transition": "This booking can no longer be changed.", "session_not_started": "This session has not started yet.",
+    "invalid_range": "Choose a valid date and time range.", "overlapping_hours": "These working hours overlap. Please adjust them.",
+    "location_required": "Choose a location for an in-person session.", "online_has_location": "Online sessions do not use a location.",
+    "email_taken": "An account with this email already exists. Try signing in.", "not_found": "We could not find that record.",
+    "slot_taken": "Sorry, this time was just taken. Please pick another one.", "not_changeable": "This booking can no longer be changed.",
+    "invalid_setting": "That setting is not valid.", "internal": "Something went wrong. Please try again.", "network": "We could not reach the service. Please try again."
+  },
+  "profile": {
+    "back": "Back to psychologists", "step": { "service": "1. Choose a service", "how": "2. Choose a session type", "date": "3. Choose a date and time" },
+    "minutes": "{minutes} minutes", "leadNote": "Available times are shown in Western Indonesia Time (WIB).",
+    "summaryTitle": "Your session", "with": "Psychologist", "session": "Service", "how": "Session type", "date": "Date", "time": "Time",
+    "timeWib": "{time} WIB", "pickDate": "Choose a date", "pickTime": "Choose a time", "confirming": "Booking…", "confirm": "Confirm booking",
+    "signInToBook": "Sign in to book", "changeNote": "You can change or cancel this booking up to 08:00 WIB the day before.",
+    "privacy": "We only store information needed to manage your booking.", "weekOf": "Week of {date}"
+  },
+  "card": {
+    "title": "Your appointment is booked", "with": "With", "when": "When", "where": "Where",
+    "keep": "You can change or cancel until {deadline}.", "toBookings": "Go to my bookings", "code": "Booking code"
+  },
+  "band": { "prevMonth": "Previous month", "nextMonth": "Next month" },
+  "prevMonth": "Previous month", "nextMonth": "Next month", "legendToday": "Today", "legendOpen": "Open", "legendChosen": "Selected", "legendNone": "Unavailable", "emptyMonth": "No open times this month.", "noneInGroup": "No open times", "wib": "WIB",
+  "bookings": {
+    "title": "My bookings", "upcoming": "Upcoming", "emptyUpcoming": "You have no upcoming bookings.", "bookOne": "Find a psychologist", "later": "More upcoming sessions", "past": "Past sessions", "emptyPast": "Your past sessions will appear here.",
+    "attendThanks": "Thank you for checking in.", "next": "Your next session", "calendarLabel": "Bookings for {month}", "colDate": "Date and time", "colWith": "Psychologist", "colSession": "Session", "colStatus": "Status",
+    "reschedule": "Change time", "cancel": "Cancel", "contactAdmin": "Please contact our admin to make a change.", "changeUntil": "Changes available until {deadline}.", "pickNewTime": "Choose a new time", "moved": "Your session has moved to {date} at {time}.", "cancelled": "Your booking has been cancelled.",
+    "status": { "waiting_payment": "Awaiting payment", "confirmed": "Confirmed", "attended": "Attended", "no_show": "Did not attend", "cancelled": "Cancelled", "expired": "Expired", "paid_late": "Paid late" },
+    "cancelTitle": "Cancel this booking?", "cancelBody": "Your selected time will become available to someone else.", "reasonLabel": "Reason (optional)", "confirmCancel": "Confirm cancellation", "keep": "Keep booking",
+    "reason": { "none": "Choose a reason", "schedule_conflict": "Schedule conflict", "travel": "Travel plans", "cost": "Cost", "other": "Other" }
+  },
+  "auth": {
+    "signInTitle": "Welcome back", "signUpTitle": "Create your account", "forgotTitle": "Reset your password", "resetTitle": "Choose a new password",
+    "name": "Full name", "email": "Email", "phone": "Phone number", "phoneHint": "Include your country code if you are outside Indonesia.",
+    "password": "Password", "passwordHint": "At least 8 characters.", "privacy": "I have read and agree to the <link>Privacy Notice</link>.",
+    "checkIn": "I agree to receive optional appointment check-in emails.", "checkInHint": "This is optional and can be turned off at any time.",
+    "submitSignUp": "Create account", "submitSignIn": "Sign in", "forgot": "Forgot password?", "haveAccount": "Already have an account? <link>Sign in</link>", "noAccount": "New here? <link>Create an account</link>",
+    "checkEmail": "We sent a verification link to {email}.", "forgotBody": "Enter your email address and we will send you a password reset link.", "linkSent": "If an account matches that email, a reset link is on its way.", "sendLink": "Send reset link",
+    "passwordSaved": "Your password has been updated.", "newPassword": "New password", "savePassword": "Save password", "verifying": "Verifying your email…", "verified": "Your email is verified. You can sign in now.", "unsubscribing": "Updating your email preferences…", "unsubscribed": "You will no longer receive check-in emails."
+  },
+  "privacy": {
+    "title": "Privacy notice", "p1": "We use your contact details and booking information to manage appointments and send essential service messages.",
+    "p2": "Optional check-in emails are sent only if you choose to receive them. You can unsubscribe at any time.",
+    "p3": "We do not collect or store information about what you discuss in a session."
+  },
+  "admin": {
+    "calendarTitle": "Booking calendar", "newBookingTitle": "Create a booking", "reportsTitle": "Reports", "settingsTitle": "Booking settings", "historyTitle": "Change history",
+    "newBooking": "New booking", "psychologist": "Psychologist", "needsMarking": "Attendance to record", "key": "Calendar key", "keyInPerson": "In person", "keyOnline": "Online", "keyOff": "Unavailable",
+    "prevWeek": "Previous week", "nextWeek": "Next week", "prevDay": "Previous day", "nextDay": "Next day", "location": "Location", "allPlaces": "All locations", "online": "Online", "view": "Calendar view", "empty": "No bookings for this period.",
+    "working": "Working {from}–{to}: {where}", "client": "Client", "service": "Service", "when": "When", "where": "Where", "didTheyCome": "Did the client attend?", "moveTo": "Move to", "move": "Move booking", "ruleBreakNote": "This creates a confirmed booking and records the change.",
+    "historyEmpty": "No changes have been recorded.", "historyRow": "{actor}: {action}", "action": { "created": "created a booking", "reschedule": "changed a booking time", "settings": "updated settings", "status": "changed status to {to}" },
+    "findClient": "Find a client", "newClient": "New client", "createClient": "Create client", "channel": "Online session type", "start": "Start time", "book": "Create booking", "booked": "Booking created: {code}",
+    "period": "Period", "periodWeek": "This week", "periodMonth": "This month", "startDate": "Starting date", "sessions": "Sessions", "cancellations": "Cancellations", "noShowRate": "No-show rate", "noShowRateValue": "{rate}%", "reportNote": "Reports show booking totals only, without client names.", "byPsychologist": "By psychologist", "byPlace": "By location", "byService": "By service",
+    "settingsBody": "Adjust booking rules and reminder timing.", "settingsSaved": "Settings saved.", "saveSettings": "Save settings", "minLeadMinutes": "Minimum notice (minutes)", "changeCutoffMinute": "Change cutoff (minutes after midnight WIB)", "breakMinutes": "Break between sessions (minutes)", "reminderFirstMinutes": "First reminder (minutes before session)", "reminderSecondMinutes": "Second reminder (minutes before session)", "followUpDays": "Follow-up after", "followUpCooldownDays": "Follow-up cooldown (days)", "days": "{days} days", "sessionsCount": "{count} sessions", "blockLabel": "{time}, {client}, {status}"
+  },
+  "psy": {
+    "scheduleTitle": "My schedule", "hoursTitle": "My working hours", "today": "Today", "week": "Week", "day": "Day", "prev": "Previous week", "next": "Next week", "empty": "No sessions this week.", "markAttended": "Mark attended", "markNoShow": "Mark no-show",
+    "online": "Online", "outsideHours": "These bookings fall outside your new working hours: {codes}", "hoursSaved": "Working hours saved.", "usualWeek": "My usual week", "hoursBody": "Select a time block to edit your weekly availability.", "selectedHours": "Selected working hours", "from": "From", "to": "To", "mode": "Session type", "saveHours": "Save working hours", "gridHint": "Select a block to edit it, or add hours to a day.", "addHoursOn": "Add hours on {day}", "remove": "Remove hours",
+    "timeOffTitle": "Time off and blocked times", "kind": "Time off or block", "timeOff": "Time off", "block": "Block a time", "pickRange": "Choose a date range", "pickDay": "Choose a day", "label": "Label (optional)", "timeOffAdded": "Time off has been added.", "addRange": "Add time off for {range}", "blockOn": "Block {date} from {from} to {to}"
+  }
+}

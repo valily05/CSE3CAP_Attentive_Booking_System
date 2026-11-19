@@ -1,0 +1,119 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+  padding: var(--space-3) max(var(--space-4), calc((100vw - 72rem) / 2)) 0;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+}
+
+.skip:focus {
+  left: var(--space-4);
+  top: var(--space-2);
+  background: var(--paper);
+  padding: var(--space-2) var(--space-3);
+  z-index: 20;
+}
+
+/* The wordmark ends in a brass dot, echoing "Attentive.id". */
+.brand {
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.12em;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  height: 2.1rem;
+}
+
+.nav {
+  flex: 1 1 auto;
+  order: 3;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.nav a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: var(--space-2) 0;
+  display: inline-block;
+  border-bottom: 3px solid transparent;
+}
+
+.nav a[aria-current="page"] {
+  border-bottom-color: var(--brass);
+}
+
+.tools {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-left: auto;
+}
+
+.tools > :global(.button-quiet) {
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+}
+
+.lang {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.lang button {
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  min-width: 2.75rem;
+  min-height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.lang button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (min-width: 56rem) {
+  .header {
+    padding-bottom: var(--space-3);
+  }
+
+  .nav {
+    order: 0;
+    width: auto;
+  }
+}

@@ -1,0 +1,200 @@
+.layout {
+  display: grid;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* A real sequence, so the steps are numbered. */
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.card {
+  counter-increment: step;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: var(--space-5);
+}
+
+.steps fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.steps legend,
+.stepTitle {
+  font-size: var(--text-md);
+  font-weight: 800;
+  padding: 0 0 var(--space-3);
+}
+
+.steps legend::before,
+.stepTitle::before {
+  content: counter(step) ". ";
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-2);
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.choice span {
+  display: grid;
+  width: 100%;
+  min-height: 3rem;
+  align-content: center;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: 0.75rem;
+  font-weight: 600;
+  background: var(--paper);
+}
+
+.choice small {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.choice input:checked + span {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.choice input:checked + span small {
+  color: var(--mist);
+}
+
+.choice input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.note {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-bottom: var(--space-4);
+}
+
+/* The summary fills in as choices are made. */
+.summary {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.summary h3 {
+  font-size: var(--text-md);
+}
+
+.summary dl {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.summary dt {
+  color: var(--muted);
+}
+
+.summary dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.summary dd[data-empty] {
+  color: var(--line-strong);
+}
+
+.summary :global(.button) {
+  width: 100%;
+  min-height: 3.25rem;
+}
+
+.compact {
+  display: none;
+  font-weight: 700;
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.small {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.privacy {
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border-radius: 0.625rem;
+}
+
+@media (min-width: 60rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 21rem;
+  }
+
+  .summary {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+/* On phones, once a time is chosen the summary stays at the bottom of the screen. */
+@media (max-width: 59.99rem) {
+  .summary[data-ready] {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    border-radius: 1rem 1rem 0 0;
+    border-top: 2px solid var(--brass);
+    box-shadow: 0 -12px 24px -16px color-mix(in srgb, var(--board) 40%, transparent);
+  }
+
+  .summary[data-ready] .compact {
+    display: block;
+  }
+
+  .summary[data-ready] dl,
+  .summary[data-ready] .small,
+  .summary[data-ready] .privacy {
+    display: none;
+  }
+}

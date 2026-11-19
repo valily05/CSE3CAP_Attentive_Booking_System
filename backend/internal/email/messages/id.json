@@ -1,0 +1,32 @@
+{
+  "weekdays": "Minggu,Senin,Selasa,Rabu,Kamis,Jumat,Sabtu",
+  "months": "Januari,Februari,Maret,April,Mei,Juni,Juli,Agustus,September,Oktober,November,Desember",
+  "dateFormat": "{{.Weekday}}, {{.Day}} {{.Month}} {{.Year}}",
+  "timeSeparator": ".",
+  "online": "Online",
+  "signature": "Salam hangat,\nTim Attentive",
+
+  "verify_email.subject": "Konfirmasi email Anda untuk Attentive",
+  "verify_email.body": "Halo {{.FirstName}},\n\nSilakan konfirmasi alamat email Anda agar dapat masuk:\n{{.Link}}\n\nTautan ini berlaku 24 jam. Jika Anda tidak membuat akun, abaikan email ini.",
+
+  "reset_password.subject": "Atur ulang kata sandi Attentive",
+  "reset_password.body": "Halo {{.FirstName}},\n\nGunakan tautan ini untuk membuat kata sandi baru:\n{{.Link}}\n\nTautan ini berlaku 1 jam. Jika Anda tidak memintanya, abaikan email ini.",
+
+  "booking_confirmed.subject": "Sesi Anda sudah terjadwal ({{.Code}})",
+  "booking_confirmed.body": "Halo {{.FirstName}},\n\nSesi Anda sudah dikonfirmasi.\n\nTanggal: {{.Date}}\nWaktu: {{.Time}}\nBersama: {{.Psychologist}}\nTempat: {{.Place}}\nKode booking: {{.Code}}\n\nLihat atau ubah booking Anda:\n{{.Link}}",
+
+  "booking_changed.subject": "Jadwal sesi Anda berubah ({{.Code}})",
+  "booking_changed.body": "Halo {{.FirstName}},\n\nSesi Anda memiliki waktu baru.\n\nTanggal: {{.Date}}\nWaktu: {{.Time}}\nBersama: {{.Psychologist}}\nTempat: {{.Place}}\nKode booking: {{.Code}}\n\n{{.Link}}",
+
+  "booking_cancelled.subject": "Sesi Anda dibatalkan ({{.Code}})",
+  "booking_cancelled.body": "Halo {{.FirstName}},\n\nSesi pada {{.Date}} pukul {{.Time}} bersama {{.Psychologist}} telah dibatalkan.\n\nAnda dapat memilih waktu baru kapan pun Anda siap:\n{{.Link}}",
+
+  "reminder.subject": "Pengingat: sesi Anda pada {{.Date}}",
+  "reminder.body": "Halo {{.FirstName}},\n\nSekadar mengingatkan tentang sesi Anda.\n\nTanggal: {{.Date}}\nWaktu: {{.Time}}\nBersama: {{.Psychologist}}\nTempat: {{.Place}}\n\nSaya akan hadir: {{.AttendLink}}\nSaya perlu mengubah jadwal: {{.Link}}",
+
+  "follow_up.subject": "Kami memikirkan Anda",
+  "follow_up.body": "Halo {{.FirstName}},\n\nSudah cukup lama sejak terakhir kali. Semoga Anda baik-baik saja. Jika ingin bercerita lagi, Anda dapat memilih waktu di sini:\n{{.Link}}\n\nTidak ingin menerima email ini? Berhenti berlangganan dengan satu klik:\n{{.UnsubscribeLink}}",
+
+  "staff_booking_changed.subject": "Perubahan jadwal: {{.Code}}",
+  "staff_booking_changed.body": "Halo,\n\nBooking {{.Code}} dengan {{.FirstName}} telah berubah.\n\nTanggal: {{.Date}}\nWaktu: {{.Time}}\nTempat: {{.Place}}\n\n{{.Link}}"
+}

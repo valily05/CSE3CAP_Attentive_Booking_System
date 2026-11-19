@@ -1,0 +1,91 @@
+.home {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.hero {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.hero h1 {
+  font-size: var(--text-display);
+  max-width: 16ch;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.lede {
+  max-width: 52ch;
+  color: var(--muted);
+}
+
+/* Reassurance sits right under the search, where people decide. */
+.privacy {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  max-width: 56ch;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.privacy::before {
+  content: "";
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-top: 0.45em;
+  border-radius: 50%;
+  background: var(--brass);
+}
+
+.how {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-6);
+}
+
+.how h2 {
+  font-size: var(--text-xl);
+}
+
+.how ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: how;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.how li {
+  counter-increment: how;
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 3px solid var(--brass);
+}
+
+.how li::before {
+  content: counter(how);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brass-text);
+}
+
+.how h3 {
+  font-size: var(--text-lg);
+}
+
+.how p {
+  color: var(--muted);
+  max-width: 38ch;
+}
+
+@media (min-width: 52rem) {
+  .how ol {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

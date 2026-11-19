@@ -1,0 +1,77 @@
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  max-width: 40rem;
+}
+
+.body {
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+
+.body h2 {
+  font-size: var(--text-xl);
+}
+
+.body dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+}
+
+.body dt {
+  color: var(--muted);
+}
+
+.body dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.keep {
+  max-width: 46ch;
+}
+
+/* The stub is "torn" along a perforated edge. */
+.stub {
+  position: relative;
+  background: var(--board);
+  color: var(--board-text);
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-1);
+  align-content: center;
+  border-top: 2px dashed var(--brass);
+}
+
+.stubLabel {
+  font-size: var(--text-sm);
+  color: var(--board-muted);
+}
+
+.code {
+  font-size: clamp(1.6rem, 5vw, 2rem);
+  white-space: nowrap;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--brass-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 40rem) {
+  .card {
+    grid-template-columns: 1fr 15rem;
+  }
+
+  .stub {
+    border-top: 0;
+    border-left: 2px dashed var(--brass);
+  }
+}
