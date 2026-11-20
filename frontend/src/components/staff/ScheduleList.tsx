@@ -1,4 +1,5 @@
 "use client";
+import { UrgentBadge } from "@/components/urgent/UrgentBadge";
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
@@ -59,7 +60,7 @@ export function ScheduleList({ now = new Date() }: { now?: Date }) {
                 <span>
                   {b.clientName}, {b.serviceName}, {b.mode === "online" ? t(`sessionType.${b.onlineChannel ?? "video"}`) : b.locationName}
                 </span>
-                <span className={styles.code}>{b.code}</span>
+                <span className={styles.code}>{b.code}</span><UrgentBadge urgent={b.isUrgent} />
                 {b.status === "confirmed" && new Date(b.start) <= now ? (
                   <span className={styles.actions}>
                     <button type="button" className="button-quiet" onClick={() => mark(b.id, "attended")}>

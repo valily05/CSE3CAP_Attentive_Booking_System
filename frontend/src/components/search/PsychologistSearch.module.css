@@ -229,3 +229,65 @@
 .next :global(.button) {
   min-height: 3rem;
 }
+
+.search {
+  min-width: 0;
+}
+
+.filters,
+.row,
+.empty {
+  border-radius: var(--radius-board);
+  padding: clamp(1rem, 3vw, 1.75rem);
+  box-shadow: var(--shadow-card);
+}
+
+.filters {
+  gap: var(--space-4) var(--space-6);
+  border-top: 3px solid var(--brass);
+}
+
+.group,
+.sort,
+.whoText {
+  min-width: 0;
+}
+
+.sort select {
+  max-width: 100%;
+}
+
+.filter[aria-pressed="true"] {
+  color: var(--ink);
+  background: var(--open-day);
+  border-color: var(--brass);
+}
+
+.avatar {
+  background: var(--dawn);
+  color: var(--ink);
+}
+
+.week table {
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  .row {
+    gap: var(--space-4);
+  }
+
+  .who,
+  .week,
+  .next {
+    flex-basis: 100%;
+  }
+
+  .week table {
+    border-spacing: 0.2rem;
+  }
+
+  .sort {
+    flex-wrap: wrap;
+  }
+}

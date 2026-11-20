@@ -4,21 +4,20 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useSession } from "@/components/shell/Session";
 import { SignInForm, homeFor } from "./AuthForms";
-import styles from "@/app/page.module.css";
+import { AuthLayout } from "./AuthLayout";
 
 export function SignInPage({ next }: { next?: string }) {
   const t = useTranslations("auth");
   const router = useRouter();
   const { refresh } = useSession();
   return (
-    <div className={styles.narrow}>
-      <h1>{t("signInTitle")}</h1>
+    <AuthLayout title={t("signInTitle")} description={t("signInDescription")}>
       <SignInForm
         onSignedIn={async (me) => {
           await refresh();
           router.push(homeFor(me.role, next));
         }}
       />
-    </div>
+    </AuthLayout>
   );
 }

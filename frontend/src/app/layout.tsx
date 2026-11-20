@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
+import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Header } from "@/components/shell/Header";
@@ -15,17 +16,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f1c36" },
-  ],
+  themeColor: "#142c52",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const preference = (await cookies()).get("theme")?.value;
+  const theme = preference === "light" || preference === "dark" ? preference : undefined;
   // Regional tags make native date/time inputs use 24-hour time, like the rest of the app.
   return (
-    <html lang={locale === "en" ? "en-GB" : "id-ID"} className={montserrat.variable}>
+    <html lang={locale === "en" ? "en-GB" : "id-ID"} className={montserrat.variable} data-theme={theme}>
       <body>
         <NextIntlClientProvider>
           <SessionProvider>

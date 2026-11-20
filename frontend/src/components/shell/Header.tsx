@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -8,6 +9,7 @@ import { rememberLocale } from "@/lib/locale";
 import type { Role } from "@/lib/types";
 import { useSession } from "./Session";
 import styles from "./Header.module.css";
+import { UrgentNotifications } from "./UrgentNotifications";
 
 const NAV: Record<Role | "guest", { href: string; key: string }[]> = {
   guest: [{ href: "/", key: "find" }],
@@ -26,6 +28,7 @@ const NAV: Record<Role | "guest", { href: string; key: string }[]> = {
     { href: "/admin/reports", key: "reports" },
     { href: "/admin/settings", key: "settings" },
     { href: "/admin/history", key: "history" },
+    { href: "/admin/urgent-requests", key: "urgentRequests" },
   ],
 };
 
@@ -40,6 +43,14 @@ export function Header() {
   const switchTo = (l: "id" | "en") => {
     rememberLocale(l);
     router.refresh();
+  };
+
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    const current = root.dataset.theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const next = current === "dark" ? "light" : "dark";
+    document.cookie = `theme=${next}; path=/; max-age=31536000; samesite=lax`;
+    root.dataset.theme = next;
   };
 
   return (
@@ -62,6 +73,10 @@ export function Header() {
         </ul>
       </nav>
       <div className={styles.tools}>
+        <UrgentNotifications />
+        <button type="button" className={styles.theme} title={t("theme.toggle")} aria-label={t("theme.toggle")} onClick={toggleTheme}>
+          <span className={styles.themeIcon} aria-hidden="true" />
+        </button>
         <div role="group" aria-label={t("locale.label")} className={styles.lang}>
           {(["id", "en"] as const).map((l) => (
             <button key={l} type="button" lang={l} aria-label={t(`locale.${l}`)} aria-pressed={locale === l} onClick={() => switchTo(l)}>
@@ -69,6 +84,7 @@ export function Header() {
             </button>
           ))}
         </div>
+        <Link href="/urgent-scheduling" className={styles.urgent}><PhoneCall size={17} aria-hidden="true" />{t("urgent.nav")}</Link>
         {me ? (
           <button
             type="button"

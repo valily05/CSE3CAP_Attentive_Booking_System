@@ -1,13 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { SignUpForm } from "@/components/auth/AuthForms";
-import styles from "../page.module.css";
+import { AuthLayout } from "@/components/auth/AuthLayout";
 
 export default async function Page() {
   const t = await getTranslations("auth");
   return (
-    <div className={styles.narrow}>
-      <h1>{t("signUpTitle")}</h1>
+    <AuthLayout title={t("signUpTitle")} description={t("signUpDescription")}>
       <SignUpForm />
-    </div>
+    </AuthLayout>
   );
 }

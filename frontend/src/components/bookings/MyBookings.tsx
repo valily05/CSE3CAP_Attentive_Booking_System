@@ -1,4 +1,5 @@
 "use client";
+import { UrgentBadge } from "@/components/urgent/UrgentBadge";
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
@@ -226,7 +227,7 @@ function NextSession({ booking: b, now }: { booking: Booking; now: Date }) {
       <p className={styles.ticketMeta}>
         {b.serviceName}, {place}
       </p>
-      <span className={styles.code}>{b.code}</span>
+      <span className={styles.code}>{b.code}</span><UrgentBadge urgent={b.isUrgent} />
       </div>
     </section>
   );
@@ -246,7 +247,7 @@ function Summary({ booking: b }: { booking: Booking }) {
         {b.psychologistName}, {b.serviceName}, {place}
       </span>
       <span className={styles.meta}>
-        <span className={styles.code}>{b.code}</span>
+        <span className={styles.code}>{b.code}</span><UrgentBadge urgent={b.isUrgent} />
         <span className={styles.status} data-status={b.status}>
           {t(`bookings.status.${b.status}`)}
         </span>

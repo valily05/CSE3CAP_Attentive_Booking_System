@@ -31,4 +31,5 @@ func (s *server) routes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/psy/unavailability", s.authed(s.addUnavailability, "psychologist"))
 
 	s.adminRoutes(mux)
+	s.urgentRoutes(mux)
 }

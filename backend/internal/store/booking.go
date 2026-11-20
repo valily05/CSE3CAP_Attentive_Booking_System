@@ -25,6 +25,7 @@ const (
 // NewBooking is a booking about to be made. Status is always Confirmed in
 // Group 09's system (no payment step).
 type NewBooking struct {
+	UrgentID, UrgentCode                string
 	ClientID, PsychologistID, ServiceID string
 	Mode                                schedule.Mode
 	OnlineChannel                       string // chat | voice | video when Mode is Online
@@ -42,14 +43,20 @@ func (s *Store) CreateBooking(ctx context.Context, b NewBooking) (Created, error
 		if err != nil {
 			return Created{}, err
 		}
-		id, err := s.insertBooking(ctx, code, b)
+		if b.UrgentID != "" {
+			code = b.UrgentCode
+		}
+		id, fresh, err := s.insertBooking(ctx, code, b)
 		var pgErr *pgconn.PgError
 		switch {
 		case err == nil:
-			return Created{ID: id, Code: code}, nil
+			return Created{ID: id, Code: code, Fresh: fresh}, nil
 		case errors.As(err, &pgErr) && pgErr.Code == pgExclusionViolation:
 			return Created{}, ErrSlotTaken
 		case errors.As(err, &pgErr) && pgErr.Code == pgUniqueViolation && pgErr.ConstraintName == "booking_code_key":
+			if b.UrgentID != "" {
+				return Created{}, ErrUrgentCodeConflict
+			}
 			continue
 		default:
 			return Created{}, fmt.Errorf("create booking: %w", err)
@@ -59,9 +66,27 @@ func (s *Store) CreateBooking(ctx context.Context, b NewBooking) (Created, error
 }
 
 // insertBooking writes the booking and its history entry in one transaction.
-func (s *Store) insertBooking(ctx context.Context, code string, b NewBooking) (string, error) {
+func (s *Store) insertBooking(ctx context.Context, code string, b NewBooking) (string, bool, error) {
 	var id string
+	fresh := false
 	err := pgx.BeginFunc(ctx, s.pool, func(tx pgx.Tx) error {
+		if b.UrgentID != "" {
+			var client, psych, service, channel, code, status, existing string
+			var start time.Time
+			err := tx.QueryRow(ctx, `SELECT COALESCE(client_id::text,''),COALESCE(assigned_psychologist_id::text,''),
+    COALESCE(assigned_service_id,''),COALESCE(assigned_channel,''),booking_code,status,COALESCE(appointment_id::text,''),proposed_start
+    FROM urgent_request WHERE id=$1 FOR UPDATE`, b.UrgentID).Scan(&client, &psych, &service, &channel, &code, &status, &existing, &start)
+			if err != nil {
+				return err
+			}
+			if existing != "" {
+				id = existing
+				return nil
+			}
+			if status != "ASSIGNED" || client != b.ClientID || psych != b.PsychologistID || service != b.ServiceID || channel != b.OnlineChannel || code != b.UrgentCode || !start.Equal(b.Start) {
+				return ErrNotChangeable
+			}
+		}
 		err := tx.QueryRow(ctx, `
 			INSERT INTO booking (code, client_id, psychologist_id, service_id, mode, online_channel, location_id,
 			                     start_at, end_at, blocked_until, status, created_by)
@@ -72,13 +97,21 @@ func (s *Store) insertBooking(ctx context.Context, code string, b NewBooking) (s
 		if err != nil {
 			return err
 		}
+		fresh = true
+		if b.UrgentID != "" {
+			if _, err := tx.Exec(ctx, `UPDATE urgent_request SET appointment_id=$2,status='CONFIRMED',confirmed_at=CURRENT_TIMESTAMP,
+   confirmed_by_admin_id=$3,updated_at=CURRENT_TIMESTAMP WHERE id=$1`, b.UrgentID, id, b.CreatedBy); err != nil {
+				return err
+			}
+		}
 		return audit(ctx, tx, b.CreatedBy, "created", id, map[string]any{"start": b.Start})
 	})
-	return id, err
+	return id, fresh, err
 }
 
 // Created identifies a new booking.
 type Created struct {
+	Fresh          bool      `json:"-"`
 	ID             string    `json:"id"`
 	Code           string    `json:"code"`
 	ChangeDeadline time.Time `json:"changeDeadline"` // filled in by the app layer
@@ -177,6 +210,7 @@ func (s *Store) RescheduleBooking(ctx context.Context, r Reschedule) error {
 
 // BookingView is a booking with the names needed to show it.
 type BookingView struct {
+	IsUrgent         bool      `json:"isUrgent"`
 	ID               string    `json:"id"`
 	Code             string    `json:"code"`
 	ClientID         string    `json:"clientId"`
@@ -197,7 +231,7 @@ type BookingView struct {
 const bookingViewSQL = `
 	SELECT b.id, b.code, b.client_id, c.name, b.psychologist_id, p.name, b.service_id, sv.name,
 	       b.mode, COALESCE(b.online_channel, ''), COALESCE(b.location_id, ''), COALESCE(l.name, ''),
-	       b.start_at, b.end_at, b.status
+	       b.start_at, b.end_at, b.status, EXISTS(SELECT 1 FROM urgent_request u WHERE u.appointment_id=b.id)
 	FROM booking b
 	JOIN client c        ON c.id = b.client_id
 	JOIN psychologist p  ON p.id = b.psychologist_id
@@ -207,7 +241,7 @@ const bookingViewSQL = `
 func scanBookingView(r pgx.CollectableRow) (BookingView, error) {
 	var v BookingView
 	err := r.Scan(&v.ID, &v.Code, &v.ClientID, &v.ClientName, &v.PsychologistID, &v.PsychologistName, &v.ServiceID, &v.ServiceName,
-		&v.Mode, &v.OnlineChannel, &v.LocationID, &v.LocationName, &v.Start, &v.End, &v.Status)
+		&v.Mode, &v.OnlineChannel, &v.LocationID, &v.LocationName, &v.Start, &v.End, &v.Status, &v.IsUrgent)
 	return v, err
 }
 

@@ -1,4 +1,5 @@
 "use client";
+import { UrgentBadge } from "@/components/urgent/UrgentBadge";
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
@@ -280,6 +281,7 @@ function Block({ b, top, height, label, needs, selected, onSelect }: { b: Bookin
     >
       <span className={styles.blockTime}>{formatTime(b.start, locale)}</span>
       <span className={styles.blockName}>{b.clientName}</span>
+      <UrgentBadge urgent={b.isUrgent} />
     </button>
   );
 }
@@ -412,6 +414,7 @@ function Panel({ b, now, statusText, needsMarking, act, onClose }: { b: Booking;
     <section aria-label={b.code} className={styles.panel}>
       <div className={styles.panelHead}>
         <span className={styles.code}>{b.code}</span>
+        <UrgentBadge urgent={b.isUrgent} />
         <span className={styles.status} data-status={needsMarking ? "needs" : b.status}>
           {statusText}
         </span>

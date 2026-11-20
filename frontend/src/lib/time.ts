@@ -27,6 +27,11 @@ export function formatDateTime(w: When, l: Locale): string {
   return `${formatDate(w, l)}, ${formatTime(w, l)} WIB`;
 }
 
+/** Full stored event timestamp, including its year, in WIB. */
+export function formatFullDateTime(w: When, l: Locale): string {
+  return fmt(l, { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(toDate(w)) + " WIB";
+}
+
 /** "Mon 9" style short day for compact rows. */
 export function formatShortDay(w: When, l: Locale): string {
   return fmt(l, { weekday: "short", day: "numeric" }).format(toDate(w));

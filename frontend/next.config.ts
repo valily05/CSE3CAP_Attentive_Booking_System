@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
+      ...["/admin/urgent-requests", "/urgent-booking/verify"].map((source) => ({
+        source,
+        headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=()" }],
+      })),
     ];
   },
 };

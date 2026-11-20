@@ -546,3 +546,18 @@
     animation: none;
   }
 }
+
+.sideCard,
+.main {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.place {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.facts {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}

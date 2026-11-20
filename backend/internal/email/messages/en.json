@@ -5,28 +5,26 @@
   "timeSeparator": ":",
   "online": "Online",
   "signature": "Warmly,\nThe Attentive team",
-
   "verify_email.subject": "Confirm your email for Attentive",
   "verify_email.body": "Hi {{.FirstName}},\n\nPlease confirm your email address so you can sign in:\n{{.Link}}\n\nThis link works for 24 hours. If you did not create an account, you can ignore this email.",
-
   "reset_password.subject": "Reset your Attentive password",
   "reset_password.body": "Hi {{.FirstName}},\n\nUse this link to choose a new password:\n{{.Link}}\n\nThis link works for 1 hour. If you did not ask for this, you can ignore this email.",
-
   "booking_confirmed.subject": "Your session is booked ({{.Code}})",
   "booking_confirmed.body": "Hi {{.FirstName}},\n\nYour session is confirmed.\n\nDate: {{.Date}}\nTime: {{.Time}}\nWith: {{.Psychologist}}\nWhere: {{.Place}}\nBooking code: {{.Code}}\n\nSee or change your booking:\n{{.Link}}",
-
   "booking_changed.subject": "Your session has moved ({{.Code}})",
   "booking_changed.body": "Hi {{.FirstName}},\n\nYour session has a new time.\n\nDate: {{.Date}}\nTime: {{.Time}}\nWith: {{.Psychologist}}\nWhere: {{.Place}}\nBooking code: {{.Code}}\n\n{{.Link}}",
-
   "booking_cancelled.subject": "Your session was cancelled ({{.Code}})",
   "booking_cancelled.body": "Hi {{.FirstName}},\n\nThe session on {{.Date}} at {{.Time}} with {{.Psychologist}} has been cancelled.\n\nYou can book a new time whenever you are ready:\n{{.Link}}",
-
   "reminder.subject": "Reminder: your session on {{.Date}}",
   "reminder.body": "Hi {{.FirstName}},\n\nA friendly reminder about your session.\n\nDate: {{.Date}}\nTime: {{.Time}}\nWith: {{.Psychologist}}\nWhere: {{.Place}}\n\nI will attend: {{.AttendLink}}\nI need to reschedule: {{.Link}}",
-
   "follow_up.subject": "Thinking of you",
   "follow_up.body": "Hi {{.FirstName}},\n\nIt has been a while. We hope you are doing well. If you would like to talk again, you can book a time here:\n{{.Link}}\n\nDon't want these emails? Unsubscribe in one click:\n{{.UnsubscribeLink}}",
-
   "staff_booking_changed.subject": "Schedule change: {{.Code}}",
-  "staff_booking_changed.body": "Hello,\n\nBooking {{.Code}} with {{.FirstName}} has changed.\n\nDate: {{.Date}}\nTime: {{.Time}}\nWhere: {{.Place}}\n\n{{.Link}}"
+  "staff_booking_changed.body": "Hello,\n\nBooking {{.Code}} with {{.FirstName}} has changed.\n\nDate: {{.Date}}\nTime: {{.Time}}\nWhere: {{.Place}}\n\n{{.Link}}",
+  "urgent_recovery.subject": "Recover your Attentive request {{.Code}}",
+  "urgent_recovery.body": "Use this single-use link to access your existing request and regenerate its QR image. The link expires in 24 hours.\n{{.Link}}\n\nIf you did not request this email, you can ignore it.",
+  "urgent_received.subject": "Attentive request received - {{.Code}}",
+  "urgent_received.body": "Your request has been saved. Booking Code: {{.Code}}. Please wait for staff confirmation. Reopen your confirmation and QR code using the notification bell in the same browser where you submitted the request. Secure guest access lasts 30 days.\n{{.Link}}",
+  "client_access.subject": "Your Attentive access link",
+  "client_access.body": "Staff have requested account activation or email verification with your consent. Open this single-use link, valid for 24 hours, to continue. Your existing password will remain in place for an email address update.\n{{.Link}}"
 }

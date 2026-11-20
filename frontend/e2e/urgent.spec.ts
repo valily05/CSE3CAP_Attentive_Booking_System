@@ -1,0 +1,31 @@
+import { expect, test } from "@playwright/test";
+
+test("urgent requests reopen from navbar notifications with the same QR @phone", async ({ page }) => {
+  const email = `urgent-${Date.now()}@example.test`;
+  await page.goto("/urgent-scheduling");
+  await expect(page.getByRole("button", { name: "Book It" })).toBeDisabled();
+  await page.getByLabel("Full Name", { exact: true }).fill("Urgent Browser Test");
+  await page.getByLabel("Email Address", { exact: true }).fill(email);
+  await page.getByRole("radio", { name: "Online Session" }).check({ force: true });
+  await expect(page.getByLabel("Attentive location", { exact: true })).toHaveCount(0);
+  await page.getByRole("checkbox").check();
+  const saved = page.waitForResponse((response) => response.url().endsWith("/api/urgent-requests") && response.request().method() === "POST");
+  await page.getByRole("button", { name: "Book It" }).click();
+  const payload = await (await saved).json() as { request: { bookingCode: string; status: string; workflow: { submittedAt: string } } };
+  expect(payload.request.status).toBe("PENDING");
+  expect(payload.request.bookingCode).toMatch(/^ATT[0-9]{4}$/);
+  expect(payload.request.workflow.submittedAt).toBeTruthy();
+  await expect(page.getByRole("heading", { name: /received your request/ })).toBeVisible();
+  const code = payload.request.bookingCode;
+  await expect(page.getByRole("img", { name: `Verification QR code for ${code}` })).toBeVisible();
+  const download = page.waitForEvent("download");
+  await page.getByRole("link", { name: "Download QR Code" }).click();
+  expect((await download).suggestedFilename()).toBe(code + "-QR.png");
+  await page.reload();
+  await expect(page.locator("strong").filter({ hasText: /^ATT[0-9]{4}$/ })).toHaveText(code);
+  await page.goto("/");
+  await page.getByRole("button", { name: "Notifications", exact: true }).click();
+  await page.getByRole("link", { name: new RegExp(code) }).click();
+  await expect(page.getByRole("img", { name: `Verification QR code for ${code}` })).toBeVisible();
+  await expect(page.getByRole("link", { name: /recover/i })).toHaveCount(0);
+});

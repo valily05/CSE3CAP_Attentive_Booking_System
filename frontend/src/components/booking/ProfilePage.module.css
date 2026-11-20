@@ -73,3 +73,15 @@
   font-size: var(--text-sm);
   font-weight: 600;
 }
+
+.header {
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-board);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+
+.intro {
+  min-width: 0;
+}

@@ -9,9 +9,11 @@ import (
 
 // Location is an admin-editable place, e.g. {bsd, "BSD (Tangerang)"}.
 type Location struct {
-	ID     string `json:"id"`
-	Name   string `json:"name"`
-	Active bool   `json:"active"`
+	ID      string `json:"id"`
+	Name    string `json:"name"`
+	Active  bool   `json:"active"`
+	Address string `json:"address"`
+	MapsURL string `json:"mapsUrl"`
 }
 
 // Service is an admin-editable session type with a fixed length.
@@ -140,7 +142,7 @@ type Catalog struct {
 // Catalog returns active locations and services.
 func (s *Store) Catalog(ctx context.Context) (Catalog, error) {
 	var c Catalog
-	rows, err := s.pool.Query(ctx, `SELECT id, name, active FROM location WHERE active ORDER BY name`)
+	rows, err := s.pool.Query(ctx, `SELECT id, name, active,address,maps_url FROM location WHERE active ORDER BY name`)
 	if err != nil {
 		return c, err
 	}

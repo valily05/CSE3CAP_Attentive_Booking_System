@@ -23,6 +23,9 @@ import (
 type Kind string
 
 const (
+	UrgentRecovery      Kind = "urgent_recovery"
+	UrgentReceived      Kind = "urgent_received"
+	ClientAccess        Kind = "client_access"
 	VerifyEmail         Kind = "verify_email"
 	ResetPassword       Kind = "reset_password"
 	BookingConfirmed    Kind = "booking_confirmed"
@@ -34,7 +37,7 @@ const (
 )
 
 // AllKinds lists every message kind.
-var AllKinds = []Kind{VerifyEmail, ResetPassword, BookingConfirmed, BookingChanged, BookingCancelled, Reminder, FollowUp, StaffBookingChanged}
+var AllKinds = []Kind{VerifyEmail, ResetPassword, BookingConfirmed, BookingChanged, BookingCancelled, Reminder, FollowUp, StaffBookingChanged, UrgentRecovery, UrgentReceived, ClientAccess}
 
 // Data fills a template.
 type Data struct {

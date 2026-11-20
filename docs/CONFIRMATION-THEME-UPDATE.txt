@@ -1,0 +1,14 @@
+Confirmation page theme and illustration update
+
+The existing navbar toggle now controls the entire urgent confirmation page. Light mode uses cream, white, navy and muted gold. Dark mode uses navy surfaces, light text and muted gold. The real QR retains its white background in both modes.
+
+The three visit illustrations were regenerated using the built-in image generation tool with a quieter Attentive palette. Their lower portions extend behind frosted, blurred caption areas. Only the image underneath is blurred; headings and descriptions remain sharp. The three illustration backgrounds remain distinct ivory, sand and blue-gray.
+
+Saved asset
+C:\Users\valen\Documents\Codex\2026-11-20\can\outputs\CSE3CAP\frontend\public\brand\visit-steps-attentive.png
+
+Final image prompt
+Create a premium minimalist editorial illustration strip for Attentive psychology clinic website, THREE EQUAL SQUARE PANELS side by side, overall 3:1 wide landscape. Restrained flat graphic style, precise elegant fine outlines, sophisticated adult proportions, simplified faces, NO cartoon big heads, no realism, no textures, no gradients. Palette ONLY deep navy #14284B, ivory #FAF6EF, warm sand #E7D9BF, muted antique gold #D6A74D and natural warm skin tones. Panel 1 on warm ivory background: female client and receptionist at a streamlined reception desk, small navy laptop, understated golden botanical sprig. Panel 2 on pale sand background: elegant hand holding a navy smartphone with a small abstract square scan symbol on ivory screen, delicate gold scan brackets, generous negative space. Panel 3 on light blue-gray background: client and psychologist seated in minimalist armchairs in calm conversation, navy clothing, ivory blazer, small gold-accent side table. Each scene centered within its own square with generous margins. Clean balanced compositions, quiet luxury, human and welcoming, refined contemporary brand illustration. No words, numbers, logos, arrows, frames, separators. Backgrounds must differ subtly but clearly: ivory, sand, blue-gray. Crisp artwork readable at small website card sizes.
+
+Validation
+Production build and TypeScript passed. Browser checks passed at 320, 390, 768 and 1440px in both light and dark mode. Verified theme colors and toggle persistence after reload, actual background blur with unfiltered text, new asset loading, no horizontal overflow, and QR decoding to the original Booking Code. Booking API and action handlers were unchanged in this theme update.

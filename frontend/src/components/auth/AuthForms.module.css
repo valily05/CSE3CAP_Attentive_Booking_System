@@ -39,3 +39,14 @@
 .alt {
   font-size: var(--text-sm);
 }
+
+.form {
+  min-width: 0;
+  width: 100%;
+  max-width: 32rem;
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-board);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}

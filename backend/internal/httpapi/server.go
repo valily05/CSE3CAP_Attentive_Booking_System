@@ -105,6 +105,7 @@ var errorTable = []struct {
 	apiError
 }{
 	{app.ErrBadRequest, apiError{http.StatusBadRequest, "bad_request"}},
+	{store.ErrUrgentCodeConflict, apiError{http.StatusConflict, "urgent_code_conflict"}},
 	{errUnsupportedMedia, apiError{http.StatusUnsupportedMediaType, "json_required"}},
 	{app.ErrUnauthenticated, apiError{http.StatusUnauthorized, "unauthenticated"}},
 	{app.ErrBadCredentials, apiError{http.StatusUnauthorized, "bad_credentials"}},
