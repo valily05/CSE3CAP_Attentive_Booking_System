@@ -224,7 +224,9 @@
     "timeWib": "{time} WIB",
     "changeNote": "Anda dapat mengubah atau membatalkannya sendiri sampai pagi hari sesi. Kami akan mengirim pengingat sehari sebelumnya dan dua jam sebelumnya.",
     "privacy": "Apa yang Anda bicarakan tetap antara Anda dan psikolog Anda. Kami hanya menyimpan detail booking.",
-    "title": "Booking sesi dengan {name}"
+    "title": "Booking sesi dengan {name}",
+    "headerNoteTitle": "Luangkan waktu untuk diri Anda.",
+    "headerNoteBody": "Pilih cara dan waktu sesi yang nyaman."
   },
   "band": {
     "noTimes": "Tidak ada waktu kosong",

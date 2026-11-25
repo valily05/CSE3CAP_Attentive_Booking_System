@@ -27,3 +27,11 @@
 .banner>button,.banner>a {font-size:.71rem;border:1px solid var(--ink);color:var(--ink);box-shadow:none;outline:none;}
 .banner>button:hover,.banner>a:hover {background:light-dark(#142c5215,#9ab6de22);color:var(--ink);border-color:var(--ink);box-shadow:none;}
 .banner>button:focus-visible,.banner>a:focus-visible {outline:2px solid var(--brass);outline-offset:3px;}
+.banner p {white-space:pre-line;}
+/* Place the waiting-list action first, at the left edge of its banner. */
+.banner>button,.banner>a {order:-1;margin-left:0;}
+@media(max-width:48rem) {.banner>button,.banner>a {margin-left:0;}.banner>div {min-width:0;flex-basis:calc(100% - 2.5rem);}}
+/* Keep the waiting-list action at the far-right edge. */
+.banner>button,.banner>a {order:0;margin-left:auto;}
+.banner>div {flex:1;min-width:0;}
+@media(max-width:48rem) {.banner>button,.banner>a {margin-left:auto;}.banner>div {flex-basis:calc(100% - 2.5rem);}}

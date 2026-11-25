@@ -224,7 +224,9 @@
     "timeWib": "{time} WIB",
     "changeNote": "You can change or cancel it yourself until the morning of the session. We'll email a reminder the day before and two hours before.",
     "privacy": "What you talk about stays between you and your psychologist. We only keep your booking details.",
-    "title": "Book a session with {name}"
+    "title": "Book a session with {name}",
+    "headerNoteTitle": "Make space for yourself.",
+    "headerNoteBody": "Choose how and when you’d like to meet."
   },
   "band": {
     "noTimes": "No open times",
@@ -1062,7 +1064,7 @@
   },
   "waiting": {
     "bannerTitle": "No suitable time available?",
-    "bannerBody": "Can’t find a suitable appointment time? Join our waiting list and we’ll notify you when a matching session becomes available.",
+    "bannerBody": "Can’t find a suitable appointment time? Join our waiting list and we’ll notify\nyou when a matching session becomes available.",
     "join": "Join Waiting List",
     "eyebrow": "A little more flexibility",
     "psychologist": "Preferred psychologist",

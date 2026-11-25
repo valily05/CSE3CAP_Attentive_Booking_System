@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {ArrowLeft} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -47,12 +48,11 @@ export function ProfilePage({ id }: { id: string }) {
           )}
         </span>
         <div className={styles.intro}>
-          <p className={styles.eyebrow}>{t("bookingDetails.eyebrow")}</p><h1>{t("profile.title", { name: p.name })}</h1>
+          <h1>{t("profile.title", { name: p.name })}</h1>
           <p>
             {p.title}
             {p.specialty ? `. ${p.specialty}` : ""}
           </p>
-        </div>
         <ul className={styles.chips}>
           {p.sessionTypes
             .filter((s) => s !== "in_person")
@@ -66,6 +66,8 @@ export function ProfilePage({ id }: { id: string }) {
             <li key={s.id}>{t(`ageGroupName.${s.ageGroup}`)}</li>
           ))}
         </ul>
+        </div>
+        <div className={styles.headerArt} aria-hidden="true"><Image src="/brand/booking-calendar-flat.png" alt="" width={1536} height={1024} sizes="(max-width: 560px) 120px, 200px"/></div>
       </header>
       {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className={styles.signInCard}><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
     </div>

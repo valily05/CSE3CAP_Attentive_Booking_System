@@ -94,3 +94,23 @@
 .chips {grid-column:2;gap:.5rem;}.chips li {padding:.3rem .65rem;font-size:.7rem;font-weight:500;background:var(--paper);border-radius:.6rem;}
 .signInCard {display:flex;align-items:center;justify-content:space-between;gap:1.3rem;flex-wrap:wrap;padding:1.5rem;border:1px solid var(--line);border-radius:1.15rem;background:var(--paper);}.signInCard p {font-size:.8rem;line-height:1.8;color:var(--muted);}.signInCard a {font-size:.78rem;min-height:2.7rem;}
 @media(max-width:35rem) {.header {grid-template-columns:4rem minmax(0,1fr);gap:1rem;padding:1rem;}.avatar {width:4rem;height:4.7rem;}.intro h1 {font-size:1.25rem;}.intro>p {font-size:.75rem;}.intro .eyebrow {font-size:.5rem;gap:.4rem;}.eyebrow::before {width:.8rem;}.chips {grid-column:1/-1;}.signInCard {padding:1.1rem;}}
+/* Keep profile tags directly under the title and specialty. */
+.header {row-gap:.65rem;}
+.intro .chips {margin-top:.15rem;gap:.5rem;}
+/* Stack every detail below the heading in the same column. */
+.intro {grid-template-columns:minmax(0,1fr);gap:.35rem;}
+.intro>h1,.intro>p,.intro>.chips {grid-column:1/-1;}
+.intro>p {margin:0;}
+.intro>.chips {margin-top:.1rem;}
+.header {grid-template-columns:5.5rem minmax(0,1fr) minmax(12rem,15rem);}
+.headerNote {display:flex;align-items:center;gap:.85rem;align-self:center;padding-left:1.35rem;border-left:1px solid var(--line);}
+.headerNote>span {display:grid;place-items:center;width:3.3rem;height:3.3rem;flex-shrink:0;border-radius:1rem;background:light-dark(#f2e6cd,#363526);color:var(--brass-text);}
+.headerNote strong {display:block;font-size:.8rem;font-weight:600;line-height:1.6;color:var(--ink);}
+.headerNote p {font-size:.7rem;line-height:1.8;color:var(--muted);margin-top:.3rem;}
+@media(max-width:65rem) {.header {grid-template-columns:5.5rem minmax(0,1fr);}.headerNote {grid-column:2;border-left:0;border-top:1px solid var(--line);padding:1rem 0 0;}.headerNote>span {width:2.5rem;height:2.5rem;border-radius:.75rem;}.headerNote>span svg {width:23px;height:23px;}}
+@media(max-width:35rem) {.header {grid-template-columns:4rem minmax(0,1fr);}.headerNote {grid-column:1/-1;}.headerNote p {margin-top:.1rem;}}
+.header {grid-template-columns:5.5rem minmax(0,1fr) 12rem;align-items:center;}
+.headerArt {display:flex;align-items:center;justify-content:center;align-self:center;}
+.headerArt img {display:block;width:100%;height:7.5rem;object-fit:contain;}
+@media(max-width:65rem) and (min-width:48rem) {.header {grid-template-columns:5.5rem minmax(0,1fr) 9rem;}.headerArt img {height:6rem;}}
+@media(max-width:47.999rem) {.header {grid-template-columns:4rem minmax(0,1fr);align-items:start;}.headerArt {display:none;}}
