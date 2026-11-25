@@ -26,7 +26,7 @@ import { useAppLocale } from "@/lib/i18n";
 import type { Booking, Slot } from "@/lib/types";
 import {Reschedule} from "./BookingActions";
 import {BookingDetailsDrawer} from "./BookingDetailsDrawer";
-import {CalendarHeart,CalendarClock,Clock3,Armchair,Phone,Video,MapPin,Info,Eye,X} from "lucide-react";
+import {CalendarClock,Clock3,Armchair,Phone,Video,MapPin,Info,Eye,X} from "lucide-react";
 import styles from "./MyBookings.module.css";
 
 
@@ -69,7 +69,7 @@ export function MyBookings({ now = new Date(), attendCode }: Props) {
       <div className={styles.columns}>
       <section aria-labelledby="upcoming" className={styles.upcomingCol}><h2 id="upcoming">{t("bookings.upcoming")}</h2>
         {list && upcoming.length === 0 && (
-          <div className={styles.emptyCard}><span className={styles.emptyArt}><CalendarHeart size={42} strokeWidth={1.3}/></span><h3>{t("bookingDetails.emptyTitle")}</h3><p>{t("bookingDetails.emptyBody")}</p><Link className="button" href="/">{t("bookingDetails.findTime")}</Link></div>
+          <div className={styles.emptyCard}><h3>{t("bookingDetails.emptyTitle")}</h3><p>{t("bookingDetails.emptyBody")}</p><Link className="button" href="/">{t("bookingDetails.findTime")}</Link></div>
         )}
         {upcoming.length > 0 && (
           <ul className={styles.list}>

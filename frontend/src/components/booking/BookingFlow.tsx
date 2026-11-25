@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import {Armchair,Users,School,Video,Phone,MessageCircle,MapPin} from "lucide-react";
+import {PinkyPromiseIcon} from "@/components/ui/PinkyPromiseIcon";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
@@ -115,7 +117,7 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
                 <label key={s.id} className={styles.choice}>
                   <input type="radio" name="service" value={s.id} checked={serviceId === s.id} onChange={() => setServiceId(s.id)} />
                   <span>
-                    {s.name}
+                    <span className={styles.optionTitle}>{s.ageGroup==="family_couple"?<Users size={19} aria-hidden="true"/>:s.ageGroup==="child_teen"?<School size={19} aria-hidden="true"/>:<Armchair size={19} aria-hidden="true"/>}{s.name}</span>
                     <small>{t("profile.minutes", { minutes: s.lengthMinutes })}</small>
                   </span>
                 </label>
@@ -131,13 +133,13 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
               {channels.map((c) => (
                 <label key={c} className={styles.choice}>
                   <input type="radio" name="how" value={`online:${c}`} checked={howValue === `online:${c}`} onChange={(e) => pickHow(e.target.value)} />
-                  <span>{t(`sessionType.${c}`)}</span>
+                  <span><span className={styles.optionTitle}>{c==="video"?<Video size={18} aria-hidden="true"/>:c==="voice"?<Phone size={18} aria-hidden="true"/>:<MessageCircle size={18} aria-hidden="true"/>}{t(`sessionType.${c}`)}</span></span>
                 </label>
               ))}
               {places.map((l) => (
                 <label key={l} className={styles.choice}>
                   <input type="radio" name="how" value={`in_person:${l}`} checked={howValue === `in_person:${l}`} onChange={(e) => pickHow(e.target.value)} />
-                  <span>{locationName(l)}</span>
+                  <span><span className={styles.optionTitle}><MapPin size={18} aria-hidden="true"/>{locationName(l)}</span></span>
                 </label>
               ))}
             </div>
@@ -206,7 +208,7 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
           </Link>
         )}
         <p className={styles.small}>{t("profile.changeNote")}</p>
-        <p className={styles.privacy}>{t("profile.privacy")}</p>
+        <p className={styles.privacy}><PinkyPromiseIcon size={27} aria-hidden="true"/><span>{t("profile.privacy")}</span></p>
       </aside>
     </div>
   );

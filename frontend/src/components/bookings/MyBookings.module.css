@@ -543,3 +543,21 @@
 .legend {font-size:.72rem;gap:.65rem 1rem;}
 @media(max-width:48rem) {.pageHeadingAction {padding-top:.4rem;}}
 @media(max-width:35rem) {.ticketBody {gap:.6rem;}.calendar {padding:.8rem;}.cell {min-height:3.7rem;}.calHead h2 {font-size:1rem;}.weekday {font-size:.6rem;}.pageHeadingAction>a {min-height:2.9rem;font-size:.82rem;}}
+/* Cancellation confirmation: a clear heading and an inset dropdown chevron. */
+.confirmDialog {padding:1.6rem;border-radius:1.15rem;box-shadow:0 20px 65px #142c5226;}
+.cancelHeading {display:flex;align-items:center;gap:.75rem;}
+.cancelHeading>span {display:grid;place-items:center;flex-shrink:0;width:2.65rem;height:2.65rem;border-radius:.85rem;background:light-dark(#eef2f8,#243751);color:var(--ink);}
+.cancelHeading h3 {font-size:1.12rem;line-height:1.4;margin:0;}
+.confirmDialog>p {margin:1rem 0 1.3rem;font-size:.79rem;line-height:1.8;}
+.confirmDialog label>span:first-child {font-size:.78rem;font-weight:600;}
+.cancelSelect {position:relative;display:block;width:100%;}
+.cancelSelect select {display:block;width:100%;appearance:none;padding:.8rem 3rem .8rem .95rem;min-height:2.9rem;font-size:.78rem;background:var(--paper);border:1px solid var(--line-strong);border-radius:.7rem;color:var(--ink);box-shadow:none;}
+.cancelSelect>svg {position:absolute;right:1.05rem;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--ink);}
+.cancelSelect select:focus-visible {outline:2px solid var(--brass);outline-offset:2px;box-shadow:none;}
+.confirmDialog .actions {margin-top:1.4rem;gap:.75rem;}
+.confirmDialog .actions button {min-height:2.65rem;font-size:.77rem;}
+@media(max-width:35rem) {.confirmDialog {padding:1.25rem;}.cancelHeading h3 {font-size:1rem;}}
+/* Cancelled is a red booking status; notification colours remain separate. */
+.status[data-status=cancelled] {background:light-dark(#fff0f0,#422b35);color:light-dark(#a52e3f,#ffb4bf);border:1px solid light-dark(#ecc5cc,#754451);}
+.legend [data-status=cancelled]::before {background:#b43f50;border:1px solid #b43f50;}
+.chip[data-status=cancelled] {background:light-dark(#fff0f0,#422b35);color:light-dark(#a52e3f,#ffb4bf);border:1px dashed light-dark(#c36170,#b77280);}

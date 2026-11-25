@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { History } from "lucide-react";
+import { History,ChevronDown,Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useApi } from "@/lib/useApi";
 import { useAppLocale } from "@/lib/i18n";
@@ -30,13 +30,13 @@ export function MyHistory() {
  const showClient=me.role!=="client";
  const statusText=(value:string)=>value==="confirmed"?t("history.awaitingAttendance"):t(`bookings.status.${value}`);
  return <div className={styles.page}>
-  <div className={styles.intro}><p>{t(`history.${me.role}Body`)}</p><Link className="button-quiet" href={me.role==="admin"?"/admin":me.role==="psychologist"?"/schedule":"/bookings"}>{t(me.role==="admin"?"nav.calendar":me.role==="psychologist"?"nav.mySchedule":"nav.myBookings")}</Link></div>
+
   <dl className={styles.summary}>
    {[{label:"total",count:history.length},{label:"attended",count:history.filter(b=>b.status==="attended").length},{label:"missed",count:history.filter(b=>b.status==="no_show").length},{label:"cancelled",count:history.filter(b=>b.status==="cancelled").length}].map(item=><div key={item.label}><dt>{t(`history.${item.label}`)}</dt><dd>{item.count}</dd></div>)}
   </dl>
   <div className={styles.filters}>
-   <label className="field"><span>{t("history.search")}</span><input type="search" value={query} onChange={e=>{setQuery(e.target.value);setLimit(20);}} /></label>
-   <label className="field"><span>{t("bookings.colStatus")}</span><select value={status} onChange={e=>{setStatus(e.target.value);setLimit(20);}}><option value="">{t("history.allStatuses")}</option>{STATUSES.map(value=><option key={value} value={value}>{statusText(value)}</option>)}</select></label>
+   <label className="field"><span>{t("history.search")}</span><span className={styles.searchWrap}><Search size={18} aria-hidden="true"/><input type="search" value={query} onChange={e=>{setQuery(e.target.value);setLimit(20);}} /></span></label>
+   <label className="field"><span>{t("bookings.colStatus")}</span><span className={styles.selectWrap}><select value={status} onChange={e=>{setStatus(e.target.value);setLimit(20);}}><option value="">{t("history.allStatuses")}</option>{STATUSES.map(value=><option key={value} value={value}>{statusText(value)}</option>)}</select><ChevronDown size={17} aria-hidden="true"/></span></label>
   </div>
   <p className={styles.result} role="status">{t("history.results",{count:filtered.length})}</p>
   {filtered.length===0?<p className={styles.empty}>{t(history.length?"history.noMatches":"history.empty")}</p>:<div className={styles.tableWrap}><table className={styles.table} aria-label={t("nav.myHistory")}>

@@ -19,3 +19,11 @@
 .waitingEmpty h3 { font-weight:400; }.waitingEmpty>span { width:3.3rem;height:3.3rem;flex-shrink:0;background:var(--paper);border:1px solid var(--line);border-radius:50%;box-shadow:0 2px 7px #142c5208; }
 
 .waitingEmpty>span { background:transparent;border:0;box-shadow:none; }.managementHead h2 { font-weight:600; }.managementDescription { margin-top:.15rem; }
+/* Center the bell against both the title and explanatory line. */
+.managementIntro {position:relative;padding-left:3.6rem;margin-bottom:1.2rem;}
+.managementIntro .managementHead .headingIcon {position:absolute;left:0;top:50%;transform:translateY(-50%);}
+.managementIntro .managementDescription {margin:.4rem 0 0;}
+@media(max-width:48rem) {.managementIntro {padding-left:3.35rem;}.managementIntro .managementDescription {margin:.4rem 0 0;}}
+.banner>button,.banner>a {font-size:.71rem;border:1px solid var(--ink);color:var(--ink);box-shadow:none;outline:none;}
+.banner>button:hover,.banner>a:hover {background:light-dark(#142c5215,#9ab6de22);color:var(--ink);border-color:var(--ink);box-shadow:none;}
+.banner>button:focus-visible,.banner>a:focus-visible {outline:2px solid var(--brass);outline-offset:3px;}

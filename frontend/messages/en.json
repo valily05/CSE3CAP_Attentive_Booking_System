@@ -896,7 +896,8 @@
     "place": "Location / channel",
     "loadMore": "Show more sessions",
     "guestTitle": "Your history, in one place",
-    "guestBody": "Sign in to view your session history and revisit your past bookings."
+    "guestBody": "Sign in to view your session history and revisit your past bookings.",
+    "pageIntro": "A record of your sessions, all in one place."
   },
   "urgentHow": {
     "eyebrow": "Urgent booking",

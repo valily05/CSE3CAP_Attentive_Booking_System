@@ -44,7 +44,7 @@ export function Home() {
         <button type="button" aria-pressed={browse === "conditions"} onClick={()=>setBrowse("conditions")}><HeartHandshake size={17} aria-hidden="true"/>{t("browseConditions")}</button>
       </div>
       </div>
-      <p className={styles.privacyBridge}><PinkyPromiseIcon size={24} aria-hidden="true"/><span>{t("privacy")}</span></p>
+      {browse === "psychologists" && <p className={styles.privacyBridge}><PinkyPromiseIcon size={24} aria-hidden="true"/><span>{t("privacy")}</span></p>}
       <div className={styles.directoryResults} hidden={browse !== "psychologists"}><PsychologistSearch includeOfficial /></div>
       <div className={styles.directoryResults} hidden={browse !== "conditions"}>{browse === "conditions" && <ConditionDirectory/>}</div>
       </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import {ArrowLeft} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
@@ -30,7 +31,7 @@ export function ProfilePage({ id }: { id: string }) {
   return (
     <div className={styles.page}>
       <Link href="/" className={styles.back}>
-        ‹ {t("profile.back")}
+        <ArrowLeft size={16}/> {t("profile.back")}
       </Link>
       <header className={styles.header}>
         <span className={styles.avatar} aria-hidden="true">
@@ -46,12 +47,11 @@ export function ProfilePage({ id }: { id: string }) {
           )}
         </span>
         <div className={styles.intro}>
-          <h1>{t("profile.title", { name: p.name })}</h1>
+          <p className={styles.eyebrow}>{t("bookingDetails.eyebrow")}</p><h1>{t("profile.title", { name: p.name })}</h1>
           <p>
             {p.title}
             {p.specialty ? `. ${p.specialty}` : ""}
           </p>
-          {p.bio && <p className={styles.bio}>{p.bio}</p>}
         </div>
         <ul className={styles.chips}>
           {p.sessionTypes
@@ -67,7 +67,7 @@ export function ProfilePage({ id }: { id: string }) {
           ))}
         </ul>
       </header>
-      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className="card"><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
+      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className={styles.signInCard}><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
     </div>
   );
 }

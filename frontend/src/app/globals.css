@@ -335,3 +335,5 @@ body [data-site-toast]>button>svg {width:.95rem;height:.95rem;}
 body [data-site-toast] [data-toast-heading] {font-size:.8rem;line-height:1.4rem;}
 body [data-site-toast]>div>p:not([data-toast-heading]) {font-size:.74rem;line-height:1.5;margin-top:.25rem;white-space:normal;}
 @media(max-width:48rem) {body [data-site-toast] {width:calc(100vw - 1.5rem);max-width:calc(100vw - 1.5rem);padding:.8rem .85rem;gap:.6rem;}body [data-site-toast]>div>p:not([data-toast-heading]) {white-space:normal;overflow-wrap:anywhere;}}
+body [data-site-toast][data-toast-tone=navy] {--toast-accent:light-dark(#142c52,#b4c9e8);--toast-fill:light-dark(#eef2f8,#1c2d45);border-left-color:var(--toast-accent);}
+body [data-site-toast][data-toast-tone=waiting] {--toast-accent:light-dark(#6c5489,#c9b4e5);--toast-fill:light-dark(#f4f0f8,#30263f);border-left-color:var(--toast-accent);}

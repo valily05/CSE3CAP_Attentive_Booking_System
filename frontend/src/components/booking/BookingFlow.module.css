@@ -198,3 +198,21 @@
     display: none;
   }
 }
+/* Booking choices share the same card surfaces and proportions as My Bookings. */
+.layout {gap:1.5rem;min-width:0;}
+.steps {gap:1.1rem;}
+.card {padding:1.35rem;border-radius:1.15rem;box-shadow:0 6px 22px #50381a08;}
+.steps legend,.stepTitle {font-size:1rem;font-weight:650;line-height:1.5;padding-bottom:1rem;}
+.steps legend::before,.stepTitle::before {content:counter(step);display:inline-flex;align-items:center;justify-content:center;width:1.65rem;height:1.65rem;margin-right:.65rem;border:1px solid light-dark(#e3c68a,#766139);border-radius:50%;background:light-dark(#f5ead2,#393323);color:var(--brass-text);font-size:.75rem;font-weight:650;}
+.services {grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.7rem;}
+.choices {gap:.65rem;}
+.choice span {font-size:.78rem;min-height:2.9rem;padding:.65rem .9rem;border-radius:.75rem;border-color:var(--line);background:light-dark(#faf6ef,#192b41);line-height:1.7;font-weight:550;}.choice small {font-size:.69rem;}.choice:hover span {border-color:var(--ink);}.choice input:checked+span {background:var(--ink);border-color:var(--ink);color:var(--paper);}.choice input:focus-visible+span {outline:2px solid var(--brass);outline-offset:3px;}
+.note,.small {font-size:.74rem;line-height:1.8;}
+.summary {padding:1.35rem;border-radius:1.15rem;background:light-dark(#faf6ef,#192b41);box-shadow:0 6px 22px #50381a08;gap:1.1rem;}
+.summary h3 {font-size:1.1rem;font-weight:650;}.summary h3::after {content:"";display:block;width:2.5rem;height:3px;border-radius:99px;background:var(--brass);margin-top:.65rem;}
+.summary dl {font-size:.76rem;line-height:1.8;gap:.85rem 1rem;}.summary dd {font-weight:550;overflow-wrap:anywhere;}.summary :global(.button) {font-size:.8rem;min-height:2.8rem;}.privacy {font-size:.7rem;line-height:1.8;padding:.9rem;border:1px solid var(--line);background:var(--paper);border-radius:.75rem;}.error {font-size:.76rem;line-height:1.7;}
+@media(min-width:60rem) {.layout {grid-template-columns:minmax(0,1fr) minmax(18rem,.43fr);}}
+@media(max-width:35rem) {.card,.summary {padding:1rem;}.steps legend,.stepTitle {font-size:.9rem;}.choice span {font-size:.75rem;}.summary dl {grid-template-columns:4.7rem minmax(0,1fr);}}
+.choice .optionTitle {display:flex;align-items:center;gap:.55rem;padding:0;min-height:0;border:0;border-radius:0;background:transparent;color:inherit;font:inherit;width:auto;}
+.optionTitle svg {flex-shrink:0;}
+.privacy {display:flex;align-items:flex-start;gap:.65rem;}.privacy>svg {flex-shrink:0;margin-top:.15rem;color:var(--brass-text);}
