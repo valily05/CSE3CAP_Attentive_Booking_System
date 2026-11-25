@@ -8,11 +8,29 @@ import { SessionProvider } from "./Session";
 import { Header } from "./Header";
 
 const refresh = vi.fn();
-vi.mock("next/navigation", () => ({ usePathname: () => "/", useRouter: () => ({ refresh, push: vi.fn() }) }));
+const route=vi.hoisted(()=>({path:"/"}));
+vi.mock("next/navigation", () => ({ usePathname: () => route.path, useRouter: () => ({ refresh, push: vi.fn() }) }));
 
 describe("Header", () => {
+ it("offers Create account in the header on the sign-in page",()=>{route.path="/signin";renderWithIntl(<Header/>);expect(screen.getByRole("link",{name:"Create account"})).toHaveAttribute("href","/signup");expect(screen.queryByRole("link",{name:"Sign in"})).not.toBeInTheDocument();});
+  it("opens account details, closes with Escape, and signs out through the existing API", async () => {
+    let requests=0;
+    server.use(
+      http.get("*/api/auth/me",()=>HttpResponse.json({role:"client",name:"Rina",email:"rina@example.test"})),
+      http.post("*/api/auth/logout",()=>{requests++;return new HttpResponse(null,{status:204});}),
+    );
+    renderWithIntl(<SessionProvider><Header/></SessionProvider>);
+    const user=userEvent.setup();const account=await screen.findByRole("button",{name:"Your account"});
+    expect(screen.queryByRole("button",{name:"Sign out"})).not.toBeInTheDocument();
+    await user.click(account);expect(account).toHaveAttribute("aria-expanded","true");
+    expect(screen.getByText("rina@example.test")).toBeInTheDocument();
+    expect(screen.getByRole("button",{name:"Sign out"})).toHaveFocus();
+    await user.keyboard("{Escape}");expect(account).toHaveAttribute("aria-expanded","false");expect(account).toHaveFocus();
+    await user.click(account);await user.click(screen.getByRole("button",{name:"Sign out"}));
+    expect(await screen.findByRole("link",{name:"Sign in"})).toBeInTheDocument();expect(requests).toBe(1);
+  });
   beforeEach(() => {
-    refresh.mockClear();
+    refresh.mockClear();route.path="/";
     document.cookie = "locale=; max-age=0; path=/";
   });
 

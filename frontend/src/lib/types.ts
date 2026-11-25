@@ -8,10 +8,11 @@ export type BookingStatus = "waiting_payment" | "confirmed" | "attended" | "no_s
 export type Role = "client" | "psychologist" | "admin";
 
 export type Location = { id: string; name: string; active: boolean; address?: string; mapsUrl?: string };
-export type Service = { id: string; name: string; lengthMinutes: number; ageGroup: AgeGroup; active: boolean };
+export type Service = { categoryId?:string; nameId?:string; durationNote?:string; id: string; name: string; lengthMinutes: number; ageGroup: AgeGroup; active: boolean };
 export type Catalog = { locations: Location[]; services: Service[] };
 
 export type Psychologist = {
+  directoryMetadata?: { sourceId?:string;areasOfExperience?:string[];gender?:"female"|"male"|"non_binary";experienceMinYears?:number;experienceLabel?:string };
   id: string;
   name: string;
   title: string;

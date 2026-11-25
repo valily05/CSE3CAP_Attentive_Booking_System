@@ -1,0 +1,6 @@
+.signal { position:absolute; width:44rem; height:44rem; right:-9rem; bottom:-21rem; z-index:-1; pointer-events:none; overflow:visible; }
+.ring { stroke:#d6a74d; stroke-width:1.2; transform-origin:320px 320px; transform:scale(var(--rest-scale)); opacity:.32; }
+@media (prefers-reduced-motion:no-preference) {
+ .ring { animation:signal-expand 12s linear infinite; }
+ @keyframes signal-expand { 0%{transform:scale(.02);opacity:0;} 12%{opacity:.4;} 75%{opacity:.32;} 100%{transform:scale(1.1);opacity:0;} }
+}

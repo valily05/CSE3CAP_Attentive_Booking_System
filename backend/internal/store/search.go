@@ -16,19 +16,20 @@ type PsychologistFilter struct {
 
 // PsychologistCard is public profile information only (G09-2).
 type PsychologistCard struct {
-	ID           string   `json:"id"`
-	Name         string   `json:"name"`
-	Title        string   `json:"title"`
-	Specialty    string   `json:"specialty"`
-	Bio          string   `json:"bio"`
-	PhotoURL     string   `json:"photoUrl"`
-	SessionTypes []string `json:"sessionTypes"`
-	LocationIDs  []string `json:"locationIds"`
-	ServiceIDs   []string `json:"serviceIds"`
+	DirectoryMetadata map[string]any `json:"directoryMetadata,omitempty"`
+	ID                string         `json:"id"`
+	Name              string         `json:"name"`
+	Title             string         `json:"title"`
+	Specialty         string         `json:"specialty"`
+	Bio               string         `json:"bio"`
+	PhotoURL          string         `json:"photoUrl"`
+	SessionTypes      []string       `json:"sessionTypes"`
+	LocationIDs       []string       `json:"locationIds"`
+	ServiceIDs        []string       `json:"serviceIds"`
 }
 
 const cardColumns = `
-	p.id, p.name, p.title, p.specialty, p.bio, p.photo_url, p.session_types,
+	p.directory_metadata, p.id, p.name, p.title, p.specialty, p.bio, p.photo_url, p.session_types,
 	COALESCE((SELECT array_agg(location_id ORDER BY location_id) FROM psychologist_location WHERE psychologist_id = p.id), '{}'),
 	COALESCE((SELECT array_agg(service_id ORDER BY service_id) FROM psychologist_service WHERE psychologist_id = p.id), '{}')`
 
@@ -66,7 +67,7 @@ func (s *Store) GetPsychologist(ctx context.Context, id string) (PsychologistCar
 
 func scanCard(row pgx.CollectableRow) (PsychologistCard, error) {
 	var c PsychologistCard
-	err := row.Scan(&c.ID, &c.Name, &c.Title, &c.Specialty, &c.Bio, &c.PhotoURL, &c.SessionTypes, &c.LocationIDs, &c.ServiceIDs)
+	err := row.Scan(&c.DirectoryMetadata, &c.ID, &c.Name, &c.Title, &c.Specialty, &c.Bio, &c.PhotoURL, &c.SessionTypes, &c.LocationIDs, &c.ServiceIDs)
 	return c, err
 }
 

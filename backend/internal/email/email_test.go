@@ -15,6 +15,17 @@ func TestCatalogs_HaveTheSameKeys(t *testing.T) {
 	}
 }
 
+func TestVerificationHTMLButtonUsesEscapedTokenLink(t *testing.T) {
+	link := "https://attentive.example/verify?token=single-use-token"
+	message := email.Render("en", email.VerifyEmail, email.Data{FirstName: "<script>alert(1)</script>", Link: link})
+	if !strings.Contains(message.HTML, `href="`+link+`"`) || !strings.Contains(message.HTML, "Verify email address") || !strings.Contains(message.HTML, `target="_self"`) || strings.Contains(message.HTML, "<script>") {
+		t.Fatal("unsafe or missing verification button")
+	}
+	if !strings.Contains(message.Text, link) {
+		t.Fatal("plain-text alternative missing")
+	}
+}
+
 func TestReminder_IsInTheClientsLanguage(t *testing.T) {
 	d := email.Data{FirstName: "Rina", Start: time.Date(2026, 3, 16, 14, 0, 0, 0, wib.Zone), Psychologist: "Ayu Lestari", Place: "BSD (Tangerang)", Link: "https://x.test/b"}
 

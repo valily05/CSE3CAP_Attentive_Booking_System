@@ -91,7 +91,7 @@ func TestUrgentLifecycleArrivalActivationAndRecoveryRemoved(t *testing.T) {
 	if len(activation) != 2 {
 		t.Fatal("activation email missing")
 	}
-	body := map[string]string{"token": activation[1], "password": "chosen by customer"}
+	body := map[string]string{"token": activation[1], "password": "chosen by customer!"}
 	if status := e.Client().Do("POST", "/api/client-access/redeem", body, nil); status != 204 {
 		t.Fatal(status)
 	}
@@ -99,7 +99,7 @@ func TestUrgentLifecycleArrivalActivationAndRecoveryRemoved(t *testing.T) {
 		t.Fatal("activation replay", status)
 	}
 	client := e.Client()
-	client.Login("urgent@example.test", "chosen by customer")
+	client.Login("urgent@example.test", "chosen by customer!")
 	if status := client.Do("GET", "/api/me/urgent-requests", nil, nil); status != 200 {
 		t.Fatal(status)
 	}
@@ -109,7 +109,7 @@ func TestUrgentLifecycleArrivalActivationAndRecoveryRemoved(t *testing.T) {
 	if status := admin.Do("POST", path+"/change-email", map[string]any{"verified": true, "consent": true, "email": "new@example.test", "locale": "en"}, nil); status != 204 {
 		t.Fatal(status)
 	}
-	if status := e.Client().Do("POST", "/api/auth/login", map[string]string{"email": "new@example.test", "password": "chosen by customer"}, nil); status != 401 {
+	if status := e.Client().Do("POST", "/api/auth/login", map[string]string{"email": "new@example.test", "password": "chosen by customer!"}, nil); status != 401 {
 		t.Fatal("unverified email replaced original", status)
 	}
 	changed := e.Mail.To("new@example.test")
@@ -117,7 +117,7 @@ func TestUrgentLifecycleArrivalActivationAndRecoveryRemoved(t *testing.T) {
 	if status := e.Client().Do("POST", "/api/client-access/redeem", map[string]string{"token": emailToken[1]}, nil); status != 204 {
 		t.Fatal(status)
 	}
-	client.Login("new@example.test", "chosen by customer")
+	client.Login("new@example.test", "chosen by customer!")
 	for _, route := range []string{"/api/urgent-requests/recovery", "/api/urgent-requests/redeem"} {
 		if status := e.Client().Do("POST", route, map[string]string{"code": first.Request.BookingCode, "email": "new@example.test"}, nil); status != 404 {
 			t.Fatal("removed recovery route", route, status)

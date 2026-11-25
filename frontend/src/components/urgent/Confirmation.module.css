@@ -1,11 +1,11 @@
-.page { color: var(--ink); display: grid; gap: 1.5rem; max-width: 64rem; margin: auto; padding-bottom: 2rem; }
+.page { color: var(--ink); display: grid; gap: 1.5rem; width:100%; margin: auto; padding-bottom: 2rem; }
 :global(body):has(.page) { background: var(--surface); }
 .back { justify-self: start; display: inline-flex; align-items: center; gap: .6rem; color: #fffaf5; text-decoration: none; min-height: 2.75rem; }
 .heading { text-align: center; display: grid; justify-items: center; gap: .75rem; margin-bottom: .5rem; }
 .heading h1 { font-size: clamp(1.7rem, 3.7vw, 2.65rem); line-height: 1.2; letter-spacing: -.035em; }
 .heading p { max-width: 47rem; color: #e0e8f5; line-height: 1.65; }
 .seal { display: grid; place-items: center; width: 3.75rem; height: 3.75rem; border-radius: 50%; background: linear-gradient(135deg,#ffb051,#f47b16); color: #fff; box-shadow: 0 8px 24px #0002; }
-.pass { display: grid; grid-template-columns: minmax(13rem,.6fr) minmax(0,1.4fr); border-radius: 1.75rem; box-shadow: 0 20px 45px #00132955; margin: 0 auto; width: min(100%,56rem); }
+.pass { display: grid; grid-template-columns: minmax(13rem,.6fr) minmax(0,1.4fr); border-radius: 1.75rem; box-shadow: 0 20px 45px #00132955; margin: 0 auto; width: min(100%,72rem); }
 .ticket { overflow: hidden; position: relative; display: grid; align-content: center; justify-items: center; gap: 1.25rem; background: linear-gradient(135deg,#ffb354,#f47c20 70%,#ffc97c); padding: 1.8rem; border-radius: 1.75rem; }
 .ticket::before { content: ''; position: absolute; width: 16rem; height: 16rem; border: 2.5rem solid #fff2; border-radius: 50%; bottom: -12rem; left: -4rem; pointer-events: none; }
 .ticket h2 { font-size: 1.65rem; line-height: 1.15; text-transform: uppercase; max-width: 8ch; justify-self: start; }

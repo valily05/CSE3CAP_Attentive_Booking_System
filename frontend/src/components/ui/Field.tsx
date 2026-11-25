@@ -7,8 +7,8 @@ export function Field({ label, hint, ...input }: Props) {
   const id = useId();
   return (
     <div className="field">
-      <label htmlFor={id}>{label}</label>
-      <input id={id} aria-describedby={hint ? `${id}-hint` : undefined} {...input} />
+      <label htmlFor={id}>{label}{input.required && <span className="required-marker" aria-hidden="true"> *</span>}</label>
+      <input id={id} aria-label={label} aria-describedby={hint ? `${id}-hint` : undefined} {...input} />
       {hint && <small id={`${id}-hint`}>{hint}</small>}
     </div>
   );

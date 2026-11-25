@@ -1,0 +1,11 @@
+// Public catalogue snapshot only. No local accounts, bookings, prices or demo gender values are modified.
+import { writeFile } from "node:fs/promises";
+const response=await fetch("https://ourservices.attentiveid.com/api/public/catalog");
+if(!response.ok)throw new Error(`Catalogue request failed: ${response.status}`);
+const {data:d}=await response.json();
+if(!Array.isArray(d?.products)||!Array.isArray(d?.providers))throw new Error("Unexpected public catalogue format");
+const services=d.products.filter(p=>p.status==="Published"&&p.visibility==="Public"&&!p.archived).map(p=>({id:p.id,name:p.name,nameEn:p.nameEn||p.name,categoryId:p.categoryId,audience:p.audience||[],modes:[...new Set(d.variants.filter(v=>v.productId===p.id&&v.status==="Published"&&v.visibility==="Public"&&!v.archived).flatMap(v=>v.modalities||[]))],duration:p.durasi?.v||"",durationEn:p.durasi?.en||p.durasi?.v||"",sourceUrl:`https://ourservices.attentiveid.com/?lang=en#detail-${p.id}`}));
+const safeUrl=(value,fallback)=>{try{const u=new URL(value,"https://ourservices.attentiveid.com/");return u.protocol==="https:"&&["attentiveid.com","ourservices.attentiveid.com"].includes(u.hostname)?u.href:fallback;}catch{return fallback;}};
+const providers=d.providers.map(p=>({id:p.id,name:p.name,title:p.kategori,titleEn:p.kategoriEn||p.kategori,specialties:p.keahlian||[],experience:p.pengalaman?.st==="ok"?p.pengalaman.v:null,photoUrl:p.foto?safeUrl(p.foto,""):"",profileUrl:safeUrl(p.profilUrl,"https://ourservices.attentiveid.com/?lang=en#psikolog"),branchIds:p.cabang||[],active:!!p.aktif&&!p.menungguKonfirmasi,serviceIds:d.productProviders.filter(x=>x.providerId===p.id&&x.status==="Aktif"&&services.some(s=>s.id===x.productId)).map(x=>x.productId)}));
+await writeFile(new URL("../src/data/attentive-catalog.json",import.meta.url),JSON.stringify({sourceUrl:"https://ourservices.attentiveid.com/?lang=en#psikolog",catalogUrl:"https://ourservices.attentiveid.com/api/public/catalog",fetchedAt:new Date().toISOString(),categories:d.categories.map(c=>({id:c.id,name:c.name,nameEn:c.nameEn||c.name})),branches:d.branches,services,providers},null,2)+"\n");
+console.log(`Saved ${services.length} services and ${providers.length} provider records (${providers.filter(p=>p.active).length} active).`);

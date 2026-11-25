@@ -1,0 +1,9 @@
+import {describe,it,expect,beforeEach} from "vitest";
+import {safeClientPath,readLastClientPage,lastClientPageKey,prepareVerificationReturn,takeVerificationReturnView,takeVerificationReturnNotice} from "./verification-return";
+describe('verification returns',()=>{
+ beforeEach(()=>{localStorage.clear();sessionStorage.clear();history.replaceState(null,'','/signup')});
+ it('only accepts internal non-token pages',()=>{for(const path of ['https://example.com','//example.com','/\\example.com','/verify?token=secret','/resend-verification?token=secret','/reset-password?token=secret','/api/auth/me'])expect(safeClientPath(path)).toBeNull();expect(safeClientPath('/signin?next=/bookings')).toBe('/signin?next=/bookings');expect(safeClientPath('/#find-support')).toBe('/#find-support')});
+ it('ignores expired or unsafe history',()=>{localStorage.setItem(lastClientPageKey,JSON.stringify({path:'/signup',view:'page',at:Date.now()-13*60*60*1000}));expect(readLastClientPage()).toBeNull();localStorage.setItem(lastClientPageKey,JSON.stringify({path:'//example.com',at:Date.now()}));expect(readLastClientPage()).toBeNull()});
+ it('restores the inbox card once and carries the notice separately',()=>{prepareVerificationReturn({path:'/signup',view:'inbox',email:'owner@example.com',at:Date.now()},{type:'verified',email:'owner@example.com',at:Date.now()});expect(takeVerificationReturnView()).toBe('owner@example.com');expect(takeVerificationReturnView()).toBeNull();expect(takeVerificationReturnNotice()?.type).toBe('verified');expect(takeVerificationReturnNotice()).toBeNull()});
+ it('does not restore another email’s inbox',()=>{prepareVerificationReturn({path:'/signup',view:'inbox',email:'other@example.com',at:Date.now()},{type:'verified',email:'owner@example.com',at:Date.now()});expect(takeVerificationReturnView()).toBeNull()});
+});

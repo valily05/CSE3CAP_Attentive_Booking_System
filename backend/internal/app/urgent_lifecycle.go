@@ -256,7 +256,7 @@ func (a *App) ActivateUrgentClient(ctx context.Context, token, password string) 
 	var hash string
 	var err error
 	if password != "" {
-		if len(password) < 8 || len(password) > 72 {
+		if !auth.ValidPassword(password) {
 			return auth.ErrWeakPassword
 		}
 		hash, err = auth.HashPassword(password)

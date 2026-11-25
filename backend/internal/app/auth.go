@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	netmail "net/mail"
 	"strings"
 	"time"
 
@@ -17,6 +18,10 @@ const (
 	verifyLifetime  = 24 * time.Hour
 	resetLifetime   = time.Hour
 )
+
+var ErrAccountUnverified = errors.New("account exists but email is not verified")
+
+var ErrEmailDelivery = errors.New("verification email could not be sent")
 
 // SignUpInput is the client sign-up form.
 type SignUpInput struct {
@@ -35,12 +40,22 @@ func (a *App) SignUp(ctx context.Context, in SignUpInput) error {
 		return err
 	}
 	userID, err := a.store.CreateUser(ctx, store.NewUser{Email: in.Email, PasswordHash: hash, Role: "client"})
+	if errors.Is(err, store.ErrEmailTaken) {
+		existing, lookupErr := a.store.UserByEmail(ctx, in.Email)
+		if lookupErr != nil {
+			return lookupErr
+		}
+		if existing.Role == "client" && !existing.EmailVerified {
+			return ErrAccountUnverified
+		}
+	}
 	if err != nil {
 		return err
 	}
 	if _, err := a.store.CreateClient(ctx, store.NewClient{
 		UserID: userID, Name: strings.TrimSpace(in.Name), Email: in.Email, Phone: auth.NormalizePhone(in.Phone),
 		AgreedToMessages: in.CheckInConsent, Locale: in.Locale,
+		Country: in.Country, OtherCountry: strings.TrimSpace(in.OtherCountry), City: strings.TrimSpace(in.City), TimeZone: in.TimeZone,
 	}); err != nil {
 		return err
 	}
@@ -55,17 +70,63 @@ func (a *App) sendEmailLink(ctx context.Context, userID, to, name, locale, purpo
 	if err := a.store.CreateEmailToken(ctx, hash, userID, purpose, a.clock.Now().Add(life)); err != nil {
 		return err
 	}
-	a.send(ctx, to, locale, k, email.Data{FirstName: name, Link: a.base + page + "?token=" + raw})
+	m := email.Render(locale, k, email.Data{FirstName: name, Link: a.base + page + "?token=" + raw})
+	m.To = to
+	if err := a.mail.Send(ctx, m); err != nil {
+		a.log.ErrorContext(ctx, "account email delivery failed", "kind", k, "err", err)
+		if purpose == "verify_email" {
+			return ErrEmailDelivery
+		}
+	}
 	return nil
+}
+
+// ResendVerification does not change an existing password or create accounts.
+func (a *App) ResendVerification(ctx context.Context, address, locale string) error {
+	address = strings.TrimSpace(address)
+	parsed, err := netmail.ParseAddress(address)
+	if err != nil || parsed.Address != address {
+		return auth.ErrInvalidEmail
+	}
+	u, err := a.store.UserByEmail(ctx, address)
+	if errors.Is(err, store.ErrNotFound) {
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	if u.EmailVerified || u.Role != "client" {
+		return nil
+	}
+	name := ""
+	if u.ClientID != "" {
+		if c, err := a.store.ClientContact(ctx, u.ClientID); err == nil {
+			name = firstName(c.Name)
+		}
+	}
+	return a.sendEmailLink(ctx, u.ID, u.Email, name, locale, "verify_email", verifyLifetime, email.VerifyEmail, "/verify")
 }
 
 // VerifyEmail consumes a confirmation link.
 func (a *App) VerifyEmail(ctx context.Context, token string) error {
+	_, err := a.VerifyEmailWithNotice(ctx, token)
+	return err
+}
+
+// VerifyEmailWithNotice exposes the address only after a valid single-use email token.
+func (a *App) VerifyEmailWithNotice(ctx context.Context, token string) (string, error) {
 	userID, err := a.store.UseEmailToken(ctx, HashToken(token), "verify_email", a.clock.Now())
 	if err != nil {
-		return err
+		return "", err
 	}
-	return a.store.MarkEmailVerified(ctx, userID)
+	user, err := a.store.UserByID(ctx, userID)
+	if err != nil {
+		return "", err
+	}
+	if err = a.store.MarkEmailVerified(ctx, userID); err != nil {
+		return "", err
+	}
+	return user.Email, nil
 }
 
 // Login checks credentials and returns a new session token.
@@ -102,7 +163,7 @@ func (a *App) Login(ctx context.Context, emailAddr, password string) (string, er
 	if err != nil {
 		return "", err
 	}
-	if err := a.store.CreateSession(ctx, hash, u.ID, now.Add(SessionLifetime)); err != nil {
+	if err := a.store.CreateSessionWithWelcome(ctx, hash, u.ID, now.Add(SessionLifetime), now, u.Role == "client"); err != nil {
 		return "", fmt.Errorf("create session: %w", err)
 	}
 	return raw, nil
@@ -135,10 +196,14 @@ func (a *App) Logout(ctx context.Context, token string) error {
 
 // Profile is the signed-in user's own summary.
 type Profile struct {
-	Role   string `json:"role"`
-	Name   string `json:"name"`
-	Email  string `json:"email"`
-	Locale string `json:"locale,omitempty"`
+	Role         string `json:"role"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Locale       string `json:"locale,omitempty"`
+	Country      string `json:"country,omitempty"`
+	OtherCountry string `json:"otherCountry,omitempty"`
+	City         string `json:"city,omitempty"`
+	TimeZone     string `json:"timeZone,omitempty"`
 }
 
 // Me describes the signed-in user.
@@ -155,6 +220,7 @@ func (a *App) Me(ctx context.Context, act Actor) (Profile, error) {
 			return Profile{}, err
 		}
 		p.Name, p.Locale = c.Name, c.Locale
+		p.Country, p.OtherCountry, p.City, p.TimeZone = c.Country, c.OtherCountry, c.City, c.TimeZone
 	case u.PsychologistID != "":
 		ps, err := a.store.GetPsychologist(ctx, u.PsychologistID)
 		if err == nil {
@@ -185,7 +251,7 @@ func (a *App) ForgotPassword(ctx context.Context, emailAddr, locale string) erro
 
 // ResetPassword sets a new password from a reset link.
 func (a *App) ResetPassword(ctx context.Context, token, password string) error {
-	if len(password) < 8 {
+	if !auth.ValidPassword(password) {
 		return auth.ErrWeakPassword
 	}
 	userID, err := a.store.UseEmailToken(ctx, HashToken(token), "reset_password", a.clock.Now())

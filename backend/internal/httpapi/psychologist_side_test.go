@@ -99,7 +99,7 @@ func TestPsychologist_MarksAttendanceAfterTheSession(t *testing.T) {
 	w.e.Clock.Set(nextMonday9.Add(time.Hour))
 	// A week has passed, so the 7-day sessions expired; log in again.
 	w.ayu.Login("ayu@attentive.test", "staff password")
-	w.rina.Login("rina@example.test", "correct horse")
+	w.rina.Login("rina@example.test", "correct horse!")
 	if s := w.ayu.Do("POST", "/api/bookings/"+id+"/attendance", map[string]string{"status": "no_show"}, nil); s != http.StatusNoContent {
 		t.Fatalf("mark = %d", s)
 	}

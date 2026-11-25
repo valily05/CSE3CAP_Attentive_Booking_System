@@ -18,6 +18,9 @@ type Location struct {
 
 // Service is an admin-editable session type with a fixed length.
 type Service struct {
+	CategoryID    string `json:"categoryId"`
+	NameID        string `json:"nameId"`
+	DurationNote  string `json:"durationNote"`
 	ID            string `json:"id"`
 	Name          string `json:"name"`
 	LengthMinutes int    `json:"lengthMinutes"`
@@ -89,20 +92,21 @@ func (s *Store) CreatePsychologist(ctx context.Context, p NewPsychologist) (stri
 // NewClient is a client record. UserID is empty for clients an admin books
 // on their behalf (e.g. someone who still uses WhatsApp).
 type NewClient struct {
-	UserID           string
-	Name, Email      string
-	Phone            string
-	AgreedToMessages bool
-	Locale           string // id | en; empty means id
+	UserID                                string
+	Name, Email                           string
+	Phone                                 string
+	AgreedToMessages                      bool
+	Locale                                string // id | en; empty means id
+	Country, OtherCountry, City, TimeZone string
 }
 
 // CreateClient stores a client.
 func (s *Store) CreateClient(ctx context.Context, c NewClient) (string, error) {
 	var id string
 	err := s.pool.QueryRow(ctx, `
-		INSERT INTO client (user_id, name, email, phone, agreed_to_messages, locale)
-		VALUES (NULLIF($1, '')::uuid, $2, $3, $4, $5, COALESCE(NULLIF($6, ''), 'id')) RETURNING id`,
-		c.UserID, c.Name, c.Email, c.Phone, c.AgreedToMessages, c.Locale).Scan(&id)
+		INSERT INTO client (user_id, name, email, phone, agreed_to_messages, locale, residence_country, residence_other_country, residence_city, residence_timezone)
+		VALUES (NULLIF($1, '')::uuid, $2, $3, $4, $5, COALESCE(NULLIF($6, ''), 'id'),$7,$8,$9,$10) RETURNING id`,
+		c.UserID, c.Name, c.Email, c.Phone, c.AgreedToMessages, c.Locale, c.Country, c.OtherCountry, c.City, c.TimeZone).Scan(&id)
 	if err != nil {
 		return "", fmt.Errorf("create client: %w", err)
 	}
@@ -123,13 +127,14 @@ func (s *Store) LinkPsychologistUser(ctx context.Context, psychID, userID string
 
 // ClientContact is what an email to a client needs.
 type ClientContact struct {
-	ID, Name, Email, Locale string
+	ID, Name, Email, Locale               string
+	Country, OtherCountry, City, TimeZone string
 }
 
 // ClientContact loads a client's name, email and language.
 func (s *Store) ClientContact(ctx context.Context, id string) (ClientContact, error) {
 	c := ClientContact{ID: id}
-	err := s.pool.QueryRow(ctx, `SELECT name, email, locale FROM client WHERE id = $1`, id).Scan(&c.Name, &c.Email, &c.Locale)
+	err := s.pool.QueryRow(ctx, `SELECT name, email, locale,residence_country,residence_other_country,residence_city,residence_timezone FROM client WHERE id = $1`, id).Scan(&c.Name, &c.Email, &c.Locale, &c.Country, &c.OtherCountry, &c.City, &c.TimeZone)
 	return c, notFound(err)
 }
 
@@ -149,7 +154,7 @@ func (s *Store) Catalog(ctx context.Context) (Catalog, error) {
 	if c.Locations, err = pgx.CollectRows(rows, pgx.RowToStructByPos[Location]); err != nil {
 		return c, err
 	}
-	rows, err = s.pool.Query(ctx, `SELECT id, name, length_minutes, age_group, active FROM service WHERE active ORDER BY length_minutes, name`)
+	rows, err = s.pool.Query(ctx, `SELECT category_id, name_id, duration_note, id, name, length_minutes, age_group, active FROM service WHERE active ORDER BY length_minutes, name`)
 	if err != nil {
 		return c, err
 	}
@@ -159,7 +164,7 @@ func (s *Store) Catalog(ctx context.Context) (Catalog, error) {
 
 // GetService returns one active service.
 func (s *Store) GetService(ctx context.Context, id string) (Service, error) {
-	rows, err := s.pool.Query(ctx, `SELECT id, name, length_minutes, age_group, active FROM service WHERE id = $1 AND active`, id)
+	rows, err := s.pool.Query(ctx, `SELECT category_id, name_id, duration_note, id, name, length_minutes, age_group, active FROM service WHERE id = $1 AND active`, id)
 	if err != nil {
 		return Service{}, err
 	}

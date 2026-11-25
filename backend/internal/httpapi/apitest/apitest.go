@@ -131,15 +131,15 @@ func (e *Env) SignUpClient(name, email string, consent bool) *Client {
 	e.t.Helper()
 	c := e.Client()
 	if s := c.Do("POST", "/api/auth/signup", map[string]any{
-		"name": name, "email": email, "phone": "081234567890", "password": "correct horse",
-		"agreedPrivacy": true, "checkInConsent": consent,
+		"name": name, "email": email, "phone": "081234567890", "password": "correct horse!",
+		"country": "ID", "city": "Jakarta", "timeZone": "Asia/Jakarta", "agreedPrivacy": true, "checkInConsent": consent,
 	}, nil); s != http.StatusCreated {
 		e.t.Fatalf("signup = %d", s)
 	}
 	if s := c.Do("POST", "/api/auth/verify", map[string]string{"token": e.LastToken(email)}, nil); s != http.StatusNoContent {
 		e.t.Fatalf("verify = %d", s)
 	}
-	c.Login(email, "correct horse")
+	c.Login(email, "correct horse!")
 	return c
 }
 

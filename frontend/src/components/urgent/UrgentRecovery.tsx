@@ -3,6 +3,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
 import styles from "./Urgent.module.css";
+import { PasswordField } from "@/components/ui/PasswordField";
 
 export function UrgentRecovery() {
  const t = useTranslations("urgent");
@@ -39,7 +40,7 @@ export function UrgentRecovery() {
  return <div className={styles.page}><h1>{t("activationTitle")}</h1>
   <form className={styles.card} onSubmit={submit}>
     <p>{t("activationBody")}</p>
-    {purpose === "activate" && <label className="field"><span>{t("activationPassword")}</span><input name="password" type="password" autoComplete="new-password" minLength={8} maxLength={72} required /></label>}
+    {purpose === "activate" && <PasswordField label={t("activationPassword")} name="password" autoComplete="new-password" strength required />}
    <button className="button" aria-busy={busy} disabled={busy || Boolean(notice) || !purpose}>{t("activationSubmit")}</button>
    {notice && <p role="status">{notice}</p>}
    {error && <p role="alert" className={styles.error}>{errors(error)}</p>}

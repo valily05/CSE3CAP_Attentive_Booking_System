@@ -1,8 +1,21 @@
-.main {
-  padding: var(--space-6) max(var(--space-4), calc((100vw - 72rem) / 2)) var(--space-8);
+﻿.main {
+  width: min(82.5rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: var(--space-6) var(--space-8);
 }
 
 .main {
   min-width: 0;
   padding-block-start: clamp(1rem, 4vw, 3rem);
 }
+
+/* The homepage owns its full-width section backgrounds. */
+.main:has([data-home]) { width:100%; }
+
+
+.main:has([data-signin-page]) { width:min(92rem,calc(100% - 2.5rem));padding-block:1rem 1.25rem; }
+@media(max-width:47.999rem) { .main:has([data-signin-page]) { width:calc(100% - 1.25rem);padding-top:.75rem; } }
+
+.main:has([data-signin-page]) { width:100%; }
+
+.main:has([data-signin-page]) { padding:0;width:100%; }

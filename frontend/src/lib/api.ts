@@ -30,7 +30,7 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
   if (res.status === 204) return undefined as T;
   const data: unknown = await res.json().catch(() => null);
   if (!res.ok) {
-    const code = typeof data === "object" && data && "error" in data ? String(data.error) : "internal";
+    const code = typeof data === "object" && data && "error" in data ? String(data.error) : [502,503,504].includes(res.status) ? "service_unavailable" : "internal";
     throw new ApiError(code, res.status);
   }
   return data as T;

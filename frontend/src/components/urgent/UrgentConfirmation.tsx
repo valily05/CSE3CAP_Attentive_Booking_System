@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import QRCode from "qrcode";
-import { ArrowLeft, CalendarDays, CarFront, Check, CheckCircle2, Clock3, Copy, Download, Info, MapPin, MessageCircle, UserRound, Video, Zap } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { ArrowLeft, CalendarDays, CarFront, Check, CheckCircle2, Clock3, Copy, Download, Info, MapPin, UserRound, Video, Zap } from "lucide-react";
 import { api, errorCode } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import { useAppLocale } from "@/lib/i18n";
@@ -102,7 +103,7 @@ export function UrgentConfirmation({ code = "", mode }: { code?: string; mode?: 
    <a className={styles.action} href={qr} download={receipt.bookingCode + "-QR.png"}><Download size={26} aria-hidden="true" />{t("download")}</a>
    <button type="button" className={styles.action} onClick={async () => { try { await navigator.clipboard.writeText(receipt.bookingCode); setNotice(t("copied")); } catch { setError("internal"); } }}><Copy size={25} aria-hidden="true" />{t("copy")}</button>
    {onsite && maps && <a className={styles.action} href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={26} aria-hidden="true" />{t("directions")}</a>}
-   {whatsapp && <a className={styles.action} href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={26} aria-hidden="true" />{t(onsite ? "contactWhatsapp" : "continueWhatsapp")}</a>}
+   {whatsapp && <a className={styles.action} href={whatsapp} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={26} />{t(onsite ? "contactWhatsapp" : "continueWhatsapp")}</a>}
   </div>
   {!whatsapp && <p className={styles.footer}>{t("whatsappMissing")}</p>}
   {notice && <p role="status" className={styles.notice}>{notice}</p>}

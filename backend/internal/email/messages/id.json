@@ -26,5 +26,13 @@
   "urgent_received.subject": "Permintaan Attentive diterima - {{.Code}}",
   "urgent_received.body": "Permintaan tersimpan. Kode Booking: {{.Code}}. Tunggu konfirmasi staf. Buka konfirmasi dan kode QR melalui ikon lonceng pada browser yang digunakan untuk mengirim permintaan. Akses tamu aman berlaku 30 hari.\n{{.Link}}",
   "client_access.subject": "Tautan akses Attentive Anda",
-  "client_access.body": "Staf mengajukan aktivasi akun atau verifikasi email atas persetujuan Anda. Tautan sekali pakai berlaku 24 jam. Kata sandi lama tetap berlaku untuk perubahan alamat email.\n{{.Link}}"
+  "client_access.body": "Staf mengajukan aktivasi akun atau verifikasi email atas persetujuan Anda. Tautan sekali pakai berlaku 24 jam. Kata sandi lama tetap berlaku untuk perubahan alamat email.\n{{.Link}}",
+  "verification.eyebrow": "SELAMAT DATANG DI ATTENTIVE",
+  "verification.title": "Selangkah lebih dekat ke sesi pertama Anda.",
+  "verification.greeting": "Halo",
+  "verification.body": "Terima kasih telah membuat akun Attentive. Konfirmasi alamat email Anda untuk masuk dengan aman dan mengelola janji temu.",
+  "verification.button": "Verifikasi alamat email",
+  "verification.expiry": "Tautan aman ini berlaku selama 24 jam dan hanya dapat digunakan sekali.",
+  "verification.ignore": "Jika Anda tidak membuat akun ini, abaikan email ini.",
+  "verification.signoff": "Salam hangat, tim Attentive"
 }

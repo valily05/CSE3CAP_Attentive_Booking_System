@@ -1,0 +1,51 @@
+# Sign-in and interactive house
+
+SignInLayout changes only sign-in. SignInForm still uses the existing backend, session refresh, role redirect, safe return URL, password visibility and account links. No social sign-in providers were added. The supplied PNG is frontend/public/brand/attentive-signin-mark.png.
+
+frontend/src/components/auth/house-scene.ts builds an original Attentive-inspired cutaway with Three.js. It is not a measured replica of an actual branch. The cats walk, breathe, move their heads/tails and greet a click with a small hop. Plants, curtains and the clock move gently. OrbitControls handles dragging; accessible buttons rotate/reset the view or pause animation.
+
+The scene is dynamically imported only on hover/fine-pointer screens at least 768px wide, with reduced motion off. Phones, reduced-motion users and browsers without WebGL see public/brand/attentive-house-static.png instead. This poster is exported from the same scene. Pixel density is capped at 1.5 and rendering at 30fps; rendering skips off-screen and hidden tabs. Resize/unmount clean up listeners, geometry, materials, textures and renderer resources.
+
+An accurate model of the actual building needs reference photos and a floor plan. For a future model-based version, create a GLB/glTF asset with separately named cats and animation clips, load it using GLTFLoader, and play the clips. The current version uses original geometry and procedural animation. Official docs: https://threejs.org/docs/pages/GLTFLoader.html and https://threejs.org/docs/pages/OrbitControls.html.
+
+The yarn control chooses one of the three cats at random and starts an approach/play/return sequence lasting about 10.5 seconds. One shared toy is active at a time; giving yarn resumes a paused scene. Cat Meow/Purr bubbles are translated DOM overlays projected from each cat's 3D position. Pause freezes the play sequence and speech timers; hidden/off-screen scenes also stop advancing. The button has a hover/focus tooltip and an accessible status announcement. Phone and reduced-motion views remain static.
+
+The login room now also includes a wall air conditioner and moving vent, a pastel feelings board, an acoustic guitar, a tea chalkboard, a sisal cat tower and bed, a patterned navy/gold rug, tissue box, mug and welcome frame. These are generated Three.js geometry and canvas textures. The desktop camera and scene area were enlarged, and the mobile/reduced-motion poster is exported from the same scene. Existing orbit, pause, reset, cat speech and yarn interactions remain available on supported desktop devices.
+
+Room objects now respond to clicks, with an expandable keyboard-accessible object menu. Lamp/AC/curtains toggle persistent visual states; other furnishings use brief effects in a shared tween queue. The lamp uses one PointLight without additional shadow rendering. Hover picking is throttled, and the existing single renderer/frame loop is reused. The rear desk and laptop have been removed. Mobile and reduced-motion views remain static. Regenerate the poster with the default lamp-off/curtains-open state after visual changes.
+
+The yarn control uses a wrapped-strand SVG icon. Clickable scene objects use a navy/gold wand cursor. The AC starts off with a red status light and turns green when enabled. The cat tower sits in the rear corner, the nearby plant is toward the front side, and the entrance has three connected descending steps.
+
+Desktop users can zoom using the +/- magnifier buttons or mouse wheel, with bounded camera distance and reset. The sparkle control opens a horizontal action grid over the caption beneath the scene. Menu actions stay open and show feedback; their effects run even while ambient animation is paused. The AC indicator is enlarged and emissive (red off / green on), with visible blue airflow when enabled. The wall logo is mounted above the couch on the left wall.
+
+Latest room refinements replace zoom buttons with a vertical keyboard-accessible range slider, bounded to camera distances 12-16 to avoid extreme cropping. Wheel zoom is disabled. The AC retains its red/green state indicator at a smaller size; airflow lines are removed. The chair and lamp sit farther back, the entrance has a textured WELCOME mat, and cats use articulated legs, elongated bodies, cheek tufts, whiskers, inner ears and detailed eyes. Action tiles are visually neutral each time the menu opens, while toggle semantics remain accessible.
+
+The clickable-object cursor is a custom light-blue hand with navy outlines. The feelings board is offset to the right of the curtain, the clock is shifted left of the tower, and the small plant beside the tea sign is removed.
+
+Sign-in now uses a dedicated layout without the site navbar. A localized Back to home link sits above the card. The desktop card is wider with more space for the house; other routes keep the regular navbar. The layout retains the static mobile house and all existing authentication links.
+
+The sign-in spacing now centres the actual house/caption group instead of reserving empty menu space. Extra caption space is allocated only while room actions are open. The card proportions, form spacing, caption typography and quiet grouped controls are tuned together across desktop and mobile.
+
+The sign-in brand uses the user-supplied attentive-signin-logo.png beside a dark-yellow attentive. wordmark. Brand, enlarged welcome heading and introduction align with the form fields on the left. Page and panels share one light-beige background in light mode and one consistent dark background in dark mode.
+
+House zoom now fits cached geometry bounds to the current camera angle and canvas aspect ratio, including the roof and entrance, before applying a bounded zoom range. Clickable objects use a small brown wand with a pale yellow tip. Extra spacing separates the house from the eyebrow, drag hint and caption. Sign-in includes a full-width divider beneath Back to home and a localized copyright footer.
+
+Sign-in uses a full-width divider and a restrained two-tone background. The room furnishings settle into place in three overlapping groups on desktop first load, using the existing render loop. Pausing or interacting completes the entrance immediately; mobile and reduced-motion users retain the static poster. The clickable-object cursor is now a white pointer with a black outline.
+
+The sign-in header includes a persistent cookie-backed theme toggle. The logo's white surround is clipped from its displayed shape. Dark mode closes all three cats' eyes, applies resting poses and Zzz bubbles, dims daylight and turns the warm lamp on. Light mode restores awake poses and turns the automatic lamp off. Yarn play is disabled while cats sleep, with an explanatory tooltip. Mobile and reduced-motion views use a dedicated exported night poster.
+
+The sign-in composition now uses a soft bordered form panel with appointment/history feature notes. The room heading and introduction sit above the larger scene; a puzzle hint follows the controls. The explore control uses a puzzle icon, and the entire yarn icon uses blue currentColor. A dedicated rail beside the canvas separates zoom controls from the model. The zoom range is closer while retaining geometry-based framing margins, and cat-bubble positions track the canvas width.
+
+The room includes a two-head brass uplighter/reading lamp, a small purifier with a fan interaction, and a plush sisal tower with a genuinely hollow circular cubby, dark perch and lower bed. Selecting Cat tower sends the grey cat into the cubby; selecting it again brings the cat home. Enter/exit motion works while ambient animation is paused and keeps an inside cat resting in the cubby in night mode. Ceiling LED strips and two shadow-free warm fill lights are controlled only by night mode and have no manual action; the lamp remains independently interactive. Room actions now total 18.
+
+The latest sign-in layout uses a single beige light-mode background, a compact translucent-white form, and a larger room filling the remaining desktop viewport. Desktop header/content/footer rows fit one screen; mobile retains normal document scrolling. Login fields have placeholders and retain required validation, while the login password label hides its asterisk without changing registration markers. Appointment/history feature notes are removed. The purifier now sits between the sofa and bookshelf.
+
+The puzzle instruction below the controls is removed. The form has wider padding and larger gaps, with compact spacing retained for shorter desktops. Night lighting uses peach/cream light colors, reduced LED emission, soft gradient ceiling-wash planes and a larger feathered lamp glow instead of a harsh yellow edge. Lighting remains night-mode-only and independent of the lamp toggle.
+
+The house heading and eyebrow are removed so the room uses the full visual column. The login form has a calmer brand/heading scale and consistent spacing. Forgot your password is placed beside the password label through an optional label action, retaining required validation and password visibility controls across forms.
+
+A cream ceramic cat-food bowl with a navy rim sits on the floor beside the welcome mat and joins the grouped entrance animation. The recovery link is regular-weight navy with a thin yellow underline; account creation uses lighter gold. The welcome heading is heavier, and the drag hint is larger and raised slightly.
+
+Login copy now says: Access your Attentive account to book appointments and manage your upcoming sessions. Recovery is below the password input again. Input values/placeholders and the Sign in button use smaller text while retaining labels, autocomplete and required validation.
+
+All five approved improvements are implemented: hover/focus tooltips for the room toolbar; a disabled, aria-busy Signing in spinner with duplicate-submit protection; a one-time subtle form reveal that respects reduced motion; a mobile Explore/Hide the room disclosure with a static poster; and direct bowl-click cat feeding, also available through the puzzle menu. Feeding approaches the bowl, crouches/eats with Purr feedback, then returns, and safely coordinates with yarn, the tower and theme changes. The room cursor is now a white pointing hand with a black outline. Room actions total 19.

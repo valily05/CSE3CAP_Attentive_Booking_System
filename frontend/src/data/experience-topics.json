@@ -1,0 +1,684 @@
+{
+  "description": "Individual concerns mapped explicitly to published area labels; each profile retains its source labels.",
+  "topics": [
+    {
+      "id": "academic-concerns",
+      "en": "Academic concerns",
+      "idLabel": "Masalah akademik",
+      "sourceIds": [
+        "academic and school concerns",
+        "academic and work concerns",
+        "academic anxiety",
+        "career and academic concerns",
+        "career and academics",
+        "career and education"
+      ]
+    },
+    {
+      "id": "additional-needs",
+      "en": "Additional needs",
+      "idLabel": "Kebutuhan khusus",
+      "sourceIds": [
+        "additional needs and learning difficulties"
+      ]
+    },
+    {
+      "id": "adhd",
+      "en": "ADHD",
+      "idLabel": "ADHD",
+      "sourceIds": [
+        "adhd",
+        "adult adhd"
+      ]
+    },
+    {
+      "id": "antidepressant-research",
+      "en": "Antidepressant research",
+      "idLabel": "Riset antidepresan",
+      "sourceIds": [
+        "antidepressant & anxiolytic research"
+      ]
+    },
+    {
+      "id": "anxiety",
+      "en": "Anxiety",
+      "idLabel": "Kecemasan",
+      "sourceIds": [
+        "academic anxiety",
+        "anxiety",
+        "anxiety and depression",
+        "anxiety disorders",
+        "career anxiety",
+        "overthinking and anxiety",
+        "stress, anxiety, and self-regulation"
+      ]
+    },
+    {
+      "id": "anxiolytic-research",
+      "en": "Anxiolytic research",
+      "idLabel": "Riset ansiolitik",
+      "sourceIds": [
+        "antidepressant & anxiolytic research"
+      ]
+    },
+    {
+      "id": "aptitude-assessment",
+      "en": "Aptitude assessment",
+      "idLabel": "Asesmen bakat",
+      "sourceIds": [
+        "aptitude assessment and career counseling",
+        "interest, aptitude, and major exploration",
+        "interest, aptitude, and study-path exploration"
+      ]
+    },
+    {
+      "id": "art-therapy",
+      "en": "Art therapy",
+      "idLabel": "Terapi seni",
+      "sourceIds": [
+        "art therapy for children and adolescents"
+      ]
+    },
+    {
+      "id": "autism",
+      "en": "Autism",
+      "idLabel": "Autisme",
+      "sourceIds": [
+        "autism"
+      ]
+    },
+    {
+      "id": "behavior",
+      "en": "Behavioral concerns",
+      "idLabel": "Masalah perilaku",
+      "sourceIds": [
+        "behavioral concerns",
+        "behavioral issues and learning motivation",
+        "child and adolescent emotional-social-behavioral issues"
+      ]
+    },
+    {
+      "id": "bipolar-disorder",
+      "en": "Bipolar disorder",
+      "idLabel": "Gangguan bipolar",
+      "sourceIds": [
+        "mood disorders (depression, dysthymia, bipolar disorder)"
+      ]
+    },
+    {
+      "id": "brainspotting",
+      "en": "Brainspotting",
+      "idLabel": "Brainspotting",
+      "sourceIds": [
+        "brainspotting and mindfulness practitioner",
+        "brainspotting practitioner"
+      ]
+    },
+    {
+      "id": "burnout",
+      "en": "Burnout",
+      "idLabel": "Burnout",
+      "sourceIds": [
+        "stress and burnout"
+      ]
+    },
+    {
+      "id": "career-concerns",
+      "en": "Career concerns",
+      "idLabel": "Masalah karier",
+      "sourceIds": [
+        "aptitude assessment and career counseling",
+        "career and academic concerns",
+        "career and academics",
+        "career and education",
+        "career and work concerns",
+        "career anxiety",
+        "career concerns and development",
+        "personal development, workplace, and career concerns",
+        "work and career",
+        "work and career stress",
+        "work, career, and personal development concerns"
+      ]
+    },
+    {
+      "id": "cbt",
+      "en": "CBT",
+      "idLabel": "CBT",
+      "sourceIds": [
+        "cbt approach"
+      ]
+    },
+    {
+      "id": "child-development",
+      "en": "Child development",
+      "idLabel": "Perkembangan anak",
+      "sourceIds": [
+        "child developmental screening",
+        "developmental disorders"
+      ]
+    },
+    {
+      "id": "childhood-trauma",
+      "en": "Childhood trauma",
+      "idLabel": "Trauma masa kanak-kanak",
+      "sourceIds": [
+        "complex and childhood trauma"
+      ]
+    },
+    {
+      "id": "complex-trauma",
+      "en": "Complex trauma",
+      "idLabel": "Trauma kompleks",
+      "sourceIds": [
+        "complex and childhood trauma"
+      ]
+    },
+    {
+      "id": "critical-thinking",
+      "en": "Critical thinking",
+      "idLabel": "Berpikir kritis",
+      "sourceIds": [
+        "critical thinking"
+      ]
+    },
+    {
+      "id": "depression",
+      "en": "Depression",
+      "idLabel": "Depresi",
+      "sourceIds": [
+        "adolescent depression and suicidality",
+        "anxiety and depression",
+        "depression",
+        "depressive disorders",
+        "mood disorders (depression, dysthymia, bipolar disorder)"
+      ]
+    },
+    {
+      "id": "prescribing-analysis",
+      "en": "Drug prescribing analysis",
+      "idLabel": "Analisis pola peresepan obat",
+      "sourceIds": [
+        "drug prescribing analysis"
+      ]
+    },
+    {
+      "id": "dysthymia",
+      "en": "Dysthymia",
+      "idLabel": "Distimia",
+      "sourceIds": [
+        "mood disorders (depression, dysthymia, bipolar disorder)"
+      ]
+    },
+    {
+      "id": "emotional-concerns",
+      "en": "Emotional concerns",
+      "idLabel": "Masalah emosi",
+      "sourceIds": [
+        "child and adolescent emotional-social-behavioral issues",
+        "emotional concerns",
+        "mood and emotional concerns",
+        "mood and emotional disorders",
+        "trauma and emotional concerns"
+      ]
+    },
+    {
+      "id": "emotional-regulation",
+      "en": "Emotional regulation",
+      "idLabel": "Regulasi emosi",
+      "sourceIds": [
+        "emotional regulation",
+        "stress and emotional regulation"
+      ]
+    },
+    {
+      "id": "experimental-psychology",
+      "en": "Experimental psychology",
+      "idLabel": "Psikologi eksperimen",
+      "sourceIds": [
+        "research methods and experimental psychology"
+      ]
+    },
+    {
+      "id": "family-relationships",
+      "en": "Family relationships",
+      "idLabel": "Hubungan keluarga",
+      "sourceIds": [
+        "family and relationships",
+        "family relationship concerns",
+        "interpersonal relationships (family, friendship, and romance)",
+        "relationships (couples, family, peers)"
+      ]
+    },
+    {
+      "id": "friendships",
+      "en": "Friendships",
+      "idLabel": "Pertemanan",
+      "sourceIds": [
+        "interpersonal relationships (family, friendship, and romance)",
+        "peer relationships",
+        "relationships (couples, family, peers)",
+        "social and peer relationships"
+      ]
+    },
+    {
+      "id": "gender-concerns",
+      "en": "Gender concerns",
+      "idLabel": "Masalah gender",
+      "sourceIds": [
+        "gender and identity concerns",
+        "gender and identity issues",
+        "gender-related concerns"
+      ]
+    },
+    {
+      "id": "gender-based-violence",
+      "en": "Gender-based violence",
+      "idLabel": "Kekerasan berbasis gender",
+      "sourceIds": [
+        "gender-based and sexual violence",
+        "trauma and violence recovery"
+      ]
+    },
+    {
+      "id": "grief",
+      "en": "Grief",
+      "idLabel": "Duka",
+      "sourceIds": [
+        "grief and loss",
+        "grief and mourning",
+        "loss and grief"
+      ]
+    },
+    {
+      "id": "healthcare-analytics",
+      "en": "Healthcare data analytics",
+      "idLabel": "Analisis data kesehatan",
+      "sourceIds": [
+        "healthcare data analytics"
+      ]
+    },
+    {
+      "id": "identity",
+      "en": "Identity concerns",
+      "idLabel": "Masalah identitas",
+      "sourceIds": [
+        "adolescent identity development",
+        "gender and identity concerns",
+        "gender and identity issues"
+      ]
+    },
+    {
+      "id": "intellectual-difficulties",
+      "en": "Intellectual difficulties",
+      "idLabel": "Kesulitan intelektual",
+      "sourceIds": [
+        "learning and intellectual difficulties"
+      ]
+    },
+    {
+      "id": "interest-assessment",
+      "en": "Interest assessment",
+      "idLabel": "Asesmen minat",
+      "sourceIds": [
+        "interest, aptitude, and major exploration",
+        "interest, aptitude, and study-path exploration"
+      ]
+    },
+    {
+      "id": "interpersonal-relationships",
+      "en": "Interpersonal relationships",
+      "idLabel": "Hubungan interpersonal",
+      "sourceIds": [
+        "family and relationships",
+        "interpersonal and romantic relationships",
+        "interpersonal concerns",
+        "interpersonal relationship concerns",
+        "interpersonal relationships",
+        "loneliness and interpersonal relationship concerns",
+        "personal and romantic relationship conflicts",
+        "relationship concerns",
+        "romantic and interpersonal relationships",
+        "child and adolescent emotional-social-behavioral issues",
+        "relationships and socialization",
+        "social and peer relationships",
+        "social relationship concerns"
+      ]
+    },
+    {
+      "id": "learning-difficulties",
+      "en": "Learning difficulties",
+      "idLabel": "Kesulitan belajar",
+      "sourceIds": [
+        "additional needs and learning difficulties",
+        "learning and intellectual difficulties",
+        "learning concerns"
+      ]
+    },
+    {
+      "id": "learning-motivation",
+      "en": "Learning motivation",
+      "idLabel": "Motivasi belajar",
+      "sourceIds": [
+        "behavioral issues and learning motivation"
+      ]
+    },
+    {
+      "id": "life-transitions",
+      "en": "Life changes",
+      "idLabel": "Perubahan hidup",
+      "sourceIds": [
+        "life transitions",
+        "life adjustment",
+        "personal development and life adjustment"
+      ]
+    },
+    {
+      "id": "loneliness",
+      "en": "Loneliness",
+      "idLabel": "Kesepian",
+      "sourceIds": [
+        "loneliness and interpersonal relationship concerns"
+      ]
+    },
+    {
+      "id": "mental-health-research",
+      "en": "Mental health research",
+      "idLabel": "Riset kesehatan mental",
+      "sourceIds": [
+        "mental health research"
+      ]
+    },
+    {
+      "id": "mindfulness",
+      "en": "Mindfulness",
+      "idLabel": "Mindfulness",
+      "sourceIds": [
+        "brainspotting and mindfulness practitioner"
+      ]
+    },
+    {
+      "id": "mood-concerns",
+      "en": "Mood concerns",
+      "idLabel": "Masalah suasana hati",
+      "sourceIds": [
+        "mood and emotional concerns",
+        "mood and emotional disorders",
+        "mood concerns",
+        "mood disorders",
+        "mood disorders (depression, dysthymia, bipolar disorder)"
+      ]
+    },
+    {
+      "id": "ocd",
+      "en": "OCD",
+      "idLabel": "OCD",
+      "sourceIds": [
+        "ocd"
+      ]
+    },
+    {
+      "id": "overthinking",
+      "en": "Overthinking",
+      "idLabel": "Overthinking",
+      "sourceIds": [
+        "insecurity and overthinking",
+        "overthinking and anxiety"
+      ]
+    },
+    {
+      "id": "parenting",
+      "en": "Parenting",
+      "idLabel": "Pengasuhan anak",
+      "sourceIds": [
+        "adolescent parenting",
+        "parenting"
+      ]
+    },
+    {
+      "id": "personal-autonomy",
+      "en": "Personal autonomy",
+      "idLabel": "Otonomi diri",
+      "sourceIds": [
+        "freedom and personal autonomy"
+      ]
+    },
+    {
+      "id": "personal-development",
+      "en": "Personal development",
+      "idLabel": "Pengembangan diri",
+      "sourceIds": [
+        "personal development",
+        "personal development and life adjustment",
+        "personal development and self-esteem",
+        "personal development, workplace, and career concerns",
+        "personal potential development",
+        "self-development and personal growth",
+        "work, career, and personal development concerns"
+      ]
+    },
+    {
+      "id": "personality-disorders",
+      "en": "Personality disorders",
+      "idLabel": "Gangguan kepribadian",
+      "sourceIds": [
+        "personality disorders",
+        "personality disorders and patterns"
+      ]
+    },
+    {
+      "id": "personality-patterns",
+      "en": "Personality patterns",
+      "idLabel": "Pola kepribadian",
+      "sourceIds": [
+        "personality disorders and patterns",
+        "personality structure"
+      ]
+    },
+    {
+      "id": "pharmacoeconomics",
+      "en": "Pharmacoeconomics",
+      "idLabel": "Farmakoekonomi",
+      "sourceIds": [
+        "pharmacoeconomics"
+      ]
+    },
+    {
+      "id": "pornography-addiction",
+      "en": "Pornography addiction",
+      "idLabel": "Adiksi pornografi",
+      "sourceIds": [
+        "pornography addiction"
+      ]
+    },
+    {
+      "id": "postpartum-support",
+      "en": "Postpartum psychological support",
+      "idLabel": "Dukungan psikologis pascapersalinan",
+      "sourceIds": [
+        "prenatal and postpartum psychological support"
+      ]
+    },
+    {
+      "id": "premarital-relationships",
+      "en": "Premarital relationships",
+      "idLabel": "Hubungan pranikah",
+      "sourceIds": [
+        "romantic and premarital relationships"
+      ]
+    },
+    {
+      "id": "prenatal-support",
+      "en": "Prenatal psychological support",
+      "idLabel": "Dukungan psikologis prenatal",
+      "sourceIds": [
+        "prenatal and postpartum psychological support"
+      ]
+    },
+    {
+      "id": "procrastination",
+      "en": "Procrastination",
+      "idLabel": "Prokrastinasi",
+      "sourceIds": [
+        "self-efficacy and procrastination"
+      ]
+    },
+    {
+      "id": "purpose-in-life",
+      "en": "Purpose in life",
+      "idLabel": "Tujuan hidup",
+      "sourceIds": [
+        "meaning and purpose in life"
+      ]
+    },
+    {
+      "id": "research-methods",
+      "en": "Research methods",
+      "idLabel": "Metode riset",
+      "sourceIds": [
+        "research methods and experimental psychology"
+      ]
+    },
+    {
+      "id": "romantic-relationships",
+      "en": "Romantic relationships",
+      "idLabel": "Hubungan romantis",
+      "sourceIds": [
+        "interpersonal and romantic relationships",
+        "interpersonal relationships (family, friendship, and romance)",
+        "personal and romantic relationship conflicts",
+        "relationships (couples, family, peers)",
+        "romantic and interpersonal relationships",
+        "romantic and premarital relationships",
+        "romantic relationship concerns",
+        "romantic relationships"
+      ]
+    },
+    {
+      "id": "school-readiness",
+      "en": "School readiness",
+      "idLabel": "Kesiapan sekolah",
+      "sourceIds": [
+        "school readiness"
+      ]
+    },
+    {
+      "id": "self-confidence",
+      "en": "Self-confidence",
+      "idLabel": "Kepercayaan diri",
+      "sourceIds": [
+        "self-confidence",
+        "personal development and self-esteem",
+        "self-esteem",
+        "self-worth",
+        "self-efficacy and procrastination",
+        "insecurity and overthinking"
+      ]
+    },
+    {
+      "id": "self-control",
+      "en": "Self-control",
+      "idLabel": "Pengendalian diri",
+      "sourceIds": [
+        "self-control",
+        "stress, anxiety, and self-regulation"
+      ]
+    },
+    {
+      "id": "self-harm",
+      "en": "Self-harm",
+      "idLabel": "Menyakiti diri",
+      "sourceIds": [
+        "self-harm and non-suicidal self-injury",
+        "self-harm and suicidal ideation"
+      ]
+    },
+    {
+      "id": "sexual-violence",
+      "en": "Sexual violence",
+      "idLabel": "Kekerasan seksual",
+      "sourceIds": [
+        "gender-based and sexual violence"
+      ]
+    },
+    {
+      "id": "somatic-symptoms",
+      "en": "Somatic symptoms",
+      "idLabel": "Gejala somatik",
+      "sourceIds": [
+        "stress and somatic symptoms"
+      ]
+    },
+    {
+      "id": "stress",
+      "en": "Stress",
+      "idLabel": "Stres",
+      "sourceIds": [
+        "adolescent trauma and stress",
+        "stress and burnout",
+        "stress and emotional regulation",
+        "stress and somatic symptoms",
+        "stress management",
+        "stress, anxiety, and self-regulation",
+        "work and career stress"
+      ]
+    },
+    {
+      "id": "study-direction",
+      "en": "Study direction",
+      "idLabel": "Arah studi",
+      "sourceIds": [
+        "interest, aptitude, and major exploration",
+        "interest, aptitude, and study-path exploration"
+      ]
+    },
+    {
+      "id": "suicidal-thoughts",
+      "en": "Suicidal thoughts",
+      "idLabel": "Pikiran bunuh diri",
+      "sourceIds": [
+        "adolescent depression and suicidality",
+        "self-harm and suicidal ideation"
+      ]
+    },
+    {
+      "id": "temporal-network-analysis",
+      "en": "Temporal network analysis",
+      "idLabel": "Analisis jaringan temporal",
+      "sourceIds": [
+        "temporal network analysis"
+      ]
+    },
+    {
+      "id": "trauma",
+      "en": "Trauma",
+      "idLabel": "Trauma",
+      "sourceIds": [
+        "adolescent trauma and stress",
+        "trauma",
+        "trauma and emotional concerns",
+        "trauma and violence recovery"
+      ]
+    },
+    {
+      "id": "violent-extremism-research",
+      "en": "Violent extremism research",
+      "idLabel": "Riset ekstremisme kekerasan",
+      "sourceIds": [
+        "violent extremism research"
+      ]
+    },
+    {
+      "id": "work-concerns",
+      "en": "Work concerns",
+      "idLabel": "Masalah pekerjaan",
+      "sourceIds": [
+        "academic and work concerns",
+        "career and work concerns",
+        "personal development, workplace, and career concerns",
+        "work and career",
+        "work and career stress",
+        "work, career, and personal development concerns"
+      ]
+    }
+  ]
+}

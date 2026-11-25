@@ -1,0 +1,31 @@
+.root { position:relative;min-width:0;display:grid;gap:.5rem;align-content:start; }
+.label { font-size:var(--text-sm);font-weight:600;color:var(--ink); }
+.trigger { width:100%;min-height:2.75rem;padding:.65rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;border:1px solid var(--line-strong);border-radius:.8rem;background:var(--paper);color:var(--ink);font:inherit;font-size:.84rem;text-align:left;cursor:pointer; }
+.trigger:hover,.trigger:focus-visible { border-color:var(--brass);outline:2px solid transparent; }
+.trigger:focus-visible { box-shadow:0 0 0 3px light-dark(#d6a74d30,#d6a74d40); }
+.trigger:disabled { opacity:.55;cursor:default; }
+.trigger>svg { flex-shrink:0;margin-right:.25rem; }
+.selection { display:flex;align-items:center;gap:.6rem;min-width:0; }
+.selection>span { overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.selection [data-placeholder=true] { color:var(--muted); }
+.root img { border-radius:2px;flex-shrink:0;object-fit:cover;box-shadow:0 0 0 1px #14284b20; }
+.menu { position:absolute;top:calc(100% + .45rem);left:0;z-index:30;width:100%;min-width:min(19rem,calc(100vw - 5rem));padding:.5rem;background:var(--paper);border:1px solid var(--line);border-radius:.9rem;box-shadow:0 12px 32px #071a2d25; }
+.search { display:flex;align-items:center;gap:.4rem;padding:.2rem .5rem .55rem;color:var(--muted);border-bottom:1px solid var(--line); }
+.root .search input { min-width:0;width:100%;min-height:2rem;padding:.25rem;border:0;background:transparent;box-shadow:none;border-radius:0;font-size:.78rem;outline:none; }
+.options { max-height:14rem;overflow:auto;overscroll-behavior:contain;padding-top:.3rem; }
+.options button { display:flex;align-items:center;gap:.6rem;width:100%;padding:.65rem .55rem;border:0;border-radius:.5rem;background:transparent;color:var(--ink);font:inherit;font-size:.78rem;text-align:left;cursor:pointer; }
+.options button>span { flex:1; }
+.options button>small { color:var(--muted);white-space:nowrap; }
+.options button:hover,.options button[data-active=true] { background:var(--dawn); }
+.options button[aria-selected=true] { color:var(--brass-text); }
+.empty { padding:.8rem;font-size:.78rem;color:var(--muted); }
+.compact { flex:none;position:static; }
+.compact .trigger { width:auto;min-height:0;height:100%;padding:.55rem .65rem;border:0;border-radius:.8rem 0 0 .8rem;background:transparent;font-size:.77rem;gap:.3rem; }
+.compact .trigger>svg { width:12px;margin:0; }
+.compact .selection { gap:.35rem; }
+.compact .menu { top:calc(100% + .45rem);width:100%; }
+
+/* Center the flag, calling code and chevron as one group within the prefix area. */
+.compact { display:flex;align-items:stretch; }
+.compact .trigger { display:flex;align-items:center;justify-content:center;min-width:6.25rem;height:auto;padding:.65rem .75rem;gap:.4rem; }
+.compact .selection { display:flex;align-items:center;justify-content:center;gap:.4rem;line-height:1; }

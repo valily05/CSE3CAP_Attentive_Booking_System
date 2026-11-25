@@ -10,6 +10,7 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	htmltemplate "html/template"
 	"sort"
 	"strings"
 	"text/template"
@@ -133,8 +134,18 @@ func Render(locale string, k Kind, d Data) mail.Email {
 	if v.Place == "" {
 		v.Place = c["online"]
 	}
-	return mail.Email{
+	message := mail.Email{
 		Subject: run(c[string(k)+".subject"], v),
 		Text:    run(c[string(k)+".body"], v) + "\n\n" + c["signature"],
 	}
+	if k == VerifyEmail {
+		const layout = `<!doctype html><html><body style="margin:0;background:#f8f4ee;font-family:Arial,sans-serif;color:#14284b"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center" style="padding:36px 16px"><table role="presentation" width="100%" style="max-width:560px;border:1px solid #e5dccd;border-radius:20px;overflow:hidden;background:#fff" cellspacing="0" cellpadding="0"><tr><td style="padding:30px 36px;background:#14284b;color:#fff;font-size:30px;font-family:Georgia,serif;font-weight:bold">attentive<span style="color:#d6a74d">.</span></td></tr><tr><td style="padding:36px"><p style="font-size:12px;letter-spacing:2px;color:#8c641f">{{.Eyebrow}}</p><h1 style="font-size:28px;line-height:1.25;margin:16px 0">{{.Title}}</h1><p style="font-size:16px;line-height:1.7">{{.Greeting}} {{.Name}},</p><p style="font-size:16px;line-height:1.7;color:#526078">{{.Body}}</p><table role="presentation" cellspacing="0" cellpadding="0" style="margin:28px 0"><tr><td bgcolor="#d6a74d" style="border-radius:9px"><a href="{{.Link}}" target="_self" style="display:inline-block;padding:17px 30px;font-size:16px;font-weight:bold;text-decoration:none;color:#14284b">{{.Button}}</a></td></tr></table><p style="font-size:14px;line-height:1.7;color:#647084">{{.Expiry}}</p><hr style="border:0;border-top:1px solid #ebe4d9;margin:28px 0"><p style="font-size:13px;line-height:1.7;color:#647084">{{.Ignore}}</p><p style="font-size:14px;line-height:1.6">{{.Signoff}}</p></td></tr></table></td></tr></table></body></html>`
+		values := map[string]string{"Eyebrow": c["verification.eyebrow"], "Title": c["verification.title"], "Greeting": c["verification.greeting"], "Name": d.FirstName, "Body": c["verification.body"], "Button": c["verification.button"], "Expiry": c["verification.expiry"], "Ignore": c["verification.ignore"], "Signoff": c["verification.signoff"], "Link": d.Link}
+		var body bytes.Buffer
+		if err := htmltemplate.Must(htmltemplate.New("verification").Parse(layout)).Execute(&body, values); err != nil {
+			panic(err)
+		}
+		message.HTML = body.String()
+	}
+	return message
 }

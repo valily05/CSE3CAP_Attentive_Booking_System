@@ -3,12 +3,15 @@
 package mail
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"mime"
+	"mime/multipart"
 	netmail "net/mail"
 	"net/smtp"
+	"net/textproto"
 	"strings"
 	"sync"
 )
@@ -18,6 +21,7 @@ type Email struct {
 	To      string
 	Subject string
 	Text    string
+	HTML    string
 }
 
 // Sender sends email.
@@ -59,6 +63,25 @@ func (s SMTP) Send(_ context.Context, e Email) error {
 	}
 	msg := "From: " + s.From + "\r\nTo: " + e.To + "\r\nSubject: " + mime.QEncoding.Encode("utf-8", e.Subject) +
 		"\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n" + e.Text
+	if e.HTML != "" {
+		var body bytes.Buffer
+		writer := multipart.NewWriter(&body)
+		for _, part := range []struct{ kind, content string }{{"text/plain", e.Text}, {"text/html", e.HTML}} {
+			h := textproto.MIMEHeader{}
+			h.Set("Content-Type", part.kind+"; charset=UTF-8")
+			p, err := writer.CreatePart(h)
+			if err != nil {
+				return err
+			}
+			if _, err = p.Write([]byte(part.content)); err != nil {
+				return err
+			}
+		}
+		if err := writer.Close(); err != nil {
+			return err
+		}
+		msg = "From: " + s.From + "\r\nTo: " + e.To + "\r\nSubject: " + mime.QEncoding.Encode("utf-8", e.Subject) + "\r\nMIME-Version: 1.0\r\nContent-Type: multipart/alternative; boundary=\"" + writer.Boundary() + "\"\r\n\r\n" + body.String()
+	}
 	if err := smtp.SendMail(s.Addr, a, sender, []string{e.To}, []byte(msg)); err != nil {
 		return fmt.Errorf("send mail: %w", err)
 	}

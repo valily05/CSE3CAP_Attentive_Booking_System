@@ -50,3 +50,79 @@
   background: var(--paper);
   box-shadow: var(--shadow-card);
 }
+.form a { text-decoration: none; font-weight: 650; }
+.form a:not(:global(.button)):not(:global(.button-quiet)) { color: var(--brass-text); }
+.form a:not(:global(.button)):not(:global(.button-quiet)):hover { color: var(--ink); }
+
+.signInSpinner { flex-shrink:0;animation:signInSpin .8s linear infinite; }
+@keyframes signInSpin { to { transform:rotate(360deg); } }
+@media(prefers-reduced-motion:reduce) { .signInSpinner { animation:none; } }
+
+.phoneControl { position:relative;min-width:0; }
+.phoneFlag { position:absolute;left:.9rem;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:1.5rem;color:var(--muted);pointer-events:none; }
+.phoneFlag img { display:block;border-radius:2px;box-shadow:0 0 0 1px #14284b20; }
+.phoneControl input { padding-left:3.1rem;width:100%; }
+
+.phoneControl { display:flex;align-items:stretch;border:1px solid var(--line-strong);border-radius:.8rem;background:var(--paper);position:relative; }
+.phoneControl:focus-within { border-color:var(--brass);box-shadow:0 0 0 3px #d6a74d30; }
+.phoneControl>div { border-right:1px solid var(--line); }
+.phoneControl input { flex:1;min-width:0;width:100%;padding:.65rem .7rem;border:0;border-radius:0 .8rem .8rem 0;background:transparent;box-shadow:none!important;outline:none; }
+
+/* Compact rounded checkboxes and a quieter optional-email note. */
+.check { grid-template-columns:.875rem minmax(0,1fr);gap:.55rem; }
+.check input[type=checkbox] { appearance:none;width:.875rem;height:.875rem;min-height:0;padding:0;margin:.15rem 0 0;border:1px solid var(--line-strong);border-radius:.25rem;background:var(--paper);cursor:pointer; }
+.check input[type=checkbox]:checked { border-color:var(--ink);background-color:var(--ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 8 2.5 2.5L12 5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:100%; }
+.check input[type=checkbox]:focus-visible { outline:2px solid var(--brass);outline-offset:3px; }
+.check small { margin-top:.15rem;font-size:.7rem;line-height:1.5;font-weight:400; }
+@media(forced-colors:active) { .check input[type=checkbox] { appearance:auto; } }
+
+.verification { display:flex;flex-direction:column;align-items:center;text-align:center;padding:1rem 0; }
+.envelope { width:8rem;height:7rem;position:relative;display:grid;place-items:center;margin:.5rem 0 1.75rem;color:var(--ink);isolation:isolate; }
+.envelope>span { position:absolute;inset:-.5rem;border-radius:50%;background:radial-gradient(ellipse,#efd18a60,transparent 70%);z-index:-1; }
+.envelope>svg { width:6rem;height:6rem;padding:1rem;background:light-dark(#faf1dd,#20354a);border:1px solid light-dark(#e2c583,#8b723b);border-radius:1.3rem;transform:rotate(-7deg);box-shadow:0 12px 24px #74552215; }
+.envelope>i { position:absolute;right:1rem;bottom:.2rem;display:grid;place-items:center;width:2rem;height:2rem;border:3px solid var(--paper);border-radius:50%;background:var(--brass);color:#14284b; }
+.verification h2 { font-size:clamp(1.7rem,2.5vw,2rem);font-weight:700;letter-spacing:-.035em;color:var(--ink);margin-bottom:.75rem; }
+.verification>p { font-size:.83rem;line-height:1.8;color:var(--muted); }
+.verificationEmail { display:block;max-width:100%;overflow-wrap:anywhere;margin:.65rem 0 1rem;padding:.55rem 1rem;border:1px solid var(--line);border-radius:.7rem;background:var(--paper);font-size:.9rem;font-weight:600;color:var(--ink); }
+.verification .verificationNote { max-width:40ch; }
+.verification .resendStatus { margin:1rem 0 1.5rem;font-size:.75rem;min-height:1.5em; }
+.verificationActions { display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;width:100%; }
+.verificationActions>button,.verificationActions>a { display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:2.8rem;flex:1;padding:.65rem 1rem;font-size:.8rem;border-radius:999px;white-space:normal; }
+.verificationActions>button:disabled { opacity:.6;cursor:default; }
+@media(max-width:47.999rem) { .verificationActions { flex-direction:column; } .verification { padding:.5rem 0; } }
+
+.error { font-size:.75rem;font-weight:400;line-height:1.6; }
+.formHelp { font-size:.72rem;line-height:1.65;color:var(--muted);margin:0; }
+.fieldError { font-size:.72rem!important;line-height:1.5;color:var(--danger)!important; }
+
+.verificationActions { margin-top:1.5rem; }
+.verificationActions>button { border-color:#bb8929;border-width:1.5px; }
+.verificationActions>button:hover:not(:disabled) { border-color:#996a15;background:light-dark(#f7ecd5,#273749); }
+.verification .resendStatus { margin-bottom:0; }
+
+.verificationActions>button:disabled { border-color:#bb8929; }
+
+.form input[name=email][aria-invalid=true],.form input[name=email][aria-invalid=true]:focus { border-color:var(--danger);box-shadow:0 0 0 2px light-dark(#b3444420,#f17b7b25); }
+
+.verificationActions>a.resendLink,.form[data-resend-page]>button { border-color:#bb8929;border-width:1.5px; }
+.form[data-resend-page]>button:disabled { border-color:#bb8929; }
+
+.form a.registrationResend { font-size:.75rem;font-weight:400;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;width:fit-content; }
+
+.form[data-resend-page]>a.resendContinue { display:flex;align-items:center;justify-content:center;gap:.65rem;font-size:.8rem;font-weight:600; }
+.form[data-resend-page]>a.resendContinue:hover { background:#efc866;border-color:#efc866;color:#14284b; }
+.form[data-resend-page]>a.resendContinue>svg { flex-shrink:0; }
+.form[data-resend-page]>button { font-size:.8rem;font-weight:600;border-color:light-dark(#14284b,#9ebcde);background:transparent;color:var(--ink); }
+.form[data-resend-page]>button:disabled { border-color:light-dark(#14284b,#9ebcde); }
+.form[data-resend-page]>button:hover:not(:disabled) { border-color:light-dark(#14284b,#9ebcde);background:light-dark(#14284b14,#9ebcde1c);color:var(--ink); }
+.form[data-resend-page]>p:first-child { font-size:.8rem;line-height:1.7;margin:0; }
+
+.form[data-resend-page]>p:first-child { font-size:.9rem;line-height:1.75; }
+/* Match the inbox confirmation actions to the compact resend-page buttons. */
+.verificationActions>a { font-size:.8rem;font-weight:600; }
+.verificationActions>a.resendLink { border-color:light-dark(#14284b,#9ebcde);background:transparent;color:var(--ink); }
+.verificationActions>a.resendLink:hover { border-color:light-dark(#14284b,#9ebcde);background:light-dark(#14284b14,#9ebcde1c);color:var(--ink); }
+.verificationActions>a:not(.resendLink):hover { background:#efc866;border-color:#efc866;color:#14284b; }
+
+.verificationActions>button.resendLink { font-size:.8rem;font-weight:600; }
+.verificationActions>button.resendLink:disabled { border-color:light-dark(#14284b,#9ebcde);background:transparent;color:var(--muted); }

@@ -10,7 +10,11 @@ async function fillSignUp(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText("Full name"), "Rina Test");
   await user.type(screen.getByLabelText("Email"), "rina@example.test");
   await user.type(screen.getByLabelText("Phone number"), "081234567890");
-  await user.type(screen.getByLabelText("Password"), "correct horse");
+  await user.type(screen.getByLabelText("Password"), "correct horse!");
+  await user.click(screen.getByRole("button",{name:/Current Country of Residence/}));
+  await user.click(screen.getByRole("option",{name:"Indonesia"}));
+  await user.click(screen.getByRole("button",{name:/City \/ Region of residence/}));
+  await user.click(screen.getByRole("option",{name:/^Jakarta/}));
 }
 
 describe("SignUpForm", () => {
@@ -33,11 +37,16 @@ describe("SignUpForm", () => {
     await user.type(screen.getByLabelText("Nama lengkap"), "Rina Test");
     await user.type(screen.getByLabelText("Email"), "rina@example.test");
     await user.type(screen.getByLabelText("Nomor telepon"), "081234567890");
-    await user.type(screen.getByLabelText("Kata sandi"), "correct horse");
+    await user.type(screen.getByLabelText("Kata sandi"), "correct horse!");
+    await user.click(screen.getByRole("button",{name:/Negara tempat tinggal saat ini/}));
+    await user.click(screen.getByRole("option",{name:"Indonesia"}));
+    await user.click(screen.getByRole("button",{name:/Kota \/ Wilayah tempat tinggal/}));
+    await user.click(screen.getByRole("option",{name:/^Jakarta/}));
     await user.click(screen.getByRole("checkbox", { name: /kebijakan privasi/ }));
     await user.click(screen.getByRole("button", { name: "Buat akun" }));
 
-    expect(await screen.findByText(/Kami mengirim tautan ke rina@example.test/)).toBeInTheDocument();
+    expect(await screen.findByRole("heading",{name:"Periksa kotak masuk Anda"})).toBeInTheDocument();
+    expect(screen.getByText("rina@example.test",{exact:true})).toBeInTheDocument();
     expect(body).toMatchObject({ name: "Rina Test", agreedPrivacy: true, checkInConsent: false, locale: "id" });
   });
 
@@ -49,6 +58,8 @@ describe("SignUpForm", () => {
     await user.click(screen.getByRole("checkbox", { name: /privacy policy/ }));
     await user.click(screen.getByRole("button", { name: "Create account" }));
     expect(await screen.findByRole("alert")).toHaveTextContent("An account with this email already exists. Try signing in.");
+    expect(screen.queryByRole("link",{name:"Resend verification email"})).not.toBeInTheDocument();
+    expect(screen.getByRole("link",{name:/Sign in/})).toHaveAttribute("href","/signin?next=/account/residence");
   });
 });
 
@@ -59,7 +70,7 @@ describe("SignInForm", () => {
     renderWithIntl(<SignInForm onSignedIn={onSignedIn} />);
     const user = userEvent.setup();
     await user.type(screen.getByLabelText("Email"), "r@x.test");
-    await user.type(screen.getByLabelText("Password"), "correct horse");
+    await user.type(screen.getByLabelText("Password"), "correct horse!");
     await user.click(screen.getByRole("button", { name: "Sign in" }));
     await vi.waitFor(() => expect(onSignedIn).toHaveBeenCalledWith(expect.objectContaining({ role: "client" })));
   });

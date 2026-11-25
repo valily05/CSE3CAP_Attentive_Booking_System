@@ -1,8 +1,11 @@
+import {Suspense} from "react";
+import {ClientPageTracker} from "@/components/auth/ClientPageTracker";
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { EmailVerificationToast } from "@/components/auth/EmailVerificationToast";
 import { Header } from "@/components/shell/Header";
 import { SessionProvider } from "@/components/shell/Session";
 import "./globals.css";
@@ -30,6 +33,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider>
           <SessionProvider>
             <Header />
+            <EmailVerificationToast />
+            <Suspense fallback={null}><ClientPageTracker/></Suspense>
             <main id="main" className={styles.main}>
               {children}
             </main>

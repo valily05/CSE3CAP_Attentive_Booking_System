@@ -1,0 +1,335 @@
+.layout { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:74rem;min-height:39rem;margin:0 auto;padding:1rem;gap:1rem;background:var(--paper);border:1px solid var(--line);border-radius:1.7rem;box-shadow:0 20px 60px -34px #142c5235; }
+.formPanel { min-width:0;display:grid;align-items:center;padding:clamp(1.5rem,3.6vw,3.5rem); }
+.formInner { width:100%;max-width:23rem;margin:auto; }
+.mark { display:block;width:4.6rem;height:4.6rem;border-radius:1.2rem;margin:0 auto 1.25rem; }
+.formInner h1 { font-size:clamp(1.7rem,2.5vw,2.1rem);font-weight:650;letter-spacing:-.035em;text-align:center;line-height:1.25; }
+.description { margin:.8rem auto 2rem;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.8;max-width:34ch; }
+.formInner form { padding:0;border:0;box-shadow:none;border-radius:0;background:transparent;max-width:none;gap:1.1rem; }
+.formInner form>p:has(a[href="/forgot"]) { text-align:right;margin-top:-.4rem;font-size:.75rem; }
+.formInner form>p:has(a[href="/signup"]) { text-align:center;margin-top:.8rem;font-size:.78rem; }
+.formInner form>button { width:100%;border-radius:999px; }
+.visual { min-width:0;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.8rem 1rem 2.1rem;background:light-dark(#f6f0e5,#17263d);border:1px solid light-dark(#eee5d5,#293a53);border-radius:1.2rem;overflow:hidden; }
+.eyebrow { text-align:center;font-size:.57rem;line-height:1.8;letter-spacing:.15em;text-transform:uppercase;font-weight:650;color:var(--brass-text); }
+.house { width:100%;position:relative; }
+.scene { position:relative;width:100%;aspect-ratio:1.2; }
+.poster { position:absolute;inset:0;width:100%;height:100%;object-fit:contain; }
+.canvas { position:absolute;inset:0;width:100%;height:100%;opacity:0;touch-action:pan-y;cursor:grab;transition:opacity 180ms ease; }
+.canvas:active { cursor:grabbing; }
+.house[data-house-live=true] .canvas { opacity:1; }
+.house[data-house-live=true] .poster { visibility:hidden; }
+.dragHint { display:flex;justify-content:center;align-items:center;gap:.4rem;font-size:.63rem;line-height:1.6;color:var(--muted);margin-top:-.3rem; }
+.sceneControls { display:flex;justify-content:center;gap:.45rem;margin:.65rem auto .7rem; }
+.sceneControls button { display:grid;place-items:center;width:2rem;height:2rem;border:1px solid var(--line);border-radius:.7rem;background:var(--paper);color:var(--ink);cursor:pointer; }
+.sceneControls button:hover { border-color:var(--brass);color:var(--brass-text); }
+.visualCopy { text-align:center;max-width:27ch;padding-inline:.5rem;margin-top:.8rem; }
+.visualCopy h2 { font-size:clamp(1.4rem,2.2vw,1.85rem);font-weight:600;letter-spacing:-.035em;line-height:1.2; }
+.visualCopy p { margin-top:.75rem;font-size:.76rem;color:var(--muted);line-height:1.8; }
+@media(max-width:60rem) and (min-width:48rem) { .layout { padding:.75rem;gap:.5rem; } .formPanel { padding:1.5rem 1rem; } .visual { padding-inline:.4rem; } }
+@media(max-width:47.999rem) { .layout { grid-template-columns:1fr;max-width:34rem;min-height:0;padding:.65rem;gap:1.3rem; } .formPanel { padding:1.6rem 1rem .5rem; } .visual { padding:1.4rem .75rem 1.6rem; } .scene { max-width:25rem;margin:auto;aspect-ratio:1.6; } .visualCopy { margin-top:.25rem;max-width:34ch; } .visualCopy h2 { font-size:1.45rem; } .description { margin-bottom:1.7rem; } .canvas { display:none; } }
+@media(prefers-reduced-motion:reduce) { .canvas { transition:none; } }
+.scene { max-height:24rem; }
+
+.catBubble { position:absolute;z-index:3;transform:translate(-50%,-100%);padding:.35rem .65rem;border:1px solid #dcc697;border-radius:.8rem .8rem .8rem .15rem;background:#fffaf0;color:#193858;font-size:.72rem;font-weight:650;box-shadow:0 4px 12px #19385815;pointer-events:none;white-space:nowrap; }
+.house[data-house-live=false] .catBubble { display:none; }
+.toolTipGroup { position:relative;display:inline-flex; }
+.toolTip { position:absolute;bottom:calc(100% + .6rem);left:50%;transform:translateX(-50%);padding:.45rem .7rem;border-radius:.6rem;background:var(--ink);color:var(--paper);font-size:.68rem;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 120ms ease; }
+.toolTipGroup:hover .toolTip,.toolTipGroup:focus-within .toolTip { opacity:1;visibility:visible; }
+.sceneControls button:disabled { opacity:.5;cursor:default; }
+.yarnStatus { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
+
+.scene { aspect-ratio:1.13;max-height:27rem; }
+.visual { padding-inline:.6rem; }
+@media(max-width:47.999rem) { .scene { aspect-ratio:1.4;max-width:27rem; } }
+
+.roomMenuWrap { display:inline-flex; }
+.roomMenu { position:absolute;left:0;top:100%;z-index:6;width:100%;padding:.75rem;border:1px solid var(--line-strong);border-radius:1rem;background:var(--paper);box-shadow:0 10px 30px #142c5218; }
+.roomMenu header { display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem; }
+.roomMenu header>p { font-size:.72rem;font-weight:600;color:var(--ink); }
+.sceneControls .roomMenu header button { width:1.5rem;height:1.5rem;border:0;background:transparent; }
+.roomMenu>div { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.35rem; }
+.sceneControls .roomMenu>div button { width:100%;height:auto;min-height:1.9rem;padding:.35rem .2rem;font:inherit;font-size:.61rem;line-height:1.3;text-align:center;border-radius:.55rem;background:var(--surface); }
+.sceneControls .roomMenu button[data-active=true] { background:var(--dawn);border-color:var(--brass);color:var(--ink); }
+.actionFeedback { margin-top:.55rem;font-size:.62rem;line-height:1.5;color:var(--muted);text-align:left; }
+
+.house:has(.roomMenu)+.visualCopy { visibility:hidden;min-height:13rem; }
+@media(min-width:48rem) and (max-width:60rem) { .sceneControls { gap:.25rem; } .sceneControls button { width:1.8rem;height:1.8rem; } .roomMenu>div { grid-template-columns:repeat(3,minmax(0,1fr)); } .house:has(.roomMenu)+.visualCopy { min-height:18rem; } }
+.roomStatus { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
+.catBubble:empty,.catBubble[hidden] { display:none!important; }
+
+.zoomRail { position:absolute;right:.55rem;top:50%;transform:translateY(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.65rem .4rem;background:var(--paper);border:1px solid var(--line);border-radius:999px;color:var(--ink);box-shadow:0 3px 12px #19385812; }
+.zoomRail input { writing-mode:vertical-lr;direction:rtl;width:1rem;height:6rem;margin:0;accent-color:var(--brass);cursor:ns-resize;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;min-height:0; }
+
+.backRow { max-width:84rem;margin:0 auto .8rem; }
+.backLink { display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .2rem;color:var(--ink);font-size:.78rem;font-weight:550;text-decoration:none; }
+.backLink:hover { color:var(--brass-text);text-decoration:none; }
+@media(min-width:48rem) { .layout { max-width:84rem;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);min-height:min(48rem,calc(100svh - 6rem)); } .visual { padding-top:1.4rem;padding-bottom:1rem; } .scene { aspect-ratio:1.35;max-height:clamp(22rem,48svh,34rem); } .visualCopy { max-width:35ch; } .visualCopy h2 { font-size:clamp(1.5rem,2.1vw,1.9rem); } }
+@media(min-width:48rem) and (max-width:60rem) { .layout { grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); } .scene { aspect-ratio:1.13;max-height:27rem; } }
+
+/* Keep the form and the complete house/caption group centred, reserving menu space only while open. */
+.formInner { max-width:24rem; }
+.mark { width:4.2rem;height:4.2rem;margin-bottom:1.1rem; }
+.formInner h1 { font-size:clamp(1.7rem,2.35vw,2rem); }
+.description { margin:.7rem auto 1.65rem; }
+.formInner form { gap:1rem; }
+.visual { padding-block:1.5rem; }
+.eyebrow { margin-bottom:.25rem; }
+.visualCopy { margin-top:1rem;max-width:34ch; }
+.visualCopy h2 { font-size:clamp(1.4rem,2vw,1.75rem);line-height:1.25; }
+.visualCopy p { max-width:43ch;margin:.6rem auto 0;font-size:.73rem;line-height:1.75; }
+.dragHint { font-size:.58rem;margin-top:0;gap:.35rem; }
+.sceneControls { width:fit-content;gap:.25rem;padding:.2rem;margin:.6rem auto 0;border:1px solid var(--line);border-radius:999px;background:light-dark(#ffffff50,#0e1d322e); }
+.sceneControls button { width:1.8rem;height:1.8rem;border-color:transparent;border-radius:50%;background:transparent;color:var(--muted); }
+.sceneControls button:hover { background:var(--paper);border-color:var(--line-strong);color:var(--ink); }
+.sceneControls button svg { max-width:1rem;max-height:1rem; }
+.zoomRail { padding:.5rem .25rem;gap:.35rem;box-shadow:none;opacity:.85; }
+.zoomRail:hover,.zoomRail:focus-within { opacity:1; }
+.zoomRail input { height:5rem; }
+@media(max-width:47.999rem) { .layout { gap:.75rem; } .formPanel { padding:1.5rem 1rem 1rem; } .visual { padding:1.25rem .75rem 1.5rem; } .visualCopy { margin-top:.5rem; } .description { margin-bottom:1.5rem; } }
+
+/* One quiet background with a left-aligned brand and welcome hierarchy. */
+.layout,.visual,.formPanel { background:transparent;border:0;box-shadow:none; }
+.brandRow { display:flex;align-items:center;gap:.65rem;margin-bottom:1.65rem; }
+.brandRow .mark { width:3.5rem;height:3.5rem;margin:0;border-radius:.85rem;object-fit:contain; }
+.wordmark { font-size:2rem;line-height:1;font-weight:650;letter-spacing:-.045em;color:light-dark(#b98422,#d5aa50); }
+.formInner h1 { text-align:left;font-size:clamp(2rem,3vw,2.65rem);line-height:1.15;letter-spacing:-.04em; }
+.description { text-align:left;margin:.85rem 0 1.8rem;max-width:35ch;font-size:.82rem;line-height:1.8; }
+@media(max-width:47.999rem) { .brandRow { margin-bottom:1.4rem; } .brandRow .mark { width:3.2rem;height:3.2rem; } .wordmark { font-size:1.85rem; } .formInner h1 { font-size:2.1rem; } }
+
+.backRow { padding-bottom:.85rem;margin-bottom:1.25rem;border-bottom:1px solid var(--line-strong); }
+.eyebrow { margin-bottom:1.25rem; }
+.dragHint { margin-top:1rem; }
+.visualCopy { margin-top:1.5rem; }
+.footer { max-width:84rem;margin:1.75rem auto 0;padding:.5rem 0;text-align:center;font-size:.66rem;color:var(--muted);line-height:1.7; }
+@media(min-width:48rem) { .layout { min-height:min(48rem,calc(100svh - 11rem)); } }
+@media(max-width:47.999rem) { .eyebrow { margin-bottom:.75rem; } .visualCopy { margin-top:.85rem; } .footer { margin-top:1rem; } }
+
+.page { min-height:calc(100svh - 2.25rem);display:flex;flex-direction:column; }
+.page>.backRow,.page>.layout,.page>.footer { width:100%; }
+.footer { margin-top:auto;padding-top:1.75rem; }
+
+/* Full-width divider and a restrained two-tone background give the page structure. */
+.page>.backRow { max-width:none;padding-inline:max(1.25rem,calc((100% - 84rem)/2)); }
+.page>.layout { width:min(84rem,calc(100% - 2.5rem)); }
+@media(max-width:47.999rem) { .page>.backRow { padding-inline:.85rem; } .page>.layout { width:calc(100% - 1.25rem); } .visual { background:light-dark(#eee7da,#192c45);border-radius:1.25rem; } }
+
+.backRow { display:flex;align-items:center;justify-content:space-between;gap:1rem; }
+.themeToggle { display:grid;place-items:center;width:2.2rem;height:2.2rem;padding:0;border:1px solid var(--line);border-radius:.8rem;background:var(--paper);color:var(--ink);cursor:pointer; }
+.themeToggle:hover { border-color:var(--ink); }
+.brandRow .mark { clip-path:inset(8.5% round 25%); }
+
+/* A defined form panel and a room heading create a clearer two-column composition. */
+.formPanel { padding:1.5rem clamp(1rem,2vw,2.5rem); }
+.formInner { max-width:28rem;padding:2rem 2rem 1.5rem;border:1px solid light-dark(#dfd4c3,#34465c);border-radius:1.6rem;background:light-dark(#fffdf8c9,#122238b3);box-shadow:0 16px 48px light-dark(#715a3610,#020b151a); }
+.brandRow { margin-bottom:1.35rem; }
+.formInner h1 { font-size:clamp(2rem,2.65vw,2.45rem); }
+.description { margin-bottom:1.6rem; }
+.formExtras { margin-top:1.5rem;padding-top:1.15rem;border-top:1px solid var(--line); }
+.formExtras>p { font-size:.57rem;font-weight:650;text-transform:uppercase;letter-spacing:.12em;color:var(--brass-text);margin-bottom:.8rem; }
+.formExtras>div { display:grid;grid-template-columns:1fr 1fr;gap:.8rem; }
+.formExtras span { display:flex;align-items:center;gap:.55rem;font-size:.65rem;line-height:1.55;color:var(--muted); }
+.formExtras svg { flex-shrink:0;color:var(--brass-text); }
+.visualHeading { width:100%;max-width:33rem;text-align:center;margin-bottom:.75rem; }
+.visualHeading .eyebrow { margin-bottom:.75rem; }
+.visualHeading h2 { font-size:clamp(1.65rem,2.6vw,2.25rem);font-weight:550;line-height:1.2;letter-spacing:-.035em;color:var(--ink); }
+.roomDescription { font-size:.77rem;line-height:1.8;color:var(--muted);max-width:43ch;margin:.7rem auto 0; }
+.visualCopy { margin-top:1.1rem;max-width:100%; }
+.visualCopy .exploreNote { display:flex;align-items:center;justify-content:center;gap:.45rem;margin:0;font-size:.66rem;line-height:1.6;max-width:none; }
+.canvas { width:calc(100% - 2.5rem);right:2.5rem; }
+.zoomRail { right:.2rem; }
+.sceneControls button:has(svg[aria-hidden]):hover { color:var(--ink); }
+.sceneControls button[aria-describedby="house-yarn-tip"] { color:light-dark(#193858,#8ebbe1); }
+.sceneControls button[aria-describedby="house-yarn-tip"]:hover { color:light-dark(#193858,#8ebbe1); }
+@media(min-width:60.001rem) { .layout { grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);min-height:min(51rem,calc(100svh - 10rem)); } .scene { max-height:clamp(23rem,49svh,35rem); } }
+@media(min-width:48rem) and (max-width:60rem) { .formPanel { padding-inline:.6rem; } .formInner { padding:1.5rem 1.1rem 1.2rem; } .formExtras>div { grid-template-columns:1fr;gap:.65rem; } .visualHeading h2 { font-size:1.65rem; } }
+@media(max-width:47.999rem) { .formPanel { padding:1rem .3rem; } .formInner { padding:1.5rem 1.25rem; } .formExtras span { font-size:.6rem; } .visual { padding-top:1.75rem; } .roomDescription { font-size:.73rem; } .visualCopy { margin-top:1rem; } }
+
+/* Compact viewport layout: a translucent form beside a room that uses the remaining height. */
+.page { min-height:100svh; }
+.backRow { margin:0;padding-block:.5rem; }
+.footer { margin:0 auto;padding:.4rem 0;font-size:.62rem; }
+.formInner { background:light-dark(#ffffffb8,#172b43b8);backdrop-filter:blur(10px);border-color:light-dark(#e0d7c9,#34465c); }
+.visual { background:transparent; }
+.visualHeading { margin:0; }
+.visualHeading .eyebrow { margin-bottom:.4rem;font-size:.52rem; }
+.visualHeading h2 { font-size:clamp(1.45rem,2vw,1.9rem); }
+.visualCopy { margin:.45rem 0 0; }
+.house:has(.roomMenu)+.visualCopy { min-height:0;visibility:hidden; }
+.roomMenu { top:auto;bottom:0; }
+@media(min-width:48rem) {
+ .page { height:100svh;display:grid;grid-template-rows:auto minmax(0,1fr) auto; }
+ .page>.layout { width:min(90rem,calc(100% - 2.5rem));max-width:90rem;height:100%;min-height:0;padding:.75rem 0;grid-template-columns:minmax(20rem,.85fr) minmax(0,1.35fr);gap:1rem; }
+ .formPanel { min-height:0;padding:1rem; }
+ .formInner { max-width:26rem;padding:1.65rem 1.85rem 1.4rem; }
+ .brandRow { margin-bottom:1.1rem; }
+ .visual { min-height:0;height:100%;padding:.5rem .6rem;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:.4rem;align-content:stretch; }
+ .house { height:100%;min-height:0;display:flex;flex-direction:column; }
+ .scene { flex:1;min-height:0;max-height:none;aspect-ratio:auto; }
+ .dragHint { flex:none;margin:.35rem 0 0;font-size:.55rem; }
+ .sceneControls { flex:none;margin:.35rem auto 0; }
+ .visualCopy .exploreNote { font-size:.61rem; }
+}
+@media(min-width:48rem) and (max-height:48rem) {
+ .formPanel { padding:.4rem .75rem; }
+ .formInner { padding:1.2rem 1.5rem 1rem; }
+ .brandRow { margin-bottom:.85rem; }
+ .brandRow .mark { width:2.75rem;height:2.75rem; }
+ .wordmark { font-size:1.7rem; }
+ .formInner h1 { font-size:2rem; }
+ .description { margin:.65rem 0 1rem;font-size:.74rem;line-height:1.7; }
+ .formInner form { gap:.8rem; }
+ .formInner input { min-height:2.5rem; }
+ .formInner form>p:has(a[href="/signup"]) { margin-top:.35rem;font-size:.73rem; }
+ .visualHeading h2 { font-size:1.5rem; }
+}
+@media(max-width:47.999rem) {
+ .page { height:auto;display:flex; }
+ .page>.layout { height:auto;min-height:0;grid-template-columns:1fr; }
+ .formInner { padding:1.4rem 1.25rem; }
+ .visual { height:auto;display:flex;padding:1.25rem .5rem; }
+ .house { height:auto;display:block; }
+ .scene { height:16rem;max-height:none;aspect-ratio:auto; }
+ .footer { margin-top:auto; }
+}
+
+@media(min-width:48rem) { .visual { grid-template-columns:minmax(0,1fr);justify-content:stretch; } .visualHeading { justify-self:center; } }
+
+/* More breathing room without losing the compact desktop viewport. */
+.formInner { max-width:28rem;padding:2rem 2.2rem 1.8rem; }
+.brandRow { margin-bottom:1.45rem; }
+.description { margin-bottom:2rem; }
+.formInner form { gap:1.2rem; }
+.formInner form>p:has(a[href="/signup"]) { margin-top:1rem; }
+@media(min-width:48rem) { .visual { grid-template-rows:auto minmax(0,1fr); } }
+@media(min-width:48rem) and (max-height:48rem) { .formInner { padding:1.3rem 1.75rem 1.2rem; } .brandRow { margin-bottom:1rem; } .description { margin-bottom:1.2rem; } .formInner form { gap:.9rem; } .formInner form>p:has(a[href="/signup"]) { margin-top:.5rem; } }
+@media(max-width:47.999rem) { .formInner { padding:1.6rem 1.5rem; } .formInner form { gap:1.1rem; } .description { margin-bottom:1.6rem; } }
+
+/* Let the room occupy its entire column; keep the form hierarchy calm and familiar. */
+.formInner { max-width:27rem;padding:2rem 2rem 1.7rem;border-radius:1.4rem; }
+.brandRow { margin-bottom:1.6rem;gap:.55rem; }
+.brandRow .mark { width:3.1rem;height:3.1rem; }
+.wordmark { font-size:1.8rem; }
+.formInner h1 { font-size:clamp(1.95rem,2.4vw,2.3rem); }
+.description { max-width:34ch;margin:.75rem 0 1.75rem;line-height:1.75; }
+.formInner form { gap:1.25rem; }
+.formInner form>button { margin-top:.2rem; }
+.formInner form>p:has(a[href="/signup"]) { margin-top:.5rem;line-height:1.7; }
+@media(min-width:48rem) { .visual { grid-template-rows:minmax(0,1fr);padding:0 .4rem; } }
+@media(min-width:48rem) and (max-height:48rem) { .formInner { padding:1.4rem 1.7rem 1.2rem; } .brandRow { margin-bottom:1.1rem; } .brandRow .mark { width:2.7rem;height:2.7rem; } .wordmark { font-size:1.65rem; } .formInner h1 { font-size:1.95rem; } .description { margin:.65rem 0 1.3rem;font-size:.74rem; } .formInner form { gap:1rem; } }
+@media(max-width:47.999rem) { .formInner { padding:1.5rem 1.3rem; } .brandRow { margin-bottom:1.3rem; } .description { margin-bottom:1.4rem; } .formInner form { gap:1.05rem; } .scene { height:19rem; } }
+
+.formInner h1 { font-weight:750; }
+.formInner a[href="/forgot"] { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-line:underline;text-decoration-color:#ddb039;text-decoration-thickness:1px;text-underline-offset:.28em; }
+.formInner a[href="/forgot"]:hover { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-color:#c99419; }
+.formInner a[href="/signup"] { color:light-dark(#e2ae27,#ffcd36); }
+.formInner a[href="/signup"]:hover { color:light-dark(#c99618,#ffdc70); }
+.dragHint { font-size:.7rem;margin-top:0;margin-bottom:-.2rem;transform:translateY(-.4rem); }
+
+/* Sign-in link colors override the shared auth form defaults. */
+.formInner form[class] a[href='/forgot'] { color:light-dark(#193858,#c5d7ea); }
+.formInner form[class] a[href='/forgot']:hover { color:light-dark(#193858,#c5d7ea); }
+.formInner form[class] a[href='/signup'] { color:light-dark(#e2ae27,#ffcd36); }
+.formInner form[class] a[href='/signup']:hover { color:light-dark(#c99618,#ffdc70); }
+
+.description { max-width:43ch;font-size:.78rem;line-height:1.75; }
+.formInner input,.formInner input::placeholder { font-size:.81rem; }
+.formInner form>button { font-size:.9rem; }
+.formInner form>p:has(a[href="/forgot"]) { margin-top:-.55rem;text-align:right;font-size:.72rem;line-height:1.6; }
+@media(min-width:48rem) and (max-height:48rem) { .description { font-size:.74rem;line-height:1.65;margin-bottom:1.15rem; } .formInner input,.formInner input::placeholder { font-size:.78rem; } .formInner form>button { font-size:.86rem; } }
+
+@media(min-width:48rem) { .page { grid-template-rows:auto minmax(0,1fr); } }
+
+.formInner { animation:signInArrive .65s cubic-bezier(.16,1,.3,1) both; }
+@keyframes signInArrive { from { opacity:0;transform:translateY(8px); } to { opacity:1;transform:translateY(0); } }
+.formInner form>button { display:flex;align-items:center;justify-content:center;gap:.5rem; }
+.roomContent { width:100%;height:100%;min-height:0; }
+.mobileRoomButton { display:none; }
+.sceneControls button:disabled { cursor:default; }
+@media(max-width:47.999rem) { .visual { padding:.25rem .5rem 1rem;gap:0; } .mobileRoomButton { display:flex;align-items:center;justify-content:center;gap:.65rem;width:100%;max-width:28rem;margin:0 auto;padding:.85rem 1rem;border:1px solid var(--line);border-radius:.85rem;background:var(--paper);color:var(--ink);font:inherit;font-size:.8rem;cursor:pointer; } .mobileRoomButton>span { flex:1;text-align:left; } .roomContent { display:none;height:auto; } .roomContent[data-expanded=true] { display:block;padding-top:1rem; } }
+@media(prefers-reduced-motion:reduce) { .formInner { animation:none; } }
+
+.toolTip { max-width:13rem;width:max-content;white-space:normal;text-align:center;line-height:1.5;z-index:8; }
+.sceneControls>.toolTipGroup:nth-last-child(2) .toolTip,.roomMenuWrap .toolTip { left:auto;right:0;transform:none; }
+
+.topActions { display:flex;align-items:center;gap:.65rem;flex-shrink:0; }
+@media(max-width:47.999rem) { .topActions { gap:.45rem; } }
+
+/* Shared account screens, with room for the longer registration form. */
+.topActions { gap:1.1rem; }
+.registration { height:auto;min-height:100svh;display:flex; }
+.registration>.layout { height:auto;min-height:calc(100svh - 4rem);align-items:start;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); }
+.registration .formInner { max-width:38rem; }
+.registration .formInner form { grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem 1rem; }
+.registration .formInner form>label:has(input[type=checkbox]),.registration .formInner form>p,.registration .formInner form>button,.registration .formInner form>a { grid-column:1/-1; }
+.registration .formInner form>label:has(input[type=checkbox]) { font-size:.76rem;line-height:1.6; }
+.registration .formInner form>label:has(input[type=checkbox]) input { min-height:0; }
+.registration .formInner form>p:has(a[href='/signin']) { text-align:center;font-size:.78rem;margin-top:.3rem; }
+.registration .formInner h1 { font-size:clamp(1.8rem,2.4vw,2.3rem); }
+@media(min-width:48rem) { .registration .visual { position:sticky;top:1rem;height:calc(100svh - 5rem);min-height:28rem; } }
+@media(max-width:60rem) { .registration .formInner form { grid-template-columns:1fr; } }
+@media(max-width:47.999rem) { .topActions { gap:.8rem; } .registration>.layout { grid-template-columns:1fr; } }
+
+.registration .formInner form>label,.registration .formInner form>div { align-self:start; }
+
+/* A large dimensional brand sculpture gives registration its own identity. */
+.registration>.layout { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:2rem; }
+.registration .formInner { max-width:46rem; }
+.registration .description { max-width:48ch; }
+.logoVisual { position:sticky;top:4rem;min-width:0;min-height:34rem;height:calc(100svh - 8rem);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;overflow:hidden; }
+.logoStage { position:relative;width:100%;max-width:29rem;aspect-ratio:1;perspective:1000px; }
+.logoSculpture { position:absolute;inset:9%;transform-style:preserve-3d;transform:rotateX(12deg) rotateY(-23deg) rotateZ(-8deg);animation:brandFloat 8s ease-in-out infinite; }
+.logoFace { position:absolute;inset:0;width:100%;height:100%;object-fit:contain;clip-path:inset(8.5% round 25%);transform:translateZ(20px);filter:brightness(1.04); }
+.logoDepth { position:absolute;inset:8.5%;border-radius:25%;background:#092649;transform:translate(10px,9px) translateZ(-5px);box-shadow:1px 1px #163b61,2px 2px #163b61,3px 3px #163b61,4px 4px #163b61,5px 5px #163b61,6px 6px #163b61,7px 7px #163b61,8px 8px #163b61,9px 9px #163b61,10px 10px #163b61,12px 13px 20px #061a3030; }
+.logoShadow { position:absolute;bottom:1%;left:17%;width:68%;height:9%;border-radius:50%;background:light-dark(#453a2430,#00000050);filter:blur(16px); }
+.sculptureWordmark { font-size:clamp(2rem,3vw,3rem);font-weight:650;letter-spacing:-.045em;color:light-dark(#b98422,#e3b757); }
+@keyframes brandFloat { 0%,100% { transform:translateY(0) rotateX(12deg) rotateY(-23deg) rotateZ(-8deg); } 50% { transform:translateY(-12px) rotateX(8deg) rotateY(-17deg) rotateZ(-5deg); } }
+@media(max-width:60rem) { .registration>.layout { grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:.5rem; } .logoVisual { min-height:24rem; } }
+@media(max-width:47.999rem) { .registration>.layout { grid-template-columns:1fr; } .logoVisual { display:none; } .registration .formInner { max-width:100%; } }
+@media(prefers-reduced-motion:reduce) { .logoSculpture { animation:none; } }
+
+/* Warm dust-like particles frame the circular stamp without covering the form. */
+.stampFace { position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(10px 16px 16px light-dark(#453a2420,#00000035)); }
+.logoSculpture:has(.stampFace) { inset:1%; }
+.particles { position:absolute;inset:-5%;pointer-events:none; }
+.particle { position:absolute;border-radius:50%;background:#d9ae50;box-shadow:0 0 9px 3px #e3b54830;opacity:.4;animation:goldDust 8s ease-in-out infinite; }
+.particle:nth-child(4n+1) { filter:blur(2px);background:#ecc866;box-shadow:0 0 14px 5px #ebc45f30; }
+@keyframes goldDust { 0%,100% { transform:translate3d(0,7px,0);opacity:.15; } 50% { transform:translate3d(9px,-16px,0);opacity:.65; } }
+@media(prefers-reduced-motion:reduce) { .particle { animation:none;opacity:.3; } }
+
+.registration>.layout { grid-template-columns:minmax(0,1.85fr) minmax(0,1fr); }
+.registration .formInner { max-width:52rem;padding:2.25rem 2.5rem; }
+.logoStage { max-width:24rem; }
+.registration .formInner form>div { min-width:0; }
+@media(max-width:60rem) and (min-width:48rem) { .registration>.layout { grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); } .registration .formInner { padding:1.5rem; } }
+@media(max-width:47.999rem) { .registration>.layout { grid-template-columns:1fr; } .registration .formInner { padding:1.5rem 1.3rem; } }
+/* Stronger warm glow stays within the decorative logo column. */
+.logoStage::before { content:"";position:absolute;inset:4%;border-radius:50%;background:radial-gradient(ellipse,light-dark(#efce7780,#e8b94655) 0%,light-dark(#edc56945,#dfab3135) 40%,transparent 72%);filter:blur(24px);pointer-events:none; }
+.particle { background:#efc65e;box-shadow:0 0 8px 3px #efc65e70,0 0 22px 7px #edbf4d40; }
+.particle:nth-child(4n+1) { background:#f4d47d;filter:blur(1.5px);box-shadow:0 0 13px 6px #f0c75d80,0 0 30px 12px #ecc15340; }
+@keyframes goldDust { 0%,100% { transform:translate3d(0,7px,0);opacity:.35; } 50% { transform:translate3d(9px,-16px,0);opacity:.9; } }
+@media(prefers-reduced-motion:reduce) { .particle { opacity:.6; } }
+
+/* Balance the gold glow beyond both edges of the logo. */
+.logoStage::after { content:"";position:absolute;right:-3%;top:23%;width:40%;height:55%;border-radius:50%;background:radial-gradient(ellipse,light-dark(#f0ca6c80,#e7b54565),light-dark(#eac36530,#e7b54525) 48%,transparent 75%);filter:blur(22px);pointer-events:none;z-index:0; }
+.logoSculpture { z-index:1; }
+.particles { z-index:2; }
+
+.formInner:has([data-registration-verification])>h1,.formInner:has([data-registration-verification])>.description { display:none; }
+.registration .formInner:has([data-registration-verification]) { max-width:44rem; }
+.formInner:has([data-registration-verification]) .brandRow { margin-bottom:1rem; }
+
+/* Confirmation stands alone; keep the registration decoration on the form screen only. */
+.registration>.layout:has([data-registration-verification]) { grid-template-columns:minmax(0,1fr);max-width:52rem;min-height:calc(100svh - 4rem);align-items:center; }
+.registration .layout:has([data-registration-verification])>.logoVisual { display:none; }
+.registration .formPanel:has([data-registration-verification]) { width:100%; }
+.registration .formInner:has([data-registration-verification]) { max-width:44rem;margin-inline:auto; }
+
+.registration>.layout:has([data-resend-page]),.registration>.layout:has([data-residence-review]) { grid-template-columns:minmax(0,1fr);max-width:52rem;align-items:center; }
+.registration .layout:has([data-resend-page])>.logoVisual,.registration .layout:has([data-residence-review])>.logoVisual { display:none; }
+.registration .formInner:has([data-resend-page]),.registration .formInner:has([data-residence-review]) { max-width:38rem; }
+.registration .formInner form[data-resend-page],.registration .formInner form[data-residence-review] { grid-template-columns:1fr; }
+.formInner:has(form[data-resend-page])>.description { margin-bottom:1rem; }
+.registration .formInner form[data-resend-page] { gap:1rem; }
+
+.formInner:has(form[data-resend-page])>h1 { margin-bottom:1.25rem; }
+
+.registration .formInner form>a[href='/forgot'] { font-size:.7rem;font-weight:400;line-height:1.5; }

@@ -1,11 +1,44 @@
 package httpapi
 
 import (
+	"encoding/hex"
+	"net"
 	"net/http"
+	"strings"
 
 	"careconnect/internal/app"
 	"careconnect/internal/domain/auth"
 )
+
+func (s *server) resendVerification(w http.ResponseWriter, r *http.Request) {
+	var in struct {
+		Email  string `json:"email"`
+		Locale string `json:"locale"`
+	}
+	if err := decode(r, &in); err != nil {
+		writeError(w, r, err)
+		return
+	}
+	address := strings.ToLower(strings.TrimSpace(in.Email))
+	host, _, _ := net.SplitHostPort(r.RemoteAddr)
+	for key, limit := range map[string]int{"verify-ip:" + host: 20, "verify-email:" + hex.EncodeToString(app.HashToken(address)): 5} {
+		allowed, err := s.app.AllowUrgent(r.Context(), key, limit)
+		if err != nil {
+			writeError(w, r, err)
+			return
+		}
+		if !allowed {
+			w.Header().Set("Retry-After", "3600")
+			writeJSON(w, 429, map[string]string{"error": "verification_rate_limit"})
+			return
+		}
+	}
+	if err := s.app.ResendVerification(r.Context(), address, in.Locale); err != nil {
+		writeError(w, r, err)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}
 
 func (s *server) signUp(w http.ResponseWriter, r *http.Request) {
 	var in struct {
@@ -16,6 +49,10 @@ func (s *server) signUp(w http.ResponseWriter, r *http.Request) {
 		AgreedPrivacy  bool   `json:"agreedPrivacy"`
 		CheckInConsent bool   `json:"checkInConsent"`
 		Locale         string `json:"locale"`
+		Country        string `json:"country"`
+		OtherCountry   string `json:"otherCountry"`
+		City           string `json:"city"`
+		TimeZone       string `json:"timeZone"`
 	}
 	if err := decode(r, &in); err != nil {
 		writeError(w, r, err)
@@ -24,6 +61,7 @@ func (s *server) signUp(w http.ResponseWriter, r *http.Request) {
 	err := s.app.SignUp(r.Context(), app.SignUpInput{Locale: in.Locale, SignUp: auth.SignUp{
 		Name: in.Name, Email: in.Email, Phone: in.Phone, Password: in.Password,
 		AgreedPrivacy: in.AgreedPrivacy, CheckInConsent: in.CheckInConsent,
+		Country: in.Country, OtherCountry: in.OtherCountry, City: in.City, TimeZone: in.TimeZone,
 	}})
 	if err != nil {
 		writeError(w, r, err)
@@ -38,13 +76,21 @@ type tokenBody struct {
 }
 
 func (s *server) verify(w http.ResponseWriter, r *http.Request) {
-	var in tokenBody
+	var in struct {
+		Token  string `json:"token"`
+		Notify bool   `json:"notify"`
+	}
 	if err := decode(r, &in); err != nil {
 		writeError(w, r, err)
 		return
 	}
-	if err := s.app.VerifyEmail(r.Context(), in.Token); err != nil {
+	address, err := s.app.VerifyEmailWithNotice(r.Context(), in.Token)
+	if err != nil {
 		writeError(w, r, err)
+		return
+	}
+	if in.Notify {
+		writeJSON(w, http.StatusOK, map[string]string{"email": address})
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)

@@ -66,7 +66,7 @@ export function ProfilePage({ id }: { id: string }) {
           ))}
         </ul>
       </header>
-      <BookingFlow psychologist={p} catalog={catalog} me={me?.role === "client" ? me : null} />
+      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className="card"><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}`)}`}>{t("directory.signInBook")}</Link></div>}
     </div>
   );
 }

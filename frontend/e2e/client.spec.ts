@@ -8,15 +8,17 @@ test("a new client signs up, confirms the email and signs in", async ({ page }) 
   await page.getByLabel("Full name", { exact: true }).fill("Dewi Test");
   await page.getByLabel("Email", { exact: true }).fill("dewi@example.test");
   await page.getByLabel("Phone number", { exact: true }).fill("081234567891");
-  await page.getByLabel("Password", { exact: true }).fill("correct horse");
+  await page.getByLabel("Password", { exact: true }).fill("correct horse!");
   await expect(page.getByRole("checkbox", { name: /check-in email/ })).not.toBeChecked();
   await page.getByRole("checkbox", { name: /privacy policy/ }).check();
+  await page.getByLabel(/Current Country of Residence/).selectOption("ID");
+  await page.getByLabel(/City \/ Region of residence/).selectOption("Jakarta");
   await page.getByRole("button", { name: "Create account" }).click();
   await expect(page.getByText(/We sent a link to dewi@example.test/)).toBeVisible();
 
   await page.goto(await tokenLinkFor("dewi@example.test"));
   await expect(page.getByText("Your email is confirmed. You can sign in now.")).toBeVisible();
-  await signIn(page, "dewi@example.test", "correct horse");
+  await signIn(page, "dewi@example.test", "correct horse!");
 });
 
 test("a client finds a psychologist, books, moves and cancels without WhatsApp @phone", async ({ page }) => {

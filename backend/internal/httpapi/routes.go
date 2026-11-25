@@ -7,11 +7,17 @@ import "net/http"
 func (s *server) routes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/auth/signup", s.signUp)
 	mux.HandleFunc("POST /api/auth/verify", s.verify)
+	mux.HandleFunc("POST /api/auth/resend-verification", s.resendVerification)
 	mux.HandleFunc("POST /api/auth/login", s.login)
 	mux.HandleFunc("POST /api/auth/logout", s.logout)
 	mux.HandleFunc("POST /api/auth/forgot", s.forgot)
 	mux.HandleFunc("POST /api/auth/reset", s.reset)
 	mux.HandleFunc("GET /api/auth/me", s.authed(s.me))
+	mux.HandleFunc("GET /api/me/notifications", s.authed(s.myNotifications, "client"))
+	mux.HandleFunc("POST /api/me/notifications/{id}/read", s.authed(s.readMyNotification, "client"))
+	mux.HandleFunc("POST /api/me/notifications/{id}/dismiss", s.authed(s.dismissMyNotification, "client"))
+	mux.HandleFunc("GET /api/me/residence", s.authed(s.myResidence, "client"))
+	mux.HandleFunc("PUT /api/me/residence", s.authed(s.updateResidence, "client"))
 	mux.HandleFunc("POST /api/unsubscribe", s.unsubscribe)
 
 	mux.HandleFunc("GET /api/catalog", s.catalog)

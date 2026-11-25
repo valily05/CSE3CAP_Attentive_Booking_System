@@ -1,0 +1,46 @@
+.directory, .guide { display: grid; gap: 2rem; min-width: 0; }
+.eyebrow { color: var(--brass-text); font-size: .75rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.heading { font-size: clamp(1.75rem, 3vw, 2.75rem); letter-spacing: -.035em; line-height: 1.2; }
+.intro { max-width: 65ch; color: var(--muted); margin-top: .8rem; }
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+.controls label, .controls h3 { display: block; font-size: 1rem; font-weight: 650; margin-bottom: .8rem; }
+.letters { display: flex; gap: .5rem; flex-wrap: wrap; }
+.letters button, .tabs button { font: inherit; cursor: pointer; background: var(--paper); color: var(--ink); border: 1px solid var(--line); }
+.letters button { border-radius: 50%; width: 2.75rem; height: 2.75rem; font-weight: 650; font-size: .85rem; }
+.letters button:first-child { width: auto; padding-inline: 1rem; border-radius: 999px; }
+.letters button:disabled { opacity: .3; cursor: default; }
+.letters button:not(:disabled):hover { border-color: var(--brass); }
+.letters button[aria-pressed=true], .tabs button[aria-pressed=true] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.search { position: relative; }
+.search svg { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input { width: 100%; border: 1px solid var(--line-strong); border-radius: 999px; min-height: 3.25rem; padding: .8rem 1rem .8rem 3rem; font: inherit; color: var(--ink); background: var(--paper); }
+.cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+.card { display: flex; flex-direction: column; height: 100%; gap: .8rem; padding: 1.6rem; background: var(--paper); border: 1px solid var(--line); border-radius: 1.25rem; transition: border-color .2s, transform .2s; text-decoration: none; }
+.card:hover { border-color: var(--brass); transform: translateY(-3px); }
+.card h3 { font-size: 1.2rem; }
+.card p { font-size: .9rem; color: var(--muted); }
+.card span { color: var(--brass-text); font-weight: 700; font-size: .85rem; margin-top: auto; }
+.tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+.tabs button { padding: .85rem 1.3rem; border-radius: 999px; font-weight: 650; }
+.hero { background: var(--mist); border: 1px solid var(--line); border-radius: 1.5rem; padding: clamp(1.5rem,4vw,3.5rem); display: grid; gap: 1rem; }
+.hero h1 { font-size: clamp(2rem,4vw,3.5rem); line-height: 1.15; letter-spacing: -.04em; }
+.hero p { max-width: 70ch; }
+.hero a { justify-self: start; padding: .8rem 1.4rem; height: auto; line-height: 1.5; text-align: center; }
+.back { font-weight: 650; color: var(--brass-text); width: fit-content; text-decoration: none; }
+.body { display: grid; grid-template-columns: 14rem minmax(0,1fr); gap: 3rem; align-items: start; }
+.contents { display: grid; gap: .8rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: 1rem; }
+.contents a { font-size: .9rem; color: var(--muted); text-decoration: none; }
+.contents a:hover { color: var(--brass-text); }
+.sections { display: grid; gap: 2rem; max-width: 78ch; }
+.sections section { scroll-margin-top: 7rem; padding-bottom: 1.8rem; border-bottom: 1px solid var(--line); }
+.sections h2 { font-size: 1.4rem; margin-bottom: .8rem; }
+.sections p { color: var(--ink-soft); line-height: 1.85; }
+.note { padding: 1.2rem 1.5rem; border-radius: 1rem; background: var(--dawn); color: var(--ink-soft); font-size: .9rem; line-height: 1.7; }
+.sources { font-size: .85rem; color: var(--muted); }
+.sources a { color: var(--brass-text); font-weight: 700; text-decoration: none; }
+.recommendations { display: grid; gap: 1.5rem; padding-top: 1rem; scroll-margin-top: 7rem; }
+@media(max-width: 56rem) { .controls { grid-template-columns: 1fr; gap: 1.5rem; } .cards { grid-template-columns: repeat(2,minmax(0,1fr)); } .body { grid-template-columns: 1fr; gap: 1.5rem; } .contents { display: flex; flex-wrap: wrap; } .contents strong { width: 100%; } }
+@media(max-width: 34rem) { .cards { grid-template-columns: 1fr; } .letters { gap: .35rem; } .card { padding: 1.25rem; } }
+
+.directoryTitle>span { display:block; }
+@media(max-width:34rem) { .directoryTitle { font-size:clamp(1.3rem,6.2vw,2rem); } }

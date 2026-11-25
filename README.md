@@ -1,4 +1,4 @@
-# CSE3CAP Attentive Booking System — Attentive Care Connect
+# Attentive Care Connect
 
 **Group 09 – Integrated Booking & Client Management Platform** (CSE3CAP).
 

@@ -1,6 +1,8 @@
 /* Attentive Care Connect: tokens and base styles.
    Brand baseline from attentiveid.com: navy #14284B, brass #D6A74D, Montserrat. */
 
+.required-marker { color: #d6a74d; }
+
 :root {
   --ink: light-dark(#142c52, #eef2f8);
   --ink-soft: light-dark(#2b3d63, #c9d3e4);
@@ -303,3 +305,12 @@ fieldset {
     font-size: max(1rem, 16px);
   }
 }
+
+body:has([data-signin-page]) { background:light-dark(#f6f0e5,#17263d); }
+
+body:has([data-signin-page]) { background:linear-gradient(90deg,light-dark(#f8f4ed,#122238) 0 48%,light-dark(#eee7da,#192c45) 48% 100%); }
+@media(max-width:47.999rem) { body:has([data-signin-page]) { background:light-dark(#f8f4ed,#122238); } }
+
+body:has([data-signin-page]) { background:light-dark(#f6f0e5,#122238); }
+
+.forward-arrow { display:inline-block;flex-shrink:0;font-size:1.15em;font-weight:400;line-height:1;color:inherit; }

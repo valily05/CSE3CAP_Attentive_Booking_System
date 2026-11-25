@@ -26,5 +26,13 @@
   "urgent_received.subject": "Attentive request received - {{.Code}}",
   "urgent_received.body": "Your request has been saved. Booking Code: {{.Code}}. Please wait for staff confirmation. Reopen your confirmation and QR code using the notification bell in the same browser where you submitted the request. Secure guest access lasts 30 days.\n{{.Link}}",
   "client_access.subject": "Your Attentive access link",
-  "client_access.body": "Staff have requested account activation or email verification with your consent. Open this single-use link, valid for 24 hours, to continue. Your existing password will remain in place for an email address update.\n{{.Link}}"
+  "client_access.body": "Staff have requested account activation or email verification with your consent. Open this single-use link, valid for 24 hours, to continue. Your existing password will remain in place for an email address update.\n{{.Link}}",
+  "verification.eyebrow": "WELCOME TO ATTENTIVE",
+  "verification.title": "A little closer to your first session.",
+  "verification.greeting": "Hi",
+  "verification.body": "Thank you for creating your Attentive account. Confirm your email address to securely sign in and manage your appointments.",
+  "verification.button": "Verify email address",
+  "verification.expiry": "This secure link expires in 24 hours and can only be used once.",
+  "verification.ignore": "If you did not create this account, you can safely ignore this email.",
+  "verification.signoff": "Warmly, the Attentive team"
 }

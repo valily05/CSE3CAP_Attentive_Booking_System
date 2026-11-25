@@ -1,0 +1,923 @@
+{
+  "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#psikolog",
+  "catalogUrl": "https://ourservices.attentiveid.com/api/public/catalog",
+  "fetchedAt": "2026-11-23T13:39:06.965Z",
+  "categories": [
+    {
+      "id": "c-asesmen",
+      "name": "Asesmen Psikologi",
+      "nameEn": "Psychological Assessment"
+    },
+    {
+      "id": "c-konseling",
+      "name": "Konseling/Terapi",
+      "nameEn": "Counseling/Therapy"
+    },
+    {
+      "id": "c-akademik",
+      "name": "Konsultasi Akademik",
+      "nameEn": "Academic Consultation"
+    },
+    {
+      "id": "c-pengembangan",
+      "name": "Pengembangan Diri",
+      "nameEn": "Personal Development"
+    },
+    {
+      "id": "c-tambahan",
+      "name": "Layanan Tambahan",
+      "nameEn": "Additional Services"
+    },
+    {
+      "id": "c-paket",
+      "name": "Paket Layanan",
+      "nameEn": "Service Packages"
+    },
+    {
+      "id": "c-belum",
+      "name": "Belum Dikategorikan",
+      "nameEn": "Uncategorized"
+    },
+    {
+      "id": "c-gratis",
+      "name": "Gratis dikerjakan",
+      "nameEn": "Free to take"
+    }
+  ],
+  "branches": [
+    {
+      "id": "b-tbi",
+      "name": "Jakarta",
+      "address": "Jl. Teratai IV No. 4, RT.3/RW.2, Tanjung Barat, Kec. Jagakarsa",
+      "mapsUrl": null
+    },
+    {
+      "id": "b-bsd",
+      "name": "BSD",
+      "address": "Delrey BizTown BSD, Unit B8-9 Lt. 2, Jl. Lkr. Botanika Utara, Lengkong Kulon",
+      "mapsUrl": null
+    },
+    {
+      "id": "b-malang",
+      "name": "Malang",
+      "address": "Grand Arumba B17, Jl. Grand Arumba Blk. B No.17, Tunggulwulung, Kec. Lowokwaru, Kota Malang, Jawa Timur 65143",
+      "mapsUrl": null
+    }
+  ],
+  "services": [
+    {
+      "id": "p-konsultasi-statistik",
+      "name": "Konsultasi Statistik & Riset",
+      "nameEn": "Statistics & Research Consultation",
+      "categoryId": "c-akademik",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "60 menit",
+      "durationEn": "60 min",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konsultasi-statistik"
+    },
+    {
+      "id": "p-expert-judgment",
+      "name": "Expert Judgment",
+      "nameEn": "Expert Judgment",
+      "categoryId": "c-akademik",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "Sesuai jumlah butir",
+      "durationEn": "Depends on the number of items",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-expert-judgment"
+    },
+    {
+      "id": "p-konseling-dewasa",
+      "name": "Konseling Individu Dewasa",
+      "nameEn": "Adult Individual Counseling",
+      "categoryId": "c-konseling",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline",
+        "Online"
+      ],
+      "duration": "Dihitung per jam. Sesi yang mencapai 1 jam 30 menit dihitung 2 sesi.",
+      "durationEn": "Charged per hour. A session that reaches 1 hour 30 minutes counts as 2 sessions.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konseling-dewasa"
+    },
+    {
+      "id": "p-konseling-anak",
+      "name": "Konseling Psikolog Klinis Anak",
+      "nameEn": "Child Clinical Psychologist Counseling",
+      "categoryId": "c-konseling",
+      "audience": [
+        "Anak"
+      ],
+      "modes": [
+        "Offline",
+        "Online"
+      ],
+      "duration": "Dihitung per jam. Sesi yang mencapai 1 jam 30 menit dihitung 2 sesi.",
+      "durationEn": "Charged per hour. A session that reaches 1 hour 30 minutes counts as 2 sessions.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konseling-anak"
+    },
+    {
+      "id": "p-konseling-pendidikan",
+      "name": "Konseling Psikolog Pendidikan",
+      "nameEn": "Educational Psychologist Counseling",
+      "categoryId": "c-konseling",
+      "audience": [],
+      "modes": [
+        "Offline",
+        "Online"
+      ],
+      "duration": "Dihitung per jam. Sesi yang mencapai 1 jam 30 menit dihitung 2 sesi.",
+      "durationEn": "Charged per hour. A session that reaches 1 hour 30 minutes counts as 2 sessions.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konseling-pendidikan"
+    },
+    {
+      "id": "p-konseling-couple",
+      "name": "Konseling Couple",
+      "nameEn": "Couple Counseling",
+      "categoryId": "c-konseling",
+      "audience": [],
+      "modes": [
+        "Offline",
+        "Online"
+      ],
+      "duration": "Sesi berlangsung selama 1 jam.",
+      "durationEn": "Each session lasts 1 hour.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konseling-couple"
+    },
+    {
+      "id": "p-konseling-family",
+      "name": "Konseling Family",
+      "nameEn": "Family Counseling",
+      "categoryId": "c-konseling",
+      "audience": [],
+      "modes": [
+        "Offline",
+        "Online"
+      ],
+      "duration": "Sesi berlangsung selama 1 jam.",
+      "durationEn": "Each session lasts 1 hour.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konseling-family"
+    },
+    {
+      "id": "p-addon-weekend",
+      "name": "Biaya Akhir Pekan atau Libur Nasional",
+      "nameEn": "Weekend or Public Holiday Fee",
+      "categoryId": "c-tambahan",
+      "audience": [],
+      "modes": [],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-addon-weekend"
+    },
+    {
+      "id": "p-addon-pemeriksaan",
+      "name": "Biaya pendaftaran (klien baru)",
+      "nameEn": "Registration fee (new clients)",
+      "categoryId": "c-tambahan",
+      "audience": [],
+      "modes": [],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-addon-pemeriksaan"
+    },
+    {
+      "id": "p-konsultasi-akademik",
+      "name": "Konsultasi Akademik",
+      "nameEn": "Academic Consultation",
+      "categoryId": "c-akademik",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-konsultasi-akademik"
+    },
+    {
+      "id": "p-tes-iq",
+      "name": "Tes IQ Individual (Wechsler)",
+      "nameEn": "Individual IQ Test (Wechsler)",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Anak",
+        "Remaja",
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-tes-iq"
+    },
+    {
+      "id": "p-acm-y48",
+      "name": "Tes Minat Karier (ACM-Y48)",
+      "nameEn": "Career Interest Test (ACM-Y48)",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Remaja",
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-acm-y48"
+    },
+    {
+      "id": "p-rmhcu",
+      "name": "Cek Kesehatan Mental (R-MHCU)",
+      "nameEn": "Mental Health Check (R-MHCU)",
+      "categoryId": "c-asesmen",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-rmhcu"
+    },
+    {
+      "id": "p-gsc",
+      "name": "Goal System Compass",
+      "nameEn": "Goal System Compass",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-gsc"
+    },
+    {
+      "id": "p-proyektif",
+      "name": "Tes Proyektif + Big10",
+      "nameEn": "Projective Test + Big10",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Remaja",
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-proyektif"
+    },
+    {
+      "id": "p-kesiapan-sekolah",
+      "name": "Tes Kesiapan Sekolah",
+      "nameEn": "School Readiness Test",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Anak"
+      ],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-kesiapan-sekolah"
+    },
+    {
+      "id": "p-kesulitan-belajar",
+      "name": "Pemeriksaan Kesulitan Belajar Anak",
+      "nameEn": "Child Learning Difficulties Assessment",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Anak"
+      ],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-kesulitan-belajar"
+    },
+    {
+      "id": "p-brainspotting",
+      "name": "Brainspotting",
+      "nameEn": "Brainspotting",
+      "categoryId": "c-konseling",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "1,5 jam per sesi.",
+      "durationEn": "1.5 hours per session.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-brainspotting"
+    },
+    {
+      "id": "p-art-therapy",
+      "name": "Art Therapy",
+      "nameEn": "Art Therapy",
+      "categoryId": "c-konseling",
+      "audience": [],
+      "modes": [
+        "Online",
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-art-therapy"
+    },
+    {
+      "id": "p-home-visit",
+      "name": "Home Visit Dewasa",
+      "nameEn": "Home Visit for Adults",
+      "categoryId": "c-konseling",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "Satu kunjungan 2 jam, dihitung 2 sesi reguler.",
+      "durationEn": "One 2-hour visit, counted as 2 regular sessions.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-home-visit"
+    },
+    {
+      "id": "p-big10",
+      "name": "Tes Kepribadian Big10",
+      "nameEn": "Big10 Personality Test",
+      "categoryId": "c-gratis",
+      "audience": [],
+      "modes": [
+        "Online"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-big10"
+    },
+    {
+      "id": "p-profil-kognitif-lengkap",
+      "name": "Profil Kognitif Lengkap",
+      "nameEn": "Complete Cognitive Profile",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-profil-kognitif-lengkap"
+    },
+    {
+      "id": "p-arah-studi-karier",
+      "name": "Arah Studi & Karier",
+      "nameEn": "Study & Career Direction",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Remaja",
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-arah-studi-karier"
+    },
+    {
+      "id": "p-prepare-enrich",
+      "name": "Konseling Pranikah (Prepare/Enrich)",
+      "nameEn": "Premarital Counseling (Prepare/Enrich)",
+      "categoryId": "c-konseling",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-prepare-enrich"
+    },
+    {
+      "id": "p-adhd-dewasa",
+      "name": "Asesmen ADHD Dewasa",
+      "nameEn": "Adult ADHD Assessment",
+      "categoryId": "c-asesmen",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-adhd-dewasa"
+    },
+    {
+      "id": "p-visit-anak",
+      "name": "Home & School Visit Anak",
+      "nameEn": "Home & School Visit for Children",
+      "categoryId": "c-konseling",
+      "audience": [
+        "Anak"
+      ],
+      "modes": [
+        "Offline"
+      ],
+      "duration": "Satu kunjungan 2 jam, dihitung 2 sesi reguler.",
+      "durationEn": "One 2-hour visit, counted as 2 regular sessions.",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-visit-anak"
+    },
+    {
+      "id": "p-addon-laporan-visit",
+      "name": "Laporan Tertulis Kunjungan",
+      "nameEn": "Written Visit Report",
+      "categoryId": "c-tambahan",
+      "audience": [],
+      "modes": [],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-addon-laporan-visit"
+    },
+    {
+      "id": "p-social-world",
+      "name": "Your Social World",
+      "nameEn": "Your Social World",
+      "categoryId": "c-gratis",
+      "audience": [
+        "Dewasa"
+      ],
+      "modes": [
+        "Online"
+      ],
+      "duration": "",
+      "durationEn": "",
+      "sourceUrl": "https://ourservices.attentiveid.com/?lang=en#detail-p-social-world"
+    }
+  ],
+  "providers": [
+    {
+      "id": "pr-syazka",
+      "name": "Syazka Kirani Narindra, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">6 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-syazka.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/syazka",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-brainspotting",
+        "p-art-therapy",
+        "p-konseling-couple",
+        "p-konseling-family",
+        "p-adhd-dewasa"
+      ]
+    },
+    {
+      "id": "pr-anggita",
+      "name": "Anggita H. Panjaitan, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">6 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-anggita.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/gita",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple",
+        "p-brainspotting",
+        "p-adhd-dewasa"
+      ]
+    },
+    {
+      "id": "pr-niputu",
+      "name": "Ni Putu Mayda A., M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">6 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-niputu.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/mayda",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-ilham",
+      "name": "Ilham Anggi Putra, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">6 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-ilham.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/ilham",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-risky",
+      "name": "Risky Adinda, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">5 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-risky.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/dinda",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-putri",
+      "name": "Putri Dewinta Kinan, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">6 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-putri.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/dewinta",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple",
+        "p-brainspotting"
+      ]
+    },
+    {
+      "id": "pr-dwi",
+      "name": "Dwi Ningsih Ariani, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">4 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-dwi.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/nichi",
+      "branchIds": [
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-disa",
+      "name": "Disa Nisrina Listiani, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-disa.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/disa",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-valencia",
+      "name": "Valencia Yang, S.Psi, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-valencia.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/valencia",
+      "branchIds": [
+        "b-bsd"
+      ],
+      "active": false,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-andri",
+      "name": "Mohammad Andri Khaeranu, S.Psi, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-andri.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/andri",
+      "branchIds": [
+        "b-tbi",
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-jessica",
+      "name": "Jessica Raphaela, S.Psi, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-jessica.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/jessica",
+      "branchIds": [
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa",
+        "p-konseling-couple"
+      ]
+    },
+    {
+      "id": "pr-anggriana",
+      "name": "Anggriana Angguningtyas, M.Psi, Psikolog",
+      "title": "Psikolog Klinis Anak",
+      "titleEn": "Child Clinical Psychologist",
+      "specialties": [],
+      "experience": ">8 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-anggriana.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/anggun",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": false,
+      "serviceIds": [
+        "p-konseling-anak",
+        "p-konseling-pendidikan"
+      ]
+    },
+    {
+      "id": "pr-sekar",
+      "name": "Sekar Permatasari, M.Psi, Psikolog",
+      "title": "Psikolog Pendidikan",
+      "titleEn": "Educational Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-sekar.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/sekar",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": false,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-haykal",
+      "name": "Dr. Haykal Hafizul Arifin, S.Psi., M.Si.",
+      "title": "Ilmuwan Psikologi",
+      "titleEn": "Psychological Consultant",
+      "specialties": [],
+      "experience": ">10 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-haykal.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/haykal",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konsultasi-akademik",
+        "p-acm-y48",
+        "p-gsc",
+        "p-konsultasi-statistik",
+        "p-expert-judgment"
+      ]
+    },
+    {
+      "id": "pr-angelina",
+      "name": "Angelina Gabriella Suliyanto, S.Psi., Psikolog",
+      "title": "Psikolog Umum",
+      "titleEn": "Psikolog Umum",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-angelina.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/angelina",
+      "branchIds": [
+        "b-tbi",
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-nuzul",
+      "name": "Annisah Nurul Azizah, M.Psi., Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-nuzul.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/nuzul",
+      "branchIds": [
+        "b-malang"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-audria",
+      "name": "Audria Putri Salsabila Syarif, S.Psi., Psikolog",
+      "title": "Psikolog Umum",
+      "titleEn": "Psikolog Umum",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-audria.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/audria",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-diptya",
+      "name": "Diptya Ratri P., M.Psi., Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">4 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-diptya.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/ratri",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-dominika",
+      "name": "Dominika Arthalia Ayunda Putri, M.Psi., Psikolog",
+      "title": "Psikolog Pendidikan",
+      "titleEn": "Educational Psychologist",
+      "specialties": [],
+      "experience": ">5 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-dominika.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/dominika",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-pendidikan",
+        "p-visit-anak",
+        "p-konseling-anak",
+        "p-kesiapan-sekolah",
+        "p-kesulitan-belajar"
+      ]
+    },
+    {
+      "id": "pr-farahdilla",
+      "name": "Farahdilla, S.Psi., Psikolog",
+      "title": "Psikolog Umum",
+      "titleEn": "Psikolog Umum",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-farahdilla.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/farahdilla",
+      "branchIds": [
+        "b-tbi",
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-farhan",
+      "name": "Farhan Afif Arrahul, S.Psi., Psikolog",
+      "title": "Psikolog Umum",
+      "titleEn": "Psikolog Umum",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-farhan.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/farhan",
+      "branchIds": [
+        "b-bsd"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-gisella",
+      "name": "Gisella Tani Pratiwi, M.Psi., Psikolog",
+      "title": "Psikolog Klinis Remaja & Dewasa",
+      "titleEn": "Psikolog Klinis Remaja & Dewasa",
+      "specialties": [],
+      "experience": ">15 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-gisella.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/gisella",
+      "branchIds": [
+        "b-tbi"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-anak",
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-grace",
+      "name": "Grace Eka, M.Psi., Psikolog",
+      "title": "Psikolog Klinis Dewasa",
+      "titleEn": "Adult Clinical Psychologist",
+      "specialties": [],
+      "experience": ">1 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-grace.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/grace",
+      "branchIds": [
+        "b-malang"
+      ],
+      "active": true,
+      "serviceIds": [
+        "p-konseling-dewasa"
+      ]
+    },
+    {
+      "id": "pr-aly",
+      "name": "dr. Aly Lamuri, M.Sc.",
+      "title": "Ilmuwan Psikologi",
+      "titleEn": "Psychological Scientist",
+      "specialties": [
+        "Farmakoekonomi",
+        "Riset Kesehatan Mental",
+        "Riset Antidepresan dan Ansiolitik",
+        "Analisis Pola Peresepan Obat",
+        "Analisis Data Kesehatan",
+        "Analisis Jaringan Temporal"
+      ],
+      "experience": ">12 Tahun",
+      "photoUrl": "https://ourservices.attentiveid.com/img/psikolog/pr-aly.jpg",
+      "profileUrl": "https://attentiveid.com/psychologists/aly",
+      "branchIds": [],
+      "active": true,
+      "serviceIds": [
+        "p-konsultasi-akademik",
+        "p-expert-judgment",
+        "p-konsultasi-statistik"
+      ]
+    }
+  ]
+}

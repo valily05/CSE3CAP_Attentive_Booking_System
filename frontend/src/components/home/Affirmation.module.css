@@ -1,0 +1,4 @@
+﻿.affirmation { display:grid; justify-items:end; overflow:hidden; padding-inline:.4rem; margin-top:1.1rem; min-height:2.5em; color:var(--ink); font-size:clamp(.75rem,1.1vw,.9rem); font-weight:400; font-style:italic; text-align:right; line-height:1.6; }
+.sentence { min-width:0; max-width:100%; padding-inline:.2rem; animation:slideLeft 8s ease-in-out both; }
+@keyframes slideLeft { 0% { opacity:0; transform:translateX(2rem); } 7%,93% { opacity:1; transform:translateX(0); } 100% { opacity:0; transform:translateX(-2rem); } }
+@media(prefers-reduced-motion:reduce) { .sentence { animation:none; } }

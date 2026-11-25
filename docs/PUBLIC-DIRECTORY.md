@@ -1,0 +1,15 @@
+﻿# Local psychologist catalogue
+
+The public snapshot in `frontend/src/data/attentive-catalog.json` is imported into PostgreSQL using `go run ./cmd/import-directory` from `backend/`, with the app's DATABASE_URL loaded. Run it again safely to update profile facts without duplicating records. The importer adds the 21 active profiles and the 13 Counseling/Therapy and Academic Consultation services. Existing profiles, accounts, bookings, working hours and admin edits remain intact. No login accounts, bookings or working hours are created for imported providers.
+
+Published provider IDs and experience are retained in psychologist.directory_metadata; service links and branch mappings use the existing relational tables. Public gender data is absent and remains unset. Fictional development profiles retain explicit gender metadata; Budi is male and Citra is female as requested. No genders are inferred for real people.
+
+Imported service durations use published 60-, 90- or 120-minute durations where available. Where no fixed duration is published, 60 minutes is the local scheduling default, not a claim about Attentive's service duration. Review duration_note and set the desired duration and working hours in the admin interface before accepting bookings. Re-imports preserve existing duration and availability configuration.
+
+The frontend now uses only the local API directory. Cards do not show schedules; guests follow sign-in with a return URL before selecting a booking. Imported profiles use the same local profile and booking routes as other profiles. Empty calendars remain empty until an admin configures working hours.
+
+Published areas of experience are stored in frontend/src/data/attentive-experience-areas.json, fetched from Attentive's public psychologist content endpoint in English and Indonesian. The snapshot combines exact labels after case/whitespace normalization and keeps per-profile mappings. Refresh with node frontend/scripts/sync-experience-areas.mjs, then rerun the importer to update database metadata. Areas without an active local profile correctly return no matches. The name search and Area of experience dropdown combine with the existing filters and Clear filters resets both.
+
+Individual concerns are defined in frontend/src/data/experience-topics.json. It explicitly maps all 117 source labels to 71 individual bilingual topics, merges synonymous repetitions, and preserves the original per-provider source labels. This mapping is deliberate rather than splitting every occurrence of 'and', which could damage clinical terms. On a source refresh, review any new source labels against the topic mapping. Service, audience, meeting mode, location, name and area filters combine as AND conditions; selecting an incompatible service/audience yields no matches.
+
+Overlapping discovery labels such as self-esteem, self-confidence, self-efficacy and insecurity share a single Self-confidence option. This is a simplified directory grouping, not a claim that the underlying psychological concepts are identical. Original labels and source-to-profile mappings remain intact.

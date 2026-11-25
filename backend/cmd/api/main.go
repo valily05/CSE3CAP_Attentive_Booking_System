@@ -48,11 +48,9 @@ func run(log *slog.Logger) error {
 		return err
 	}
 
-	// Brevo, Mailgun and SendGrid all offer SMTP. Credentials only ever come
-	// from the environment (Scope §13). Default: local Mailpit.
-	sender := mail.SMTP{
-		Addr: env("SMTP_ADDR", "localhost:1025"), From: env("SMTP_FROM", "Attentive <no-reply@attentive.test>"),
-		User: os.Getenv("SMTP_USER"), Password: os.Getenv("SMTP_PASSWORD"),
+	sender, err := mail.FromEnv(os.Getenv)
+	if err != nil {
+		return err
 	}
 	a := app.New(app.Deps{Store: st, Clock: clock.System{}, Mail: sender, BaseURL: env("PUBLIC_URL", "http://localhost:3000"), Log: log})
 

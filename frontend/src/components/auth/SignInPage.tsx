@@ -1,23 +1,24 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { useSession } from "@/components/shell/Session";
 import { SignInForm, homeFor } from "./AuthForms";
-import { AuthLayout } from "./AuthLayout";
+import { readRegistrationRecovery } from "@/lib/registration-recovery";
+import { SignInLayout } from "./SignInLayout";
 
 export function SignInPage({ next }: { next?: string }) {
-  const t = useTranslations("auth");
   const router = useRouter();
   const { refresh } = useSession();
   return (
-    <AuthLayout title={t("signInTitle")} description={t("signInDescription")}>
+    <SignInLayout>
       <SignInForm
         onSignedIn={async (me) => {
           await refresh();
-          router.push(homeFor(me.role, next));
+          const recovery=readRegistrationRecovery();
+          const review=recovery?.residence&&recovery.email===me.email.toLowerCase()?"/account/residence":undefined;
+          router.push(homeFor(me.role, next||review));
         }}
       />
-    </AuthLayout>
+    </SignInLayout>
   );
 }
