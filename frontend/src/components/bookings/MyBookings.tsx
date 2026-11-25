@@ -3,8 +3,7 @@ import { UrgentBadge } from "@/components/urgent/UrgentBadge";
 
 import {showToast} from "@/lib/toast";
 import Link from "next/link";
-import Image from "next/image";
-import { useCallback,useState } from "react";
+import { useCallback,useEffect,useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
@@ -18,6 +17,7 @@ import {
   formatMonth,
   formatMonthShort,
   formatTime,
+  formatTime12,
   formatWeekdayShort,
   relativeDay,
   weekStart,
@@ -26,7 +26,7 @@ import { useAppLocale } from "@/lib/i18n";
 import type { Booking, Slot } from "@/lib/types";
 import {Reschedule} from "./BookingActions";
 import {BookingDetailsDrawer} from "./BookingDetailsDrawer";
-import {CalendarHeart,Eye,UserRound} from "lucide-react";
+import {CalendarHeart,CalendarClock,Clock3,Armchair,Phone,Video,MapPin,Info,Eye,X} from "lucide-react";
 import styles from "./MyBookings.module.css";
 
 
@@ -44,7 +44,7 @@ export function MyBookings({ now = new Date(), attendCode }: Props) {
   const error = res.error ?? null;
 
   const done = async (message: string) => {
-    showToast(message);
+    showToast(message,false,message===t("bookings.cancelled")?"cancel":"calendar");
     setError(null);
     res.reload();
     window.dispatchEvent(new Event("attentive:bookings-changed"));
@@ -67,8 +67,7 @@ export function MyBookings({ now = new Date(), attendCode }: Props) {
       {list === null && !error && <p>{t("common.loading")}</p>}
 
       <div className={styles.columns}>
-      <section aria-labelledby="upcoming" className={styles.upcomingCol}>
-        <h2 id="upcoming">{t("bookings.upcoming")}</h2>
+      <section aria-labelledby="upcoming" className={styles.upcomingCol}><h2 id="upcoming">{t("bookings.upcoming")}</h2>
         {list && upcoming.length === 0 && (
           <div className={styles.emptyCard}><span className={styles.emptyArt}><CalendarHeart size={42} strokeWidth={1.3}/></span><h3>{t("bookingDetails.emptyTitle")}</h3><p>{t("bookingDetails.emptyBody")}</p><Link className="button" href="/">{t("bookingDetails.findTime")}</Link></div>
         )}
@@ -102,7 +101,10 @@ const shortName = (full: string) => {
 function SessionsCalendar({ bookings, now,onDetails }: { bookings: Booking[]; now: Date;onDetails:(booking:Booking)=>void }) {
   const t = useTranslations();
   const locale = useAppLocale();
-  const [month, setMonth] = useState(dateKey(now).slice(0, 7));
+  const [initialTarget]=useState(()=>bookings.find(b=>b.status==="confirmed"&&Date.parse(b.start)>now.getTime())?.start||null);
+  const [focusActive,setFocusActive]=useState(Boolean(initialTarget));
+  useEffect(()=>{if(!initialTarget)return;const timer=setTimeout(()=>setFocusActive(false),4000);return()=>clearTimeout(timer)},[initialTarget]);
+  const [month, setMonth] = useState(()=>dateKey(initialTarget||now).slice(0, 7));
   const today = dateKey(now);
   const gridStart = weekStart(`${month}-01`);
   const last = `${month}-${String(daysInMonth(month)).padStart(2, "0")}`;
@@ -137,7 +139,7 @@ function SessionsCalendar({ bookings, now,onDetails }: { bookings: Booking[]; no
         {weeks.map((w) => (
           <div role="row" key={w[0]} className={styles.gridRow}>
             {w.map((k) => (
-              <div role="gridcell" key={k} className={styles.cell} data-outside={!k.startsWith(month) || undefined}>
+              <div role="gridcell" key={k} className={styles.cell} data-booking-focus={focusActive&&initialTarget&&dateKey(initialTarget)===k||undefined} data-outside={!k.startsWith(month) || undefined}>
                 <span className={styles.cellNum} data-today={k === today || undefined}>
                   {Number(k.slice(8))}
                 </span>
@@ -164,59 +166,21 @@ function SessionsCalendar({ bookings, now,onDetails }: { bookings: Booking[]; no
   );
 }
 
-/** The next session, shown as a ticket: what matters most is when, and with whom. */
-function NextSession({ booking: b, now }: { booking: Booking; now: Date }) {
-  const t = useTranslations();
-  const locale = useAppLocale();
-  const place = b.mode === "online" ? t(`sessionType.${b.onlineChannel ?? "video"}`) : b.locationName;
-  return (
-    <section aria-labelledby={`next-${b.id}`} className={styles.ticket}>
-      <div className={styles.dateTile} aria-hidden="true">
-        <span>{formatWeekdayShort(b.start, locale)}</span>
-        <strong>{Number(dateKey(b.start).slice(8))}</strong>
-        <span>{formatMonthShort(b.start, locale)}</span>
-      </div>
-      <div className={styles.ticketBody}>
-      <h3 id={`next-${b.id}`} className={styles.ticketTitle}>
-        {t("bookings.next")}
-      </h3>
-      <p className={styles.relative}>{relativeDay(b.start, now, locale)}</p>
-      <p className={styles.ticketWhen}>
-        {formatDate(b.start, locale)}
-        <strong>{formatTime(b.start, locale)}</strong>
-      </p>
-      <div className={styles.cardPsych}>{b.psychologistPhoto?<Image src={b.psychologistPhoto} alt="" width={44} height={44} unoptimized/>:<span><UserRound size={23}/></span>}<p className={styles.ticketWho}>{b.psychologistName}</p></div>
-      <p className={styles.ticketMeta}>
-        {b.serviceName}, {place}
-      </p>
-      <div className={styles.meta}><span className={styles.code}>{b.code}</span><span className={styles.status} data-status={b.status}>{t(`bookings.status.${b.status}`)}</span><UrgentBadge urgent={b.isUrgent}/></div>
-      </div>
-    </section>
-  );
+/** Shared session ticket keeps upcoming and later appointments visually consistent. */
+function SessionSummary({booking:b,now,featured=false}:{booking:Booking;now?:Date;featured?:boolean}){
+ const t=useTranslations(),locale=useAppLocale();
+ const place=b.mode==="online"?t(`sessionType.${b.onlineChannel||"video"}`):b.locationName;
+ const MeetingIcon=b.mode!=="online"?MapPin:b.onlineChannel==="voice"?Phone:Video;
+ return <section aria-labelledby={featured?`next-${b.id}`:undefined} className={styles.ticket+(featured?"":" "+styles.laterSummary)}>
+ <BookingDateTile start={b.start}/><div className={styles.ticketBody}>
+ {featured&&<><h3 id={`next-${b.id}`} className={styles.ticketTitle}><CalendarClock size={18}/>{t("bookings.next")}</h3><p className={styles.relative}>{relativeDay(b.start,now||new Date(),locale)}</p></>}
+ <p className={styles.ticketWhen}><Clock3 size={20}/><span>{formatDate(b.start,locale)}, <strong>{formatTime12(b.start)}</strong></span></p>
+ <p className={styles.ticketWho}>{t("bookingDetails.psychologist")}: <span>{b.psychologistName}</span></p>
+ <div className={styles.serviceStrip}><span><Armchair size={21}/>{b.serviceName}</span><span><MeetingIcon size={21}/>{place}</span></div>
+ <div className={styles.meta}><span className={styles.code+" "+styles.bookingReference}>{b.code}</span><UrgentBadge urgent={b.isUrgent}/></div>
+ </div></section>
 }
-
-function Summary({ booking: b }: { booking: Booking }) {
-  const t = useTranslations();
-  const locale = useAppLocale();
-  const place = b.mode === "online" ? t(`sessionType.${b.onlineChannel ?? "video"}`) : b.locationName;
-  return (
-    <div className={styles.summary}>
-      <span className={styles.when}>
-        {formatDate(b.start, locale)}
-        <strong>{formatTime(b.start, locale)}</strong>
-      </span>
-      <span>
-        {b.psychologistName}, {b.serviceName}, {place}
-      </span>
-      <span className={styles.meta}>
-        <span className={styles.code}>{b.code}</span><UrgentBadge urgent={b.isUrgent} />
-        <span className={styles.status} data-status={b.status}>
-          {t(`bookings.status.${b.status}`)}
-        </span>
-      </span>
-    </div>
-  );
-}
+function BookingDateTile({start}:{start:string}){const locale=useAppLocale();return <div className={styles.dateTile} aria-hidden="true"><span>{formatWeekdayShort(start,locale)}</span><strong>{Number(dateKey(start).slice(8))}</strong><span>{formatMonthShort(start,locale)}</span></div>}
 
 type RowProps = { booking: Booking; onDone: (msg: string) => Promise<void>; onError: (code: string) => void; onDetails:()=>void;featured?: boolean; now?: Date };
 
@@ -237,15 +201,15 @@ function Upcoming({ booking: b, onDone, onError,onDetails, featured, now }: RowP
 
   return (
     <li className={featured ? styles.featured : styles.row}>
-      {featured ? <NextSession booking={b} now={now ?? new Date()} /> : <Summary booking={b} />}
+      <SessionSummary booking={b} now={now} featured={featured}/>
       {b.canChange ? (
         <>
-          {b.changeDeadline && <p className={styles.deadline}>{t("bookings.changeUntil", { deadline: formatDateTime(b.changeDeadline, locale) })}</p>}
+          {b.changeDeadline && <p className={styles.deadline}><Info size={17}/>{t("bookings.changeUntil", { deadline: formatDateTime(b.changeDeadline, locale) })}</p>}
           <div className={styles.actions}>
             <button type="button" className="button" onClick={() => setMode("move")}>
               {t("bookings.reschedule")}
             </button>
-            <button type="button" className="button-quiet" onClick={onDetails}><Eye size={16}/>{t("bookingDetails.view")}</button>
+            <button type="button" className={"button-quiet "+styles.viewDetails} onClick={onDetails}><Eye size={16}/>{t("bookingDetails.view")}</button>
           </div>
         </>
       ) : (
@@ -253,7 +217,7 @@ function Upcoming({ booking: b, onDone, onError,onDetails, featured, now }: RowP
       )}
       {mode === "move" && (
         <div className={styles.move}>
-          <h3>{t("bookings.pickNewTime")}</h3>
+          <div className={styles.moveHeading}><h3>{t("bookings.pickNewTime")}</h3><button type="button" aria-label={t("bookingDetails.closeChange")} onClick={()=>setMode("idle")}><X size={18}/></button></div>
           <Reschedule booking={b} today={dateKey(now ?? new Date())} onPick={move} />
         </div>
       )}

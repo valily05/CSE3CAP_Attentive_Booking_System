@@ -452,3 +452,94 @@
 .dateTile span:last-child { display:block;padding:.25rem .3rem .55rem;font-size:.65rem;line-height:1.5;letter-spacing:.08em;font-weight:650;text-transform:uppercase; }
 .status[data-status=confirmed] { display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;min-height:1.6rem;padding:.2rem .65rem;line-height:1.4;background:light-dark(#e5f2e9,#203e30);color:light-dark(#347653,#b4d9c1);border:1px solid light-dark(#cfe5d6,#486b54);border-radius:999px;text-align:center; }
 @media(max-width:59.999rem) { .drawer { inset:0;width:100%;max-width:100%;height:100dvh;border-radius:0; } }
+.pageHeading { margin-bottom:1.75rem;padding:.25rem 0 1.25rem;border-bottom:1px solid var(--line); }.pageHeadingCopy>p { display:flex;align-items:center;gap:.65rem;font-size:.6rem;letter-spacing:.14em;font-weight:650;color:var(--brass-text);margin-bottom:.65rem; }.pageHeadingCopy>p::before { content:"";width:1.5rem;height:1px;background:var(--brass); }.pageHeading h1 { margin:0;font-size:clamp(1.8rem,3vw,2.35rem);line-height:1.2;font-weight:650;letter-spacing:-.035em; }.pageHeadingCopy>span { display:block;margin-top:.65rem;font-size:.8rem;line-height:1.75;color:var(--muted);max-width:58ch; }
+.viewDetails:hover { background:light-dark(#142c5212,#9ab6de22);border-color:light-dark(#142c52,#9ab6de);color:var(--ink); }
+.moveHeading { display:flex;align-items:center;justify-content:space-between;gap:.75rem; }.moveHeading h3 { margin:0; }.moveHeading>button { display:grid;place-items:center;width:2.4rem;height:2.4rem;flex-shrink:0;background:var(--paper);border:1px solid var(--line);border-radius:.65rem;color:var(--ink);cursor:pointer; }.moveHeading>button:hover { border-color:var(--ink); }
+.legend span::before { border-radius:50%;width:.75rem;height:.75rem;flex-shrink:0; }.legend [data-status=attended]::before { background:#347653; }.legend [data-status=no_show]::before { background:#c55348; }.legend [data-status=cancelled]::before { background:transparent;border:1px dashed var(--line-strong); }
+.cell { position:relative; }.cell[data-booking-focus] { animation:bookingDateReveal 1.25s ease-in-out 3;z-index:1; }.cell[data-booking-focus] .cellNum { color:var(--brass-text);font-weight:800; }
+@keyframes bookingDateReveal { 0%,100% { box-shadow:inset 0 0 0 0 transparent;background:var(--paper); } 45%,65% { box-shadow:inset 0 0 0 2px var(--brass);background:light-dark(#f6ecd8,#3c3527); } }
+@media(prefers-reduced-motion:reduce) { .cell[data-booking-focus] { animation:none;box-shadow:inset 0 0 0 2px var(--brass); } }
+.pageHeading { display:flex;align-items:center;justify-content:space-between;gap:1.5rem; }.pageHeadingCopy { min-width:0; }.pageHeadingAction { display:grid;justify-items:end;gap:.65rem;flex-shrink:0; }.pageHeadingAction>span { font-size:.75rem;line-height:1.6;color:var(--muted); }.pageHeadingAction>a { display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font-size:.78rem;border-color:var(--ink); }.pageHeadingAction>a:hover { background:light-dark(#142c5212,#9ab6de22); }
+.actions .viewDetails { border-width:1px;border-style:solid;box-shadow:none;outline:none; }.actions .viewDetails:hover { border-width:1px;border-color:light-dark(#142c52,#9ab6de);box-shadow:none;outline:none; }.actions .viewDetails:focus-visible { outline:2px solid var(--brass);outline-offset:3px; }
+.ticket .bookingReference { display:inline-flex;align-items:center;justify-content:center;margin:0;padding:.3rem .65rem;border-radius:.55rem;background:#d6a74d;color:#142c52;font-size:.9rem;line-height:1.4;font-weight:750;letter-spacing:.045em; }.ticket .meta .code { margin:0; }.laterSummary { grid-template-columns:3.8rem minmax(0,1fr);padding:.9rem;gap:.85rem; }.laterSummary .dateTile strong { font-size:1.7rem; }.laterSummary .cardPsych { margin:.35rem 0; }.laterSummary .cardPsych img,.laterSummary .cardPsych>span { width:2.2rem;height:2.2rem; }.laterSummary .ticketWhen { font-size:.78rem;gap:.4rem; }.laterSummary .ticketWhen strong { font-size:.95rem; }.laterSummary .ticketWho { font-size:.86rem; }.laterSummary .ticketMeta { font-size:.73rem; }.subhead { margin-top:.7rem; }
+@media(max-width:48rem) { .pageHeading { flex-direction:column;align-items:stretch;gap:1rem; }.pageHeadingAction { justify-items:start; }.pageHeadingAction>span { display:none; }.pageHeadingAction>a { min-height:2.75rem; }.laterSummary { grid-template-columns:3.5rem minmax(0,1fr);padding:.8rem;gap:.7rem; } }
+
+.ticket { grid-template-columns:5.1rem minmax(0,1fr); }.laterSummary { grid-template-columns:4.5rem minmax(0,1fr); }
+@media(max-width:48rem) { .laterSummary { grid-template-columns:4.15rem minmax(0,1fr); } }
+/* Session tickets: calendar pages, a warm service strip and balanced actions. */
+.upcomingCol>h2,.subhead {font-size:1.55rem;font-weight:750;color:var(--ink);margin:0 0 .7rem;line-height:1.3;}
+.upcomingCol>h2::after,.subhead::after {content:"";display:block;width:3rem;height:4px;border-radius:99px;background:var(--brass);margin-top:.65rem;}
+.subhead {margin-top:1.1rem;}
+.featured,.row {padding:1rem;border-radius:1.5rem;gap:.9rem;box-shadow:0 8px 24px #50381a09;}
+.ticket,.laterSummary {grid-template-columns:6.5rem minmax(0,1fr);padding:1.25rem 1rem;gap:1.2rem;background:light-dark(#faf6ef,#192b41);border:0;border-radius:1.15rem;align-items:center;}
+.ticketBody {border-left:1px solid var(--line);padding-left:1.25rem;gap:.65rem;}
+.dateTile {position:relative;overflow:visible;width:100%;border-radius:1rem;box-shadow:0 6px 12px #5c45221c;}
+.dateTile::before,.dateTile::after {content:"";position:absolute;top:-.65rem;width:.45rem;height:1.15rem;border:2px solid light-dark(#cfc4b5,#6b7480);border-radius:99px;background:var(--paper);z-index:1;}
+.dateTile::before {left:20%;}.dateTile::after {right:20%;}
+.dateTile span:first-child {border-radius:.95rem .95rem 0 0;padding:.65rem .3rem .45rem;font-size:.85rem;}
+.dateTile strong,.laterSummary .dateTile strong {font-size:3rem;padding:.6rem .2rem 0;line-height:1.05;}
+.dateTile span:last-child {font-size:.85rem;padding:.25rem .3rem .7rem;}
+.ticketTitle {display:flex;align-items:center;gap:.5rem;justify-self:start;padding:.35rem .7rem;border:1px solid var(--brass);border-radius:99px;color:var(--brass-text);background:light-dark(#fff0d2,#383223);font-size:.8rem;text-transform:none;letter-spacing:0;font-weight:650;}
+.relative {font-size:1.3rem;color:var(--brass-text);font-weight:750;}
+.ticketWhen,.laterSummary .ticketWhen {display:flex;flex-wrap:nowrap;align-items:center;gap:.6rem;font-size:.9rem;line-height:1.6;}
+.ticketWhen svg {flex-shrink:0;}.ticketWhen strong,.laterSummary .ticketWhen strong {font-size:1.3rem;white-space:nowrap;}
+.ticketWho,.laterSummary .ticketWho {font-size:.78rem;color:var(--muted);font-weight:500;line-height:1.5;}
+.serviceStrip {display:flex;align-items:center;flex-wrap:wrap;gap:.6rem 0;background:light-dark(#f1eadf,#26384b);border-radius:.9rem;padding:.65rem .75rem;font-size:.8rem;line-height:1.5;}
+.serviceStrip>span {display:flex;align-items:center;gap:.6rem;min-width:0;flex:1;}.serviceStrip>span+span {border-left:1px solid var(--line-strong);padding-left:.75rem;margin-left:.75rem;}.serviceStrip svg {flex-shrink:0;}
+.ticket .bookingReference {font-size:1.05rem;padding:.35rem .9rem;border-radius:.65rem;}
+.deadline {display:flex;align-items:flex-start;gap:.55rem;border-top:1px solid var(--line);padding:.85rem .15rem 0;font-size:.74rem;line-height:1.7;}.deadline svg {flex-shrink:0;margin-top:.12rem;}
+.actions {display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}.actions button {min-height:2.9rem;font-size:.86rem;padding:.65rem .7rem;}.actions .viewDetails {border-color:var(--line-strong);}
+@media(min-width:60rem) {.columns {grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);}}
+@media(max-width:75rem) and (min-width:60rem) {.ticket,.laterSummary {grid-template-columns:5.1rem minmax(0,1fr);padding:1rem .7rem;gap:.8rem;}.ticketBody {padding-left:.8rem;}.serviceStrip {flex-direction:column;align-items:stretch;}.serviceStrip>span+span {border-left:0;margin-left:0;padding-left:0;}}
+@media(max-width:35rem) {.featured,.row {padding:.8rem;border-radius:1.15rem;}.ticket,.laterSummary {grid-template-columns:4.5rem minmax(0,1fr);padding:1rem .6rem;gap:.7rem;}.ticketBody {padding-left:.75rem;gap:.6rem;}.dateTile strong,.laterSummary .dateTile strong {font-size:2.4rem;}.dateTile span:first-child,.dateTile span:last-child {font-size:.7rem;}.ticketTitle {font-size:.68rem;padding:.3rem .5rem;}.ticketTitle svg {width:15px;}.relative {font-size:1.1rem;}.ticketWhen,.laterSummary .ticketWhen {font-size:.78rem;gap:.4rem;}.ticketWhen svg {width:17px;}.ticketWhen strong,.laterSummary .ticketWhen strong {font-size:1.1rem;}.serviceStrip {flex-direction:column;align-items:stretch;font-size:.73rem;padding:.55rem;}.serviceStrip>span+span {margin:0;padding:0;border:0;}.serviceStrip svg {width:17px;}.ticket .bookingReference {font-size:.9rem;}.actions {gap:.6rem;}.actions button {font-size:.77rem;}.deadline {font-size:.7rem;}}
+@media(max-width:35rem) {.calendar {padding:.85rem;gap:.8rem;}.calHead {flex-wrap:wrap;gap:.6rem;}.calHead h2 {font-size:1rem;}.calNav {gap:.3rem;flex-shrink:0;}.calNav button {padding:.4rem .6rem;min-width:2rem;white-space:nowrap;font-size:.75rem;}.weekday {padding:.4rem .1rem;font-size:.62rem;text-align:center;white-space:nowrap;}.cell {padding:.25rem;min-height:4rem;}.chip {padding:.15rem;font-size:.6rem;}.legend {gap:.6rem .8rem;font-size:.7rem;}}
+/* Compact section headings, matching the earlier booking overview. */
+.upcomingCol>h2 {font-size:var(--text-lg);font-weight:700;}
+.subhead {font-size:var(--text-md);font-weight:650;}
+.ticketWho>span {color:var(--ink);}
+/* Compact appointment cards while retaining the calendar-ticket layout. */
+.featured,.row {padding:.8rem;gap:.65rem;border-radius:1.15rem;}
+.ticket,.laterSummary {grid-template-columns:4.6rem minmax(0,1fr);padding:.85rem .75rem;gap:.85rem;border-radius:.85rem;}
+.ticketBody {padding-left:.85rem;gap:.4rem;}
+.dateTile {border-radius:.75rem;box-shadow:0 3px 8px #5c452215;}
+.dateTile span:first-child {border-radius:.7rem .7rem 0 0;padding:.45rem .25rem .3rem;font-size:.68rem;}
+.dateTile strong,.laterSummary .dateTile strong {font-size:2.15rem;padding:.4rem .2rem 0;}
+.dateTile span:last-child {font-size:.67rem;padding:.2rem .25rem .45rem;}
+.dateTile::before,.dateTile::after {top:-.45rem;width:.35rem;height:.8rem;border-width:1.5px;}
+.ticketTitle {font-size:.68rem;padding:.25rem .5rem;gap:.35rem;}.ticketTitle svg {width:15px;height:15px;}
+.relative {font-size:1.05rem;}
+.ticketWhen,.laterSummary .ticketWhen {font-size:.78rem;gap:.4rem;line-height:1.5;}
+.ticketWhen svg {width:17px;height:17px;}
+.ticketWhen strong,.laterSummary .ticketWhen strong {font-size:1.05rem;}
+.ticketWho,.laterSummary .ticketWho {font-size:.72rem;line-height:1.5;}
+.serviceStrip {padding:.45rem .6rem;border-radius:.65rem;font-size:.72rem;gap:.4rem 0;}
+.serviceStrip>span {gap:.4rem;}.serviceStrip svg {width:17px;height:17px;}
+.ticket .bookingReference {font-size:.86rem;padding:.25rem .65rem;border-radius:.5rem;}
+.deadline {font-size:.67rem;padding:.6rem .1rem 0;gap:.4rem;line-height:1.6;}
+.deadline svg {width:15px;height:15px;}
+.actions {gap:.65rem;}.actions button {min-height:2.4rem;padding:.45rem .6rem;font-size:.75rem;}
+@media(min-width:60rem) {.columns {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start;}.calendar {min-height:28rem;height:auto;}}
+@media(max-width:35rem) {.featured,.row {padding:.65rem;gap:.6rem;}.ticket,.laterSummary {grid-template-columns:3.8rem minmax(0,1fr);padding:.75rem .5rem;gap:.6rem;}.ticketBody {padding-left:.65rem;}.dateTile strong,.laterSummary .dateTile strong {font-size:1.9rem;}.ticketTitle {font-size:.62rem;}.ticketWhen,.laterSummary .ticketWhen {font-size:.72rem;}.ticketWhen strong,.laterSummary .ticketWhen strong {font-size:.95rem;}.ticketWho,.laterSummary .ticketWho {font-size:.67rem;}.serviceStrip {font-size:.67rem;padding:.4rem .45rem;}.ticket .bookingReference {font-size:.8rem;}.actions button {font-size:.71rem;min-height:2.4rem;}.deadline {font-size:.64rem;}}
+/* Subtle emphasis for the countdown and booking reference. */
+.relative {font-size:.88rem;}
+.ticket .bookingReference {position:relative;overflow:hidden;isolation:isolate;}
+.ticket .bookingReference::after {content:"";position:absolute;inset:-30% auto -30% -65%;width:35%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);pointer-events:none;animation:bookingCodeGlare 7s ease-in-out infinite;}
+@keyframes bookingCodeGlare {0%,65% {left:-65%;}85%,100% {left:140%;}}
+@media(max-width:35rem) {.relative {font-size:.82rem;}}
+@media(prefers-reduced-motion:reduce) {.ticket .bookingReference::after {animation:none;display:none;}}
+/* Give each session detail room to breathe without enlarging the date tile. */
+.ticketBody {gap:.65rem;}
+.detailGrid {row-gap:1.1rem;}
+.pageHeadingAction {padding-top:1.3rem;}
+.pageHeadingAction>a {min-height:3.1rem;padding:.8rem 1.35rem;font-size:.86rem;}
+.calendarPane {overflow:visible;}
+.calendar {padding:1.05rem;gap:1rem;min-height:0;}
+.calHead {gap:.7rem;flex-wrap:wrap;}
+.calHead h2 {font-size:1.05rem;}
+.calNav {gap:.35rem;}
+.calNav button {font-size:.75rem;padding:.45rem .65rem;min-height:2.2rem;white-space:nowrap;}
+.cell {min-height:4.25rem;padding:.25rem;}
+.weekday {font-size:.65rem;padding:.45rem .2rem;white-space:nowrap;text-align:center;}
+.legend {font-size:.72rem;gap:.65rem 1rem;}
+@media(max-width:48rem) {.pageHeadingAction {padding-top:.4rem;}}
+@media(max-width:35rem) {.ticketBody {gap:.6rem;}.calendar {padding:.8rem;}.cell {min-height:3.7rem;}.calHead h2 {font-size:1rem;}.weekday {font-size:.6rem;}.pageHeadingAction>a {min-height:2.9rem;font-size:.82rem;}}

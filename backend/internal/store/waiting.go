@@ -54,8 +54,8 @@ func (s *Store) WaitingRequests(ctx context.Context, client string, active bool)
 	}
 	return out, rows.Err()
 }
-func (s *Store) RemoveWaiting(ctx context.Context, client, id string, now time.Time) error {
-	tag, err := s.pool.Exec(ctx, `UPDATE session_waiting_list SET status='removed',updated_at=$3 WHERE id::text=$1 AND client_id::text=$2 AND status='active'`, id, client, now)
+func (s *Store) RemoveWaiting(ctx context.Context, client, id string, _ time.Time) error {
+	tag, err := s.pool.Exec(ctx, `DELETE FROM session_waiting_list WHERE id::text=$1 AND client_id::text=$2 AND status='active'`, id, client)
 	if err != nil {
 		return err
 	}
@@ -95,6 +95,9 @@ func (s *Store) WaitingSnapshot(ctx context.Context, r WaitingRequest, slots map
 	return pgx.BeginFunc(ctx, s.pool, func(tx pgx.Tx) error {
 		var status string
 		if err := tx.QueryRow(ctx, `SELECT status FROM session_waiting_list WHERE id=$1 FOR UPDATE`, r.ID).Scan(&status); err != nil {
+			if errors.Is(err, pgx.ErrNoRows) {
+				return nil
+			}
 			return err
 		}
 		if status != "active" {
@@ -180,8 +183,8 @@ func (s *Store) WaitingDeliverySent(ctx context.Context, id string, now time.Tim
 	_, err := s.pool.Exec(ctx, `UPDATE waiting_delivery SET sent_at=$2 WHERE id=$1`, id, now)
 	return err
 }
-func (s *Store) FulfillWaiting(ctx context.Context, client, id string, now time.Time) error {
-	tag, err := s.pool.Exec(ctx, `UPDATE session_waiting_list w SET status='fulfilled',updated_at=$3 WHERE w.id::text=$1 AND w.client_id::text=$2 AND w.status='active' AND EXISTS(SELECT 1 FROM booking b WHERE b.client_id=w.client_id AND b.status='confirmed' AND b.service_id=w.service_id AND (w.psychologist_id IS NULL OR b.psychologist_id=w.psychologist_id) AND (b.start_at AT TIME ZONE 'Asia/Jakarta')::date BETWEEN w.preferred_date AND w.preferred_date_end AND ((w.session_type='in_person' AND b.mode='in_person' AND b.location_id=w.location_id) OR (b.mode='online' AND b.online_channel=w.session_type)) AND (CASE WHEN EXTRACT(HOUR FROM b.start_at AT TIME ZONE 'Asia/Jakarta')<12 THEN 'morning' WHEN EXTRACT(HOUR FROM b.start_at AT TIME ZONE 'Asia/Jakarta')<17 THEN 'afternoon' ELSE 'evening' END)=ANY(w.periods))`, id, client, now)
+func (s *Store) FulfillWaiting(ctx context.Context, client, id string, _ time.Time) error {
+	tag, err := s.pool.Exec(ctx, `DELETE FROM session_waiting_list w WHERE w.id::text=$1 AND w.client_id::text=$2 AND w.status='active' AND EXISTS(SELECT 1 FROM booking b WHERE b.client_id=w.client_id AND b.status='confirmed' AND b.service_id=w.service_id AND (w.psychologist_id IS NULL OR b.psychologist_id=w.psychologist_id) AND (b.start_at AT TIME ZONE 'Asia/Jakarta')::date BETWEEN w.preferred_date AND w.preferred_date_end AND ((w.session_type='in_person' AND b.mode='in_person' AND b.location_id=w.location_id) OR (b.mode='online' AND b.online_channel=w.session_type)) AND (CASE WHEN EXTRACT(HOUR FROM b.start_at AT TIME ZONE 'Asia/Jakarta')<12 THEN 'morning' WHEN EXTRACT(HOUR FROM b.start_at AT TIME ZONE 'Asia/Jakarta')<17 THEN 'afternoon' ELSE 'evening' END)=ANY(w.periods))`, id, client)
 	if err != nil {
 		return err
 	}

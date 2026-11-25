@@ -17,6 +17,11 @@ export function formatTime(w: When, l: Locale): string {
   return fmt(l, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(toDate(w));
 }
 
+/** Twelve-hour session time, always in WIB. */
+export function formatTime12(w: When): string {
+  return new Intl.DateTimeFormat("en-US", { timeZone: ZONE, hour: "2-digit", minute: "2-digit", hour12: true }).format(toDate(w));
+}
+
 /** "Monday 9 March" (en) or "Senin, 9 Maret" (id). */
 export function formatDate(w: When, l: Locale): string {
   return fmt(l, { weekday: "long", day: "numeric", month: "long" }).format(toDate(w));

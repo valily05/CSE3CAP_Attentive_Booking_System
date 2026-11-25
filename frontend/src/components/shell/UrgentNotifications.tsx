@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Bell, X } from "lucide-react";
+import { useEffect,useLayoutEffect, useRef, useState } from "react";
+import {createPortal} from "react-dom";
+import {Bell,BellRing,HandHeart,PhoneCall,CalendarCheck,CheckCircle2,CircleX} from "lucide-react";
 import Link from "next/link";
 import {useAppLocale} from "@/lib/i18n";
 import {formatFullDateTime} from "@/lib/time";
 import { useTranslations } from "next-intl";
 import { api } from "@/lib/api";
-import { dismissUrgentNotification, markUrgentNotificationSeen, readUrgentNotifications, saveUrgentNotification, URGENT_NOTIFICATIONS_CHANGED, type UrgentNotification } from "@/lib/urgentNotifications";
+import { markUrgentNotificationSeen, readUrgentNotifications, saveUrgentNotification, URGENT_NOTIFICATIONS_CHANGED, type UrgentNotification } from "@/lib/urgentNotifications";
 import type { UrgentReceipt } from "@/components/urgent/types";
 import { useSession } from "./Session";
 import styles from "./Header.module.css";
@@ -19,6 +20,7 @@ export function UrgentNotifications() {
  const a=useTranslations("accountNotifications");
  const w=useTranslations("waiting");
  const all=useTranslations();
+ const ui=useTranslations("notificationsUi");
  const {me}=useSession();
  const owner=me?.role==="client"?me.email:"";
  type Notice={id:string;kind:string;read:boolean;createdAt:string;details?:{link:string;psychologistName:string;start:string;sessionType:string;locationName:string}};
@@ -29,6 +31,8 @@ export function UrgentNotifications() {
  const [items, setItems] = useState<UrgentNotification[]>([]);
  const [open, setOpen] = useState(false);
  const panel = useRef<HTMLDivElement>(null);
+ const menu=useRef<HTMLElement>(null);
+ useLayoutEffect(()=>{if(!open)return;const position=()=>{const trigger=panel.current?.querySelector("button"),el=menu.current;if(!trigger||!el)return;const box=trigger.getBoundingClientRect(),width=el.getBoundingClientRect().width,left=Math.max(12,Math.min(box.right-width,window.innerWidth-width-12)),top=box.bottom+12;el.style.left=left+"px";el.style.top=top+"px";el.style.setProperty("--notification-tail-left",Math.max(18,Math.min(width-18,box.left+box.width/2-left))+"px");el.style.setProperty("--notification-top",top+"px")};position();window.addEventListener("resize",position);window.addEventListener("scroll",position,true);return()=>{window.removeEventListener("resize",position);window.removeEventListener("scroll",position,true)}},[open]);
  useEffect(() => {
   const sync = () => setItems(readUrgentNotifications());
   const refresh = async () => {
@@ -49,7 +53,7 @@ export function UrgentNotifications() {
  }, []);
  useEffect(() => {
   if (!open) return;
-  const outside = (event: PointerEvent) => { if (!panel.current?.contains(event.target as Node)) setOpen(false); };
+  const outside = (event: PointerEvent) => { if (!panel.current?.contains(event.target as Node)&&!menu.current?.contains(event.target as Node)) setOpen(false); };
   const escape = (event: KeyboardEvent) => { if (event.key === "Escape") { setOpen(false); panel.current?.querySelector("button")?.focus(); } };
   document.addEventListener("pointerdown", outside); document.addEventListener("keydown", escape);
   return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); };
@@ -59,14 +63,9 @@ export function UrgentNotifications() {
   <button type="button" className={styles.theme} aria-label={t("notifications")} aria-expanded={open} aria-controls="urgent-notifications" onClick={() => setOpen(!open)}>
    <Bell size={19} aria-hidden="true" />{unread > 0 && <span className={styles.notificationCount}>{unread}</span>}
   </button>
-  {open && <section id="urgent-notifications" className={styles.notificationPanel} aria-label={t("notifications")}>
+  {open && createPortal(<section ref={menu} id="urgent-notifications" className={styles.notificationPanel} aria-label={t("notifications")}>
    <h2>{t("notifications")}</h2>
-   {items.length || notices.length ? <ul>{notices.map(item=><li key={item.id}><Link href={item.kind==="waiting_slot"?item.details?.link||"/bookings#waiting-list":"/#find-support"} onClick={()=>{void updateNotice(item.id);setOpen(false)}}><strong>{item.kind==="waiting_slot"?w("available"):a("welcome")}</strong><span>{item.kind==="waiting_slot"?<>{item.details?.psychologistName}<br/>{item.details?.start&&formatFullDateTime(item.details.start,locale)} · {all(`sessionType.${item.details?.sessionType||"video"}`)} {item.details?.locationName}<br/>{w("viewSlot")}</>:a("body")}</span>{timestamp(item.createdAt)}</Link><button type="button" className="button-quiet" aria-label={item.kind==="waiting_slot"?w("dismiss"):a("dismiss")} onClick={()=>void updateNotice(item.id,true)}><X size={16} aria-hidden="true"/></button></li>)}{items.map(item => <li key={item.code}>
-    <Link href={`/urgent-confirmation/${item.code}#${item.token}`} onClick={() => { markUrgentNotificationSeen(item.code); setOpen(false); }}>
-     <strong>{item.code}</strong><span>{t(`statuses.${item.status}`)}</span><span>{t("viewConfirmation")}</span>{timestamp(item.submittedAt)}
-    </Link>
-    <button type="button" className="button-quiet" aria-label={`${t("dismissNotification")} ${item.code}`} onClick={() => dismissUrgentNotification(item.code)}><X size={16} aria-hidden="true" /></button>
-   </li>)}</ul> : <p>{owner?a("empty"):t("notificationsEmpty")}</p>}
-  </section>}
+   {items.length||notices.length?<ul>{notices.map(item=><li key={item.id} data-unread={!item.read||undefined}><Link href={item.kind==="waiting_slot"?item.details?.link||"/bookings#waiting-list":"/#find-support"} onClick={()=>{void updateNotice(item.id);setOpen(false)}}><span className={styles.notificationIcon}>{item.kind==="waiting_slot"?<BellRing size={21}/>:<HandHeart size={21}/>}</span><div className={styles.notificationCopy}><strong>{item.kind==="waiting_slot"?w("available"):a("welcome")}</strong><span>{item.kind==="waiting_slot"?<>{item.details?.psychologistName}<br/>{item.details?.start&&formatFullDateTime(item.details.start,locale)} · {all(`sessionType.${item.details?.sessionType||"video"}`)} {item.details?.locationName}<br/>{w("viewSlot")}</>:a("body")}</span>{timestamp(item.createdAt)}</div><span className={styles.unreadDot} data-read={item.read||undefined} aria-hidden="true"/>{!item.read&&<span className="visually-hidden">{ui("unread")}</span>}</Link></li>)}{items.map(item=>{const Icon=item.status==="CANCELLED"?CircleX:item.status==="COMPLETED"?CheckCircle2:["CONFIRMED","ASSIGNED"].includes(item.status)?CalendarCheck:PhoneCall;return <li key={item.code} data-unread={!item.seen||undefined}><Link href={`/urgent-confirmation/${item.code}#${item.token}`} onClick={()=>{markUrgentNotificationSeen(item.code);setOpen(false)}}><span className={styles.notificationIcon} data-urgent><Icon size={21}/></span><div className={styles.notificationCopy}><strong>{item.code}</strong><span>{t(`statuses.${item.status}`)}</span><span>{t("viewConfirmation")}</span>{timestamp(item.submittedAt)}</div><span className={styles.unreadDot} data-read={item.seen||undefined} aria-hidden="true"/>{!item.seen&&<span className="visually-hidden">{ui("unread")}</span>}</Link></li>})}</ul>:<div className={styles.notificationEmpty}><span><Bell size={27} strokeWidth={1.5}/></span><strong>{ui("emptyTitle")}</strong><p>{ui("emptyBody")}</p></div>}
+  </section>,document.body)}
  </div>;
 }

@@ -26,12 +26,18 @@ function bookingsApi(list: () => Booking[]) {
 }
 
 describe("MyBookings", () => {
+  it("opens the calendar on the next booked month rather than leaving it on today",async()=>{
+    bookingsApi(()=>[{...base,start:"2026-04-09T02:00:00Z",end:"2026-04-09T03:00:00Z"}]);
+    renderBookings(<MyBookings now={now}/>);
+    const calendar=await screen.findByRole("grid",{name:"Your sessions in April 2026"});
+    expect(within(calendar).getByRole("button",{name:"View booking ATT-7K2Q"}).closest('[role="gridcell"]')).toHaveTextContent(/^9/);
+  });
   it("shows upcoming sessions and the change deadline without the old past section", async () => {
     bookingsApi(() => [past, base]);
     renderBookings(<MyBookings now={now} />);
 
     const upcoming = await screen.findByRole("region", { name: "Upcoming" });
-    expect(within(upcoming).getByText("ATT-7K2Q")).toBeInTheDocument();
+    expect(await within(upcoming).findByText("ATT-7K2Q")).toBeInTheDocument();
     expect(within(upcoming).getByText("Change or cancel until Monday 9 March, 08:00 WIB")).toBeInTheDocument();
     expect(screen.queryByRole("region",{name:"Past"})).not.toBeInTheDocument();
   });

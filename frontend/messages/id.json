@@ -1101,7 +1101,6 @@
     "emptyTitle": "Belum ada permintaan daftar tunggu aktif",
     "emptyBody": "Gabung daftar tunggu untuk diberi tahu saat sesi yang sesuai preferensi Anda tersedia.",
     "findSession": "Cari Sesi",
-    "previous": "Permintaan sebelumnya ({count})",
     "removeTitle": "Hapus permintaan ini?",
     "removeBody": "Anda tidak akan menerima pemberitahuan ketersediaan untuk permintaan ini. Sesi yang sudah dipesan tidak berubah.",
     "keepRequest": "Simpan Permintaan"
@@ -1139,6 +1138,28 @@
     "emptyTitle": "Belum ada sesi mendatang",
     "emptyBody": "Anda belum memiliki jadwal sesi. Setelah memesan, sesi Anda akan muncul di sini.",
     "findTime": "Cari Waktu",
-    "timeRange": "{start} – {end} WIB"
+    "timeRange": "{start} – {end} WIB",
+    "sessionsLabel": "Sesi Anda",
+    "closeChange": "Tutup ubah jadwal",
+    "eyebrow": "WAKTU ANDA, RUANG ANDA",
+    "pageDescription": "Kelola sesi Anda dan temukan waktu yang sesuai untuk Anda.",
+    "planNext": "Sedikit waktu, khusus untuk Anda.",
+    "bookSession": "Pesan sesi"
+  },
+  "notificationsUi": {
+    "unread": "Belum dibaca",
+    "success": "Berhasil",
+    "error": "Terjadi kesalahan",
+    "mail": "Periksa kotak masuk",
+    "calendar": "Sesi diperbarui",
+    "cancel": "Sesi dibatalkan",
+    "signout": "Berhasil keluar",
+    "bell": "Daftar tunggu diperbarui",
+    "bellOff": "Permintaan dihapus",
+    "key": "Kata sandi disimpan",
+    "info": "Informasi",
+    "warning": "Mohon periksa",
+    "emptyTitle": "Belum ada kabar baru",
+    "emptyBody": "Pembaruan booking dan pengingat akan muncul di sini saat ada kabar baru."
   }
 }

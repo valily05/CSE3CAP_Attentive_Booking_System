@@ -1101,7 +1101,6 @@
     "emptyTitle": "No active waiting list requests",
     "emptyBody": "Join a waiting list to get notified when a session matching your preferences becomes available.",
     "findSession": "Find a Session",
-    "previous": "Previous requests ({count})",
     "removeTitle": "Remove this request?",
     "removeBody": "You’ll no longer receive availability notifications for this request. Your booked sessions will not change.",
     "keepRequest": "Keep Request"
@@ -1139,6 +1138,28 @@
     "emptyTitle": "No upcoming sessions",
     "emptyBody": "You don’t have any sessions scheduled yet. When you book a session, it will appear here.",
     "findTime": "Find a Time",
-    "timeRange": "{start} – {end} WIB"
+    "timeRange": "{start} – {end} WIB",
+    "sessionsLabel": "Your sessions",
+    "closeChange": "Close change time",
+    "eyebrow": "YOUR TIME, YOUR SPACE",
+    "pageDescription": "Keep track of your sessions and find a time that works for you.",
+    "planNext": "A little time, just for you.",
+    "bookSession": "Book a session"
+  },
+  "notificationsUi": {
+    "unread": "Unread",
+    "success": "All set",
+    "error": "Something went wrong",
+    "mail": "Check your inbox",
+    "calendar": "Session updated",
+    "cancel": "Session cancelled",
+    "signout": "Signed out",
+    "bell": "Waiting list updated",
+    "bellOff": "Request removed",
+    "key": "Password saved",
+    "info": "Heads up",
+    "warning": "Please check",
+    "emptyTitle": "A quiet moment",
+    "emptyBody": "Your booking updates will appear here."
   }
 }

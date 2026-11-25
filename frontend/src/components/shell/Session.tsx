@@ -25,7 +25,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     await api.post("/api/auth/logout");
     setMe(null);
-    showToast(t("signedOutToast"));
+    showToast(t("signedOutToast"),false,"signout");
   }, [t]);
   useEffect(() => {
     let live = true;

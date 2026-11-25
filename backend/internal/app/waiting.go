@@ -112,7 +112,7 @@ func (a *App) MyWaiting(ctx context.Context, act Actor) ([]store.WaitingRequest,
 	if act.Role != "client" {
 		return nil, ErrForbidden
 	}
-	return a.store.WaitingRequests(ctx, act.ClientID, false)
+	return a.store.WaitingRequests(ctx, act.ClientID, true)
 }
 func (a *App) RemoveWaiting(ctx context.Context, act Actor, id string) error {
 	if act.Role != "client" {

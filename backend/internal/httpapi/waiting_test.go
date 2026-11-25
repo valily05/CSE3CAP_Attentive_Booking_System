@@ -118,7 +118,16 @@ func TestWaitingListCancellationMatchingAndNoReservation(t *testing.T) {
 		t.Fatalf("remove %d", code)
 	}
 	a.Do("POST", "/api/bookings/"+alternative.ID+"/cancel", map[string]string{"reason": "other"}, nil)
-	if len(waitingNotices(t, a)) != 1 || len(waitingNotices(t, b)) != 2 {
+	stored, err := e.Store.WaitingRequests(context.Background(), "", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, r := range stored {
+		if r.ID == ar.ID {
+			t.Fatal("removed request retained in database")
+		}
+	}
+	if len(waitingNotices(t, a)) != 0 || len(waitingNotices(t, b)) != 2 {
 		t.Fatal("remove or new availability event not respected")
 	}
 }
@@ -189,8 +198,12 @@ func TestWaitingListExplicitFulfillmentKeepsConfirmedBooking(t *testing.T) {
 		Items []store.WaitingRequest `json:"items"`
 	}
 	c.Do("GET", "/api/me/waiting-list", nil, &requests)
-	if len(requests.Items) != 1 || requests.Items[0].Status != "fulfilled" {
-		t.Fatal("fulfillment not saved")
+	if len(requests.Items) != 0 {
+		t.Fatal("completed waiting request retained")
+	}
+	stored, err := e.Store.WaitingRequests(context.Background(), "", false)
+	if err != nil || len(stored) != 0 {
+		t.Fatalf("inactive waiting history persisted: %v %+v", err, stored)
 	}
 	var bookings struct {
 		Bookings []struct {
