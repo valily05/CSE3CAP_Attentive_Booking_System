@@ -14,6 +14,7 @@ export function ProfilePage({ id }: { id: string }) {
   const { me, ready } = useSession();
   const [p, setP] = useState<Psychologist | null>(null);
   const [catalog, setCatalog] = useState<Catalog | null>(null);
+  const [returnQuery]=useState(()=>typeof window==="undefined"?"":window.location.search);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export function ProfilePage({ id }: { id: string }) {
           ))}
         </ul>
       </header>
-      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className="card"><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}`)}`}>{t("directory.signInBook")}</Link></div>}
+      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className="card"><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
     </div>
   );
 }

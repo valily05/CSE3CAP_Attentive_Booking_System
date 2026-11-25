@@ -186,3 +186,5 @@
 .startButton>:global(.forward-arrow) { transition:transform .18s ease; }
 .startButton:hover>:global(.forward-arrow) { transform:translateX(3px); }
 @media(prefers-reduced-motion:reduce) { .startButton>:global(.forward-arrow) { transition:none; } }
+
+.startButton>:global(.forward-arrow) { display:inline;width:auto;height:auto;min-width:0;padding:0;background:none;border:0;border-radius:0; }

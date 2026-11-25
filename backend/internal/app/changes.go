@@ -94,6 +94,7 @@ func (a *App) Reschedule(ctx context.Context, act Actor, id string, in Reschedul
 	if err != nil {
 		return err
 	}
+	a.refreshWaiting(ctx)
 	a.emailClient(ctx, id, email.BookingChanged)
 	a.emailPsychologist(ctx, id)
 	return nil
@@ -111,6 +112,7 @@ func (a *App) Cancel(ctx context.Context, act Actor, id, reason string) error {
 	if err := a.store.CancelBooking(ctx, store.Cancellation{BookingID: b.ID, Reason: reason, ActorID: act.UserID, At: a.clock.Now()}); err != nil {
 		return err
 	}
+	a.refreshWaiting(ctx)
 	a.emailClient(ctx, id, email.BookingCancelled)
 	a.emailPsychologist(ctx, id)
 	return nil

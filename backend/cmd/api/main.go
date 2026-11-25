@@ -54,6 +54,9 @@ func run(log *slog.Logger) error {
 	}
 	a := app.New(app.Deps{Store: st, Clock: clock.System{}, Mail: sender, BaseURL: env("PUBLIC_URL", "http://localhost:3000"), Log: log})
 
+	if env("RUN_WAITING_LIST", "true") == "true" {
+		go waitingJobs(ctx, a, log)
+	}
 	if env("RUN_JOBS", "true") == "true" {
 		go jobs(ctx, a, log)
 	}
@@ -75,6 +78,7 @@ func run(log *slog.Logger) error {
 // jobs runs reminders every 15 minutes (G09-6) and follow-ups once a day
 // after 09:00 WIB (G09-8).
 func jobs(ctx context.Context, a *app.App, log *slog.Logger) {
+
 	tick := time.NewTicker(15 * time.Minute)
 	defer tick.Stop()
 	lastFollowUp := ""
@@ -94,6 +98,24 @@ func jobs(ctx context.Context, a *app.App, log *slog.Logger) {
 		case <-ctx.Done():
 			return
 		case <-tick.C:
+		}
+	}
+}
+
+func waitingJobs(ctx context.Context, a *app.App, log *slog.Logger) {
+	ticker := time.NewTicker(time.Minute)
+	defer ticker.Stop()
+	for {
+		runCtx, cancel := context.WithTimeout(ctx, 50*time.Second)
+		err := a.RunWaitingList(runCtx)
+		cancel()
+		if err != nil && ctx.Err() == nil {
+			log.Error("waiting list", "err", err)
+		}
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
 		}
 	}
 }

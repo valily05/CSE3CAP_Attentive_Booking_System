@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { useTranslations } from "next-intl";
 import { addDays, daysInMonth, formatDate, formatMonth, formatTime, formatWeekdayShort, minutesIntoDay, weekStart } from "@/lib/time";
 import { useAppLocale } from "@/lib/i18n";
@@ -17,6 +17,7 @@ type Props = {
   onSelect: (slot: Slot) => void;
   onMonth: (delta: 1 | -1) => void;
   canGoBack: boolean;
+  onDateChange?: (date:string)=>void;
 };
 
 const PARTS = [
@@ -26,7 +27,7 @@ const PARTS = [
 ] as const;
 
 /** A month calendar (which day?) above the times of the chosen day (when?). */
-export function MonthPicker({ month, days, today, selected, onSelect, onMonth, canGoBack }: Props) {
+export function MonthPicker({ month, days, today, selected, onSelect, onMonth, canGoBack,onDateChange }: Props) {
   const t = useTranslations("band");
   const locale = useAppLocale();
   const [picked, setPicked] = useState<string | null>(null);
@@ -35,6 +36,7 @@ export function MonthPicker({ month, days, today, selected, onSelect, onMonth, c
   const open = days.filter((d) => d.slots.length > 0);
   const day = open.find((d) => d.date === picked) ?? open.find((d) => d.slots.some((s) => s.Start === selected)) ?? open[0];
 
+  useEffect(()=>{if(day?.date)onDateChange?.(day.date)},[day?.date,onDateChange]);
   const first = `${month}-01`;
   const gridStart = weekStart(first);
   const last = `${month}-${String(daysInMonth(month)).padStart(2, "0")}`;

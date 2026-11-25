@@ -1,3 +1,4 @@
+import {SiteToast} from "@/components/shell/SiteToast";
 import {Suspense} from "react";
 import {ClientPageTracker} from "@/components/auth/ClientPageTracker";
 import type { Metadata, Viewport } from "next";
@@ -33,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <NextIntlClientProvider>
           <SessionProvider>
             <Header />
-            <EmailVerificationToast />
+            <EmailVerificationToast /><SiteToast/>
             <Suspense fallback={null}><ClientPageTracker/></Suspense>
             <main id="main" className={styles.main}>
               {children}

@@ -1,5 +1,6 @@
 "use client";
 
+import {showToast} from "@/lib/toast";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { PhoneCall, UserRound, LogOut } from "lucide-react";
@@ -71,7 +72,7 @@ export function Header() {
     root.dataset.theme = next;
   };
 
-  if (path === "/signin" || path === "/verify" || path === "/signup" || path === "/resend-verification" || path === "/account/residence") return null;
+  if (path === "/forgot" || path === "/reset-password" || path === "/signin" || path === "/verify" || path === "/signup" || path === "/resend-verification" || path === "/account/residence") return null;
 
   return (
     <header className={styles.header}>
@@ -112,7 +113,7 @@ export function Header() {
               <strong>{me.name}</strong><p>{me.email}</p>
               <button ref={logoutButton} type="button" disabled={signingOut} onClick={async()=>{
                 setSigningOut(true);setAccountError(false);
-                try{await signOut();setAccountOpen(false);router.push("/");}catch{setAccountError(true);}finally{setSigningOut(false);}
+                try{await signOut();setAccountOpen(false);router.push("/");}catch{setAccountError(true);showToast(t("errors.network"),true);}finally{setSigningOut(false);}
               }}><LogOut size={17} aria-hidden="true"/>{t("nav.signOut")}</button>
               {accountError&&<p role="alert">{t("errors.network")}</p>}
             </div>}

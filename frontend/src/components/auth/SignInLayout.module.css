@@ -5,7 +5,7 @@
 .formInner h1 { font-size:clamp(1.7rem,2.5vw,2.1rem);font-weight:650;letter-spacing:-.035em;text-align:center;line-height:1.25; }
 .description { margin:.8rem auto 2rem;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.8;max-width:34ch; }
 .formInner form { padding:0;border:0;box-shadow:none;border-radius:0;background:transparent;max-width:none;gap:1.1rem; }
-.formInner form>p:has(a[href="/forgot"]) { text-align:right;margin-top:-.4rem;font-size:.75rem; }
+.formInner form>p:has(a[href="/reset-password"]) { text-align:right;margin-top:-.4rem;font-size:.75rem; }
 .formInner form>p:has(a[href="/signup"]) { text-align:center;margin-top:.8rem;font-size:.78rem; }
 .formInner form>button { width:100%;border-radius:999px; }
 .visual { min-width:0;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.8rem 1rem 2.1rem;background:light-dark(#f6f0e5,#17263d);border:1px solid light-dark(#eee5d5,#293a53);border-radius:1.2rem;overflow:hidden; }
@@ -218,22 +218,22 @@
 @media(max-width:47.999rem) { .formInner { padding:1.5rem 1.3rem; } .brandRow { margin-bottom:1.3rem; } .description { margin-bottom:1.4rem; } .formInner form { gap:1.05rem; } .scene { height:19rem; } }
 
 .formInner h1 { font-weight:750; }
-.formInner a[href="/forgot"] { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-line:underline;text-decoration-color:#ddb039;text-decoration-thickness:1px;text-underline-offset:.28em; }
-.formInner a[href="/forgot"]:hover { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-color:#c99419; }
+.formInner a[href="/reset-password"] { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-line:underline;text-decoration-color:#ddb039;text-decoration-thickness:1px;text-underline-offset:.28em; }
+.formInner a[href="/reset-password"]:hover { font-weight:400;color:light-dark(#193858,#c5d7ea);text-decoration-color:#c99419; }
 .formInner a[href="/signup"] { color:light-dark(#e2ae27,#ffcd36); }
 .formInner a[href="/signup"]:hover { color:light-dark(#c99618,#ffdc70); }
 .dragHint { font-size:.7rem;margin-top:0;margin-bottom:-.2rem;transform:translateY(-.4rem); }
 
 /* Sign-in link colors override the shared auth form defaults. */
-.formInner form[class] a[href='/forgot'] { color:light-dark(#193858,#c5d7ea); }
-.formInner form[class] a[href='/forgot']:hover { color:light-dark(#193858,#c5d7ea); }
+.formInner form[class] a[href='/reset-password'] { color:light-dark(#193858,#c5d7ea); }
+.formInner form[class] a[href='/reset-password']:hover { color:light-dark(#193858,#c5d7ea); }
 .formInner form[class] a[href='/signup'] { color:light-dark(#e2ae27,#ffcd36); }
 .formInner form[class] a[href='/signup']:hover { color:light-dark(#c99618,#ffdc70); }
 
 .description { max-width:43ch;font-size:.78rem;line-height:1.75; }
 .formInner input,.formInner input::placeholder { font-size:.81rem; }
 .formInner form>button { font-size:.9rem; }
-.formInner form>p:has(a[href="/forgot"]) { margin-top:-.55rem;text-align:right;font-size:.72rem;line-height:1.6; }
+.formInner form>p:has(a[href="/reset-password"]) { margin-top:-.55rem;text-align:right;font-size:.72rem;line-height:1.6; }
 @media(min-width:48rem) and (max-height:48rem) { .description { font-size:.74rem;line-height:1.65;margin-bottom:1.15rem; } .formInner input,.formInner input::placeholder { font-size:.78rem; } .formInner form>button { font-size:.86rem; } }
 
 @media(min-width:48rem) { .page { grid-template-rows:auto minmax(0,1fr); } }
@@ -332,4 +332,4 @@
 
 .formInner:has(form[data-resend-page])>h1 { margin-bottom:1.25rem; }
 
-.registration .formInner form>a[href='/forgot'] { font-size:.7rem;font-weight:400;line-height:1.5; }
+.registration .formInner form>a[href='/reset-password'] { font-size:.7rem;font-weight:400;line-height:1.5; }

@@ -41,6 +41,7 @@ func (a *App) SetHours(ctx context.Context, act Actor, psychID string, hours []s
 	if err := a.store.SetWeeklyHours(ctx, id, hours); err != nil {
 		return nil, err
 	}
+	a.refreshWaiting(ctx)
 	return a.outsideHours(ctx, id, hours)
 }
 

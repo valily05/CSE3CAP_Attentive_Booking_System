@@ -251,18 +251,29 @@ func (a *App) ForgotPassword(ctx context.Context, emailAddr, locale string) erro
 
 // ResetPassword sets a new password from a reset link.
 func (a *App) ResetPassword(ctx context.Context, token, password string) error {
+	_, err := a.ResetPasswordWithNotice(ctx, token, password)
+	return err
+}
+func (a *App) ResetPasswordWithNotice(ctx context.Context, token, password string) (string, error) {
 	if !auth.ValidPassword(password) {
-		return auth.ErrWeakPassword
-	}
-	userID, err := a.store.UseEmailToken(ctx, HashToken(token), "reset_password", a.clock.Now())
-	if err != nil {
-		return err
+		return "", auth.ErrWeakPassword
 	}
 	hash, err := auth.HashPassword(password)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return a.store.SetPassword(ctx, userID, hash)
+	userID, err := a.store.UseEmailToken(ctx, HashToken(token), "reset_password", a.clock.Now())
+	if err != nil {
+		return "", err
+	}
+	user, err := a.store.UserByID(ctx, userID)
+	if err != nil {
+		return "", err
+	}
+	if err = a.store.SetPassword(ctx, userID, hash); err != nil {
+		return "", err
+	}
+	return user.Email, nil
 }
 
 func firstName(full string) string {

@@ -5,6 +5,11 @@ import "net/http"
 // routes lists every endpoint. Role names after a handler restrict who may call it;
 // finer rules (own bookings only, change deadlines) live in the app package.
 func (s *server) routes(mux *http.ServeMux) {
+	mux.HandleFunc("POST /api/me/waiting-list/{id}/fulfill", s.authed(s.fulfillWaiting, "client"))
+	mux.HandleFunc("GET /api/waiting-list/options", s.waitingOptions)
+	mux.HandleFunc("GET /api/me/waiting-list", s.authed(s.myWaiting, "client"))
+	mux.HandleFunc("POST /api/me/waiting-list", s.authed(s.joinWaiting, "client"))
+	mux.HandleFunc("POST /api/me/waiting-list/{id}/remove", s.authed(s.removeWaiting, "client"))
 	mux.HandleFunc("POST /api/auth/signup", s.signUp)
 	mux.HandleFunc("POST /api/auth/verify", s.verify)
 	mux.HandleFunc("POST /api/auth/resend-verification", s.resendVerification)

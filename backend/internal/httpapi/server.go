@@ -104,6 +104,7 @@ var errorTable = []struct {
 	err error
 	apiError
 }{
+	{store.ErrWaitingDuplicate, apiError{http.StatusConflict, "waiting_duplicate"}},
 	{app.ErrBadRequest, apiError{http.StatusBadRequest, "bad_request"}},
 	{store.ErrUrgentCodeConflict, apiError{http.StatusConflict, "urgent_code_conflict"}},
 	{errUnsupportedMedia, apiError{http.StatusUnsupportedMediaType, "json_required"}},

@@ -147,5 +147,15 @@ func Render(locale string, k Kind, d Data) mail.Email {
 		}
 		message.HTML = body.String()
 	}
+	if k == ResetPassword {
+		const layout = `<!doctype html><html><body style="margin:0;background:#f8f4ee;font-family:Arial,sans-serif;color:#14284b"><table role="presentation" width="100%"><tr><td align="center" style="padding:36px 16px"><table role="presentation" style="width:100%;max-width:560px;border:1px solid #e5dccd;border-radius:20px;overflow:hidden;background:#fff" cellspacing="0" cellpadding="0"><tr><td style="padding:28px 36px;background:#14284b;color:#fff;font-size:30px;font-family:Georgia,serif">attentive<span style="color:#d6a74d">.</span></td></tr><tr><td style="padding:36px"><h1 style="font-size:28px">{{.Title}}</h1><p style="white-space:pre-line;font-size:16px;line-height:1.8;color:#526078">{{.Body}}</p><p><a href="{{.Link}}" target="_self" style="color:#966a1d;font-size:16px">{{.Link}}</a></p><hr style="border:0;border-top:1px solid #ebe4d9;margin:28px 0"><p style="font-size:14px;color:#647084">{{.Signoff}}</p></td></tr></table></td></tr></table></body></html>`
+		values := map[string]string{"Title": message.Subject, "Body": strings.ReplaceAll(run(c["reset_password.body"], v), d.Link, ""), "Link": d.Link, "Signoff": c["signature"]}
+		var body bytes.Buffer
+		if err := htmltemplate.Must(htmltemplate.New("reset").Parse(layout)).Execute(&body, values); err != nil {
+			panic(err)
+		}
+		message.HTML = body.String()
+	}
+
 	return message
 }

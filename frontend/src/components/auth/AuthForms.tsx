@@ -1,11 +1,13 @@
 "use client";
+import {showToast} from "@/lib/toast";
 
+import {rememberResetEmail} from "./PasswordRecovery";
 import {clientPageEvent,takeVerificationReturnView,takeVerificationReturnAddress} from "@/lib/verification-return";
 import {useEmailVerified} from "./useEmailVerified";
 import {forgetVerifiedEmail} from "@/lib/verified-emails";
 import {ForwardArrow} from "@/components/ui/ForwardArrow";
 import Link from "next/link";
-import {LoaderCircle, MailCheck, Check} from "lucide-react";
+import {CircleX, LoaderCircle, MailCheck, Check} from "lucide-react";
 import { useEffect, useId, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
@@ -51,10 +53,11 @@ function useSubmit() {
   return { busy, error, run, setError };
 }
 
-function ErrorLine({ code }: { code: string | null }) {
+function ErrorLine({ code, boxed=false }: { code: string | null; boxed?:boolean }) {
   const t = useTranslations("errors");
   return code ? (
-    <p role="alert" className={styles.error}>
+    <p role="alert" className={boxed?styles.signInError:styles.error}>
+      {boxed&&<CircleX size={16} strokeWidth={1.7} aria-hidden="true"/>}
       {t(code)}
     </p>
   ) : null;
@@ -153,7 +156,7 @@ export function SignUpForm() {
       <ErrorLine code={error} />
       {["email_delivery_failed","account_unverified"].includes(error||"") && <Link className={styles.registrationResend} href="/resend-verification">{t("resendVerification")}</Link>}
       {!valid&&missingRequirements.length>0&&<p id={validationId+"-requirements"} className={styles.formHelp} aria-live="polite">{t("completeRequirements",{fields:missingRequirements.join(", ")})}</p>}
-      {error==="email_taken"&&<Link className={styles.registrationResend} href="/forgot">{t("forgot")}</Link>}
+      {error==="email_taken"&&<Link className={styles.registrationResend} href="/reset-password" onClick={()=>rememberResetEmail(values.email)}>{t("forgot")}</Link>}
       <button className="button" disabled={busy || !valid} aria-busy={busy} aria-describedby={!valid?(missingRequirements.length?validationId+"-requirements":showEmailError?validationId+"-email":undefined):undefined}>
         {busy?<LoaderCircle className={styles.signInSpinner} size={16} aria-hidden="true"/>:null}{t(busy?"creatingAccount":"submitSignUp")}
       </button>
@@ -180,8 +183,8 @@ export function SignInForm({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
         <input name="email" type="email" autoComplete="email" placeholder={t("signInEmailPlaceholder")} required />
       </label>
       <PasswordField label={t("password")} name="password" autoComplete="current-password" placeholder={t("signInPasswordPlaceholder")} required hideRequiredMarker />
-      <ErrorLine code={error} />
-      <p className={styles.alt}><Link href="/forgot">{t("forgot")}</Link></p>
+      <p className={styles.alt}><Link href="/reset-password" onClick={e=>{const form=e.currentTarget.closest("form");rememberResetEmail(String(new FormData(form||undefined).get("email")||""))}}>{t("forgot")}</Link></p>
+      <ErrorLine code={error} boxed />
       <button className="button" disabled={busy} aria-busy={busy}>
         {busy&&<LoaderCircle size={16} className={styles.signInSpinner} aria-hidden="true"/>}{t(busy?"signingIn":"submitSignIn")}
       </button>
@@ -203,7 +206,7 @@ export function ResendVerificationForm({verificationPending=false,verifiedAddres
  const storedVerified=useEmailVerified(email);
  const emailVerified=storedVerified||Boolean(verifiedEmail&&verifiedEmail.toLowerCase()===email.trim().toLowerCase());
  const valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
- return <form data-resend-page className={styles.form} onSubmit={event=>{event.preventDefault();if(!valid||busy||remaining||verificationPending||emailVerified)return;void run(async()=>{await api.post("/api/auth/resend-verification",{email:email.trim(),locale});const saved=readRegistrationRecovery();if(saved?.email!==email.trim().toLowerCase()){saveRegistrationRecovery(email);setHasDraft(false)}setSent(true);setRemaining(60)})}}>
+ return <form data-resend-page className={styles.form} onSubmit={event=>{event.preventDefault();if(!valid||busy||remaining||verificationPending||emailVerified)return;void run(async()=>{await api.post("/api/auth/resend-verification",{email:email.trim(),locale});const saved=readRegistrationRecovery();if(saved?.email!==email.trim().toLowerCase()){saveRegistrationRecovery(email);setHasDraft(false)}setSent(true);showToast(t("verificationResent"));setRemaining(60)})}}>
  <p>{t("resendVerificationBody")}</p><label className="field"><span>{t("email")}</span><input aria-label={t("email")} name="email" type="email" autoComplete="email" placeholder="you@example.com" value={email} disabled={verificationPending} aria-invalid={Boolean(email&&!valid)} aria-describedby={email&&!valid?"resend-email-error":undefined} onChange={event=>{setEmail(event.target.value);setSent(false);setHasDraft(Boolean(readRegistrationRecovery()?.residence&&readRegistrationRecovery()?.email===event.target.value.trim().toLowerCase()))}} required/></label>
  {email&&!valid&&<small id="resend-email-error" className={styles.fieldError}>{t("emailFormatHint")}</small>}
  <ErrorLine code={error}/>{sent&&<p role="status" className={styles.formHelp}>{t("verificationResent")}</p>}

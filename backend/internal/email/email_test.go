@@ -65,3 +65,15 @@ func TestNoEmailCanMentionTheService(t *testing.T) {
 		}
 	}
 }
+func TestResetHTMLUsesSameBrandAndSafeLink(t *testing.T) {
+	link := "https://attentive.example/reset-password?token=test-token"
+	for _, locale := range []string{"en", "id"} {
+		message := email.Render(locale, email.ResetPassword, email.Data{FirstName: "<script>unsafe</script>", Link: link})
+		if !strings.Contains(message.HTML, `href="`+link+`"`) || !strings.Contains(message.HTML, `target="_self"`) || !strings.Contains(message.HTML, "#14284b") || strings.Contains(message.HTML, "<script>") {
+			t.Fatal("unsafe or missing branded reset email")
+		}
+		if !strings.Contains(message.Text, link) {
+			t.Fatal("missing text reset link")
+		}
+	}
+}

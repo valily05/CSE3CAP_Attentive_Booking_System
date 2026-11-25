@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
-import { addDays, addMonths, dateKey, daysInMonth, formatDate, formatDateTime, formatTime, todayKey } from "@/lib/time";
+import { addDays, addMonths, dateKey, daysInMonth, formatDate, formatDateTime, formatTime,minutesIntoDay, todayKey } from "@/lib/time";
 import { useAppLocale } from "@/lib/i18n";
 import { useApi } from "@/lib/useApi";
 import type { Catalog, Channel, Created, Day, Me, Psychologist, Slot } from "@/lib/types";
 import { AppointmentCard } from "./AppointmentCard";
 import { MonthPicker } from "./MonthPicker";
+import {WaitingListBanner} from "./WaitingList";
 import styles from "./BookingFlow.module.css";
 
 type How = { mode: "online"; channel: Channel } | { mode: "in_person"; location: string };
@@ -22,16 +23,26 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
   const t = useTranslations();
   const locale = useAppLocale();
   const services = catalog.services.filter((s) => p.serviceIds.includes(s.id));
-  const [serviceId, setServiceId] = useState(services.length === 1 ? services[0].id : "");
-  const [how, setHow] = useState<How | null>(null);
   const tomorrow = addDays(today, 1);
   const firstMonth = tomorrow.slice(0, 7);
-  // Open on the month of the psychologist's next open time, never before tomorrow.
+  const [prefill]=useState(()=>{
+    if(typeof window==="undefined")return null;
+    const q=new URLSearchParams(window.location.search),id=q.get("service"),type=q.get("sessionType"),start=q.get("start"),location=q.get("location")||"";
+    const svc=services.find(s=>s.id===id);
+    if(!svc||!type||!p.sessionTypes.some(value=>value===type)||(type==="in_person"&&!p.locationIds.includes(location)))return null;
+    const how:How=type==="in_person"?{mode:"in_person",location}:{mode:"online",channel:type as Channel};
+    const validStart=start&&!Number.isNaN(Date.parse(start))&&dateKey(start)>=tomorrow?start:null;
+    const slot:Slot|null=validStart?{Start:validStart,End:new Date(Date.parse(validStart)+svc.lengthMinutes*60000).toISOString(),Mode:how.mode,LocationID:location}:null;
+    return {serviceId:svc.id,how,slot};
+  });
+  const [serviceId, setServiceId] = useState(prefill?.serviceId||(services.length === 1 ? services[0].id : ""));
+  const [how, setHow] = useState<How | null>(prefill?.how||null);
   const [month, setMonth] = useState(() => {
-    const next = p.nextOpen ? dateKey(p.nextOpen) : tomorrow;
+    const next = prefill?.slot?dateKey(prefill.slot.Start):p.nextOpen?dateKey(p.nextOpen):tomorrow;
     return (next > tomorrow ? next : tomorrow).slice(0, 7);
   });
-  const [slot, setSlot] = useState<Slot | null>(null);
+  const [preferredDate,setPreferredDate]=useState(prefill?.slot?dateKey(prefill.slot.Start):tomorrow);
+  const [slot, setSlot] = useState<Slot | null>(prefill?.slot||null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<Created | null>(null);
@@ -147,6 +158,7 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
                 today={today}
                 selected={chosen?.Start ?? null}
                 onSelect={setSlot}
+                onDateChange={setPreferredDate}
                 canGoBack={month > firstMonth}
                 onMonth={(d) => {
                   setSlot(null);
@@ -154,6 +166,7 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
                 }}
               />
             )}
+            <WaitingListBanner psychologist={p} catalog={catalog} me={me} serviceId={serviceId} date={preferredDate} period={chosen?(minutesIntoDay(chosen.Start)<720?"morning":minutesIntoDay(chosen.Start)<1020?"afternoon":"evening"):undefined} sessionType={how?.mode==="online"?how.channel:how?"in_person":""} locationId={how?.mode==="in_person"?how.location:""}/>
           </section>
         </li>
       </ol>

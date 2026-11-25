@@ -1,4 +1,5 @@
 "use client";
+import {PasswordResetNotice} from "./PasswordRecovery";
 
 import { useRouter } from "next/navigation";
 import { useSession } from "@/components/shell/Session";
@@ -11,7 +12,7 @@ export function SignInPage({ next }: { next?: string }) {
   const { refresh } = useSession();
   return (
     <SignInLayout>
-      <SignInForm
+      <PasswordResetNotice/><SignInForm
         onSignedIn={async (me) => {
           await refresh();
           const recovery=readRegistrationRecovery();

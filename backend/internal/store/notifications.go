@@ -7,10 +7,11 @@ import (
 )
 
 type AccountNotification struct {
-	ID        string    `json:"id"`
-	Kind      string    `json:"kind"`
-	CreatedAt time.Time `json:"createdAt"`
-	Read      bool      `json:"read"`
+	ID        string         `json:"id"`
+	Kind      string         `json:"kind"`
+	CreatedAt time.Time      `json:"createdAt"`
+	Read      bool           `json:"read"`
+	Details   map[string]any `json:"details"`
 }
 
 func (s *Store) CreateSessionWithWelcome(ctx context.Context, hash []byte, userID string, expires, now time.Time, welcome bool) error {
@@ -19,14 +20,14 @@ func (s *Store) CreateSessionWithWelcome(ctx context.Context, hash []byte, userI
 			return err
 		}
 		if welcome {
-			_, err := tx.Exec(ctx, `INSERT INTO account_notification(user_id,kind,created_at) VALUES($1,'welcome',$2) ON CONFLICT(user_id,kind) DO NOTHING`, userID, now)
+			_, err := tx.Exec(ctx, `INSERT INTO account_notification(user_id,kind,created_at) VALUES($1,'welcome',$2) ON CONFLICT(user_id,kind) WHERE kind='welcome' DO NOTHING`, userID, now)
 			return err
 		}
 		return nil
 	})
 }
 func (s *Store) AccountNotifications(ctx context.Context, userID string) ([]AccountNotification, error) {
-	rows, err := s.pool.Query(ctx, `SELECT id,kind,created_at,read_at IS NOT NULL FROM account_notification WHERE user_id=$1 AND dismissed_at IS NULL ORDER BY created_at DESC LIMIT 30`, userID)
+	rows, err := s.pool.Query(ctx, `SELECT id,kind,created_at,read_at IS NOT NULL,details FROM account_notification WHERE user_id=$1 AND dismissed_at IS NULL ORDER BY created_at DESC LIMIT 30`, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +35,7 @@ func (s *Store) AccountNotifications(ctx context.Context, userID string) ([]Acco
 	items := []AccountNotification{}
 	for rows.Next() {
 		var item AccountNotification
-		if err = rows.Scan(&item.ID, &item.Kind, &item.CreatedAt, &item.Read); err != nil {
+		if err = rows.Scan(&item.ID, &item.Kind, &item.CreatedAt, &item.Read, &item.Details); err != nil {
 			return nil, err
 		}
 		items = append(items, item)

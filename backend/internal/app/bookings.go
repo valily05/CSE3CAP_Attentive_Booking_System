@@ -65,6 +65,7 @@ func (a *App) Book(ctx context.Context, act Actor, in BookInput) (store.Created,
 	if err != nil {
 		return store.Created{}, err
 	}
+	a.refreshWaiting(ctx)
 	created.ChangeDeadline = booking.ChangeDeadline(in.Start, st.ChangeCutoff)
 	a.emailClient(ctx, created.ID, email.BookingConfirmed)
 	return created, nil
@@ -158,6 +159,7 @@ func (a *App) bookingEmailData(b store.BookingView, name string) email.Data {
 // ClientBooking is a client's own booking plus whether they may still change it.
 type ClientBooking struct {
 	store.BookingView
+	store.BookingMetadata
 	CanChange      bool      `json:"canChange"`
 	ChangeDeadline time.Time `json:"changeDeadline"`
 }
@@ -177,9 +179,17 @@ func (a *App) MyBookings(ctx context.Context, act Actor, f store.BookingFilter) 
 		return nil, err
 	}
 	now := a.clock.Now()
+	ids := make([]string, len(bs))
+	for i, b := range bs {
+		ids[i] = b.ID
+	}
+	metadata, err := a.store.ClientBookingMetadata(ctx, ids)
+	if err != nil {
+		return nil, err
+	}
 	out := make([]ClientBooking, len(bs))
 	for i, b := range bs {
-		out[i] = ClientBooking{BookingView: b, ChangeDeadline: booking.ChangeDeadline(b.Start, st.ChangeCutoff),
+		out[i] = ClientBooking{BookingView: b, BookingMetadata: metadata[b.ID], ChangeDeadline: booking.ChangeDeadline(b.Start, st.ChangeCutoff),
 			CanChange: b.Status == string(booking.Confirmed) && booking.ClientCanChange(b.Start, now, st.ChangeCutoff)}
 	}
 	return out, nil

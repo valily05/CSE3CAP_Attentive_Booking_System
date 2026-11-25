@@ -71,6 +71,7 @@ func (s *server) signUp(w http.ResponseWriter, r *http.Request) {
 }
 
 type tokenBody struct {
+	Notify   bool   `json:"notify,omitempty"`
 	Token    string `json:"token"`
 	Password string `json:"password,omitempty"`
 }
@@ -161,8 +162,13 @@ func (s *server) reset(w http.ResponseWriter, r *http.Request) {
 		writeError(w, r, err)
 		return
 	}
-	if err := s.app.ResetPassword(r.Context(), in.Token, in.Password); err != nil {
+	address, err := s.app.ResetPasswordWithNotice(r.Context(), in.Token, in.Password)
+	if err != nil {
 		writeError(w, r, err)
+		return
+	}
+	if in.Notify {
+		writeJSON(w, http.StatusOK, map[string]string{"email": address})
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)

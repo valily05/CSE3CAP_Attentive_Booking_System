@@ -169,3 +169,12 @@
  .nav:not(:has(li:nth-child(4))) ul { display:flex;justify-content:center;gap:.7rem; }
  .nav:not(:has(li:nth-child(4))) a { width:auto;white-space:nowrap;font-size:clamp(.68rem,2.8vw,.8rem); }
 }
+
+.notificationPanel h2 { padding-bottom:.85rem;border-bottom:1px solid var(--line); }
+.notificationPanel li { padding:.5rem 0;align-items:start; }
+.notificationPanel li+li { border-top:1px solid var(--line); }
+.notificationPanel li a { padding:.7rem .35rem;border-radius:.6rem; }
+.notificationPanel li strong { font-size:.83rem;font-weight:650; }
+.notificationPanel li span { font-size:.76rem;line-height:1.65; }
+.notificationPanel time { font-size:.67rem;color:var(--muted);margin-top:.25rem; }
+.notificationPanel li>button { margin-top:.5rem;min-height:1.8rem;width:1.8rem;padding:.25rem;border:0;background:transparent; }

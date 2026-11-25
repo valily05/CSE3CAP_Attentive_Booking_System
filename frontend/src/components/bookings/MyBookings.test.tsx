@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import type {ReactNode} from "react";
+import {SiteToast} from "@/components/shell/SiteToast";
+import {beforeAll,vi, describe, expect, it } from "vitest";
 import { http, HttpResponse } from "msw";
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -7,6 +9,8 @@ import { renderWithIntl } from "@/test/render";
 import type { Booking } from "@/lib/types";
 import { MyBookings } from "./MyBookings";
 
+const renderBookings=(node:ReactNode)=>renderWithIntl(<><SiteToast/>{node}</>);
+beforeAll(()=>{vi.stubGlobal("matchMedia",()=>({matches:false,addEventListener:()=>{},removeEventListener:()=>{}}));Object.defineProperty(HTMLDialogElement.prototype,"showModal",{configurable:true,value(){this.setAttribute("open","")}});Object.defineProperty(HTMLDialogElement.prototype,"close",{configurable:true,value(){this.removeAttribute("open")}})});
 const now = new Date("2026-03-05T03:00:00Z"); // Thursday 10:00 WIB
 
 const base: Booking = {
@@ -22,22 +26,20 @@ function bookingsApi(list: () => Booking[]) {
 }
 
 describe("MyBookings", () => {
-  it("splits upcoming and past, with the change deadline", async () => {
+  it("shows upcoming sessions and the change deadline without the old past section", async () => {
     bookingsApi(() => [past, base]);
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
 
     const upcoming = await screen.findByRole("region", { name: "Upcoming" });
     expect(within(upcoming).getByText("ATT-7K2Q")).toBeInTheDocument();
     expect(within(upcoming).getByText("Change or cancel until Monday 9 March, 08:00 WIB")).toBeInTheDocument();
-    const pastList = screen.getByRole("region", { name: "Past" });
-    expect(within(pastList).getByText("Attended")).toBeInTheDocument();
-    expect(within(pastList).queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole("region",{name:"Past"})).not.toBeInTheDocument();
   });
 
   it("leads with the next session and when it is", async () => {
     const later: Booking = { ...base, id: "b2", code: "ATT-3333", start: "2026-03-16T02:00:00Z", end: "2026-03-16T03:00:00Z" };
     bookingsApi(() => [later, base]);
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
 
     const next = await screen.findByRole("region", { name: "Your next session" });
     expect(within(next).getByText("ATT-7K2Q")).toBeInTheDocument();
@@ -49,7 +51,7 @@ describe("MyBookings", () => {
 
   it("shows every session on a month calendar, by status", async () => {
     bookingsApi(() => [past, base]);
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
     const user = userEvent.setup();
 
     const march = await screen.findByRole("grid", { name: "Your sessions in March 2026" });
@@ -62,17 +64,9 @@ describe("MyBookings", () => {
     expect(within(feb).getByText("09:00 Ayu L.")).toHaveAttribute("data-status", "attended");
   });
 
-  it("lists past sessions as a table", async () => {
-    bookingsApi(() => [past, base]);
-    renderWithIntl(<MyBookings now={now} />);
-    const table = await screen.findByRole("table", { name: "Past" });
-    expect(within(table).getAllByRole("columnheader").map((c) => c.textContent)).toEqual(["Date", "With", "Session", "Status"]);
-    expect(within(table).getByRole("cell", { name: "Attended" })).toBeInTheDocument();
-  });
-
   it("hides the buttons after the deadline and points to the admin", async () => {
     bookingsApi(() => [{ ...base, canChange: false }]);
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
 
     expect(await screen.findByText("Changes for this session are closed. Please contact our admin.")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Cancel session" })).not.toBeInTheDocument();
@@ -90,9 +84,10 @@ describe("MyBookings", () => {
         return new HttpResponse(null, { status: 204 });
       }),
     );
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
     const user = userEvent.setup();
 
+    await user.click(await screen.findByRole("button", { name: "View Details" }));
     await user.click(await screen.findByRole("button", { name: "Cancel session" }));
     const dialog = screen.getByRole("dialog", { name: "Cancel this session?" });
     await user.selectOptions(within(dialog).getByRole("combobox", { name: "Reason (optional)" }), "travel");
@@ -100,7 +95,7 @@ describe("MyBookings", () => {
 
     expect(await screen.findByRole("status")).toHaveTextContent("Session cancelled.");
     expect(sent).toEqual({ reason: "travel" });
-    await waitFor(() => expect(within(screen.getByRole("table", { name: "Past" })).getByText("Cancelled")).toBeInTheDocument());
+    await waitFor(()=>expect(screen.queryByRole("button",{name:"Cancel session"})).not.toBeInTheDocument());
   });
 
   it("moves a session to a new open time", async () => {
@@ -120,7 +115,7 @@ describe("MyBookings", () => {
         return new HttpResponse(null, { status: 204 });
       }),
     );
-    renderWithIntl(<MyBookings now={now} />);
+    renderBookings(<MyBookings now={now} />);
     const user = userEvent.setup();
 
     await user.click(await screen.findByRole("button", { name: "Change time" }));
@@ -132,7 +127,7 @@ describe("MyBookings", () => {
 
   it("thanks the client who tapped 'I will attend' in a reminder", async () => {
     bookingsApi(() => [base]);
-    renderWithIntl(<MyBookings now={now} attendCode="ATT-7K2Q" />);
+    renderBookings(<MyBookings now={now} attendCode="ATT-7K2Q" />);
     expect(await screen.findByText("Thank you for letting us know. See you soon.")).toBeInTheDocument();
   });
 });

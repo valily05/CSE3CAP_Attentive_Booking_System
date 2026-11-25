@@ -1,6 +1,8 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import {showToast} from "@/lib/toast";
+import {useTranslations} from "next-intl";
 import { api } from "@/lib/api";
 import type { Me } from "@/lib/types";
 
@@ -8,6 +10,7 @@ type Session = { me: Me | null; ready: boolean; refresh: () => Promise<void>; si
 const Ctx = createContext<Session>({ me: null, ready: false, refresh: async () => {}, signOut: async () => {} });
 
 export function SessionProvider({ children }: { children: ReactNode }) {
+  const t=useTranslations("auth");
   const [me, setMe] = useState<Me | null>(null);
   const [ready, setReady] = useState(false);
   const refresh = useCallback(async () => {
@@ -20,9 +23,10 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }
   }, []);
   const signOut = useCallback(async () => {
-    await api.post("/api/auth/logout").catch(() => {});
+    await api.post("/api/auth/logout");
     setMe(null);
-  }, []);
+    showToast(t("signedOutToast"));
+  }, [t]);
   useEffect(() => {
     let live = true;
     api.get<Me>("/api/auth/me").then(

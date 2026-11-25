@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach,describe, expect, it } from "vitest";
 import { http, HttpResponse } from "msw";
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -7,6 +7,7 @@ import { renderWithIntl } from "@/test/render";
 import type { Catalog, Day, Psychologist } from "@/lib/types";
 import { BookingFlow } from "./BookingFlow";
 
+beforeEach(()=>server.use(http.get("*/api/me/waiting-list",()=>HttpResponse.json({items:[]}))));
 const catalog: Catalog = {
   locations: [{ id: "bsd", name: "BSD (Tangerang)", active: true }],
   services: [

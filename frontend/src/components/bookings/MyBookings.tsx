@@ -1,8 +1,10 @@
 "use client";
 import { UrgentBadge } from "@/components/urgent/UrgentBadge";
 
+import {showToast} from "@/lib/toast";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import Image from "next/image";
+import { useCallback,useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
@@ -21,11 +23,13 @@ import {
   weekStart,
 } from "@/lib/time";
 import { useAppLocale } from "@/lib/i18n";
-import type { Booking, Day, Slot } from "@/lib/types";
-import { MonthPicker } from "@/components/booking/MonthPicker";
+import type { Booking, Slot } from "@/lib/types";
+import {Reschedule} from "./BookingActions";
+import {BookingDetailsDrawer} from "./BookingDetailsDrawer";
+import {CalendarHeart,Eye,UserRound} from "lucide-react";
 import styles from "./MyBookings.module.css";
 
-const REASONS = ["schedule_conflict", "travel", "cost", "other"] as const;
+
 
 type Props = { now?: Date; attendCode?: string };
 
@@ -33,27 +37,28 @@ export function MyBookings({ now = new Date(), attendCode }: Props) {
   const t = useTranslations();
   const res = useApi<{ bookings: Booking[] }>("/api/me/bookings");
   const list = res.data?.bookings ?? null;
-  const [notice, setNotice] = useState<string | null>(null);
-  const [actionError, setError] = useState<string | null>(null);
-  const error = actionError ?? res.error ?? null;
+  const [selectedId,setSelectedId]=useState<string|null>(null);
+  const closeDetails=useCallback(()=>setSelectedId(null),[]);
+  const selected=list?.find(b=>b.id===selectedId);
+  const setError=(code:string|null)=>{if(code)showToast(t(`errors.${code}`),true)};
+  const error = res.error ?? null;
 
   const done = async (message: string) => {
-    setNotice(message);
+    showToast(message);
     setError(null);
     res.reload();
+    window.dispatchEvent(new Event("attentive:bookings-changed"));
   };
 
   const nowMs = now.getTime();
-  const byStart = [...(list ?? [])].sort((a, z) => a.start.localeCompare(z.start));
+  const byStart = [...(list ?? [])].filter(b=>["confirmed","attended","no_show","cancelled"].includes(b.status)).sort((a, z) => a.start.localeCompare(z.start));
   const upcoming = byStart.filter((b) => b.status === "confirmed" && new Date(b.start).getTime() > nowMs);
-  const past = byStart.filter((b) => !upcoming.includes(b)).reverse();
+
 
   return (
     <div className={styles.page}>
       {attendCode && list?.some((b) => b.code === attendCode) && <p className={styles.thanks}>{t("bookings.attendThanks")}</p>}
-      <p role="status" className={styles.notice}>
-        {notice}
-      </p>
+
       {error && (
         <p role="alert" className={styles.error}>
           {t(`errors.${error}`)}
@@ -65,31 +70,25 @@ export function MyBookings({ now = new Date(), attendCode }: Props) {
       <section aria-labelledby="upcoming" className={styles.upcomingCol}>
         <h2 id="upcoming">{t("bookings.upcoming")}</h2>
         {list && upcoming.length === 0 && (
-          <p className={styles.empty}>
-            {t("bookings.emptyUpcoming")}{" "}
-            <Link href="/">{t("bookings.bookOne")}</Link>
-          </p>
+          <div className={styles.emptyCard}><span className={styles.emptyArt}><CalendarHeart size={42} strokeWidth={1.3}/></span><h3>{t("bookingDetails.emptyTitle")}</h3><p>{t("bookingDetails.emptyBody")}</p><Link className="button" href="/">{t("bookingDetails.findTime")}</Link></div>
         )}
         {upcoming.length > 0 && (
           <ul className={styles.list}>
-            <Upcoming key={upcoming[0].id} booking={upcoming[0]} onDone={done} onError={setError} featured now={now} />
+            <Upcoming key={upcoming[0].id} booking={upcoming[0]} onDone={done} onError={setError} onDetails={()=>setSelectedId(upcoming[0].id)} featured now={now} />
           </ul>
         )}
         {upcoming.length > 1 && <h3 className={styles.subhead}>{t("bookings.later")}</h3>}
         <ul className={styles.list}>
           {upcoming.slice(1).map((b) => (
-            <Upcoming key={b.id} booking={b} onDone={done} onError={setError} now={now} />
+            <Upcoming key={b.id} booking={b} onDone={done} onError={setError} onDetails={()=>setSelectedId(b.id)} now={now} />
           ))}
         </ul>
       </section>
-      {list && <SessionsCalendar bookings={byStart} now={now} />}
+      <div className={styles.calendarPane}>{list && <SessionsCalendar bookings={byStart} now={now} onDetails={b=>setSelectedId(b.id)}/>}
+      {selected&&<BookingDetailsDrawer key={selected.id} booking={selected} onClose={closeDetails} onDone={done} onError={setError} now={now}/>}</div>
       </div>
 
-      <section aria-labelledby="past" className={styles.card}>
-        <h2 id="past">{t("bookings.past")}</h2>
-        {list && past.length === 0 && <p className={styles.empty}>{t("bookings.emptyPast")}</p>}
-        {past.length > 0 && <PastTable bookings={past} />}
-      </section>
+
     </div>
   );
 }
@@ -100,7 +99,7 @@ const shortName = (full: string) => {
 };
 
 /** Every session on a month calendar, coloured by status (G09-7 visit history). */
-function SessionsCalendar({ bookings, now }: { bookings: Booking[]; now: Date }) {
+function SessionsCalendar({ bookings, now,onDetails }: { bookings: Booking[]; now: Date;onDetails:(booking:Booking)=>void }) {
   const t = useTranslations();
   const locale = useAppLocale();
   const [month, setMonth] = useState(dateKey(now).slice(0, 7));
@@ -145,9 +144,9 @@ function SessionsCalendar({ bookings, now }: { bookings: Booking[]; now: Date })
                 {bookings
                   .filter((b) => dateKey(b.start) === k)
                   .map((b) => (
-                    <span key={b.id} className={styles.chip} data-status={b.status}>
+                    <button type="button" key={b.id} className={styles.chip} data-status={b.status} aria-label={t("bookingDetails.viewBooking",{code:b.code})} onClick={()=>onDetails(b)}>
                       {formatTime(b.start, locale)} {shortName(b.psychologistName)}
-                    </span>
+                    </button>
                   ))}
               </div>
             ))}
@@ -162,43 +161,6 @@ function SessionsCalendar({ bookings, now }: { bookings: Booking[]; now: Date })
         ))}
       </div>
     </section>
-  );
-}
-
-function PastTable({ bookings }: { bookings: Booking[] }) {
-  const t = useTranslations();
-  const locale = useAppLocale();
-  return (
-    <div className={styles.tableWrap}>
-      <table aria-labelledby="past" className={styles.table}>
-        <thead>
-          <tr>
-            <th scope="col">{t("bookings.colDate")}</th>
-            <th scope="col">{t("bookings.colWith")}</th>
-            <th scope="col">{t("bookings.colSession")}</th>
-            <th scope="col">{t("bookings.colStatus")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b.id}>
-              <td>
-                {formatDate(b.start, locale)}, {formatTime(b.start, locale)}
-              </td>
-              <td>{b.psychologistName}</td>
-              <td>
-                {b.serviceName}, {b.mode === "online" ? t(`sessionType.${b.onlineChannel ?? "video"}`) : b.locationName}
-              </td>
-              <td>
-                <span className={styles.status} data-status={b.status}>
-                  {t(`bookings.status.${b.status}`)}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   );
 }
 
@@ -223,11 +185,11 @@ function NextSession({ booking: b, now }: { booking: Booking; now: Date }) {
         {formatDate(b.start, locale)}
         <strong>{formatTime(b.start, locale)}</strong>
       </p>
-      <p className={styles.ticketWho}>{b.psychologistName}</p>
+      <div className={styles.cardPsych}>{b.psychologistPhoto?<Image src={b.psychologistPhoto} alt="" width={44} height={44} unoptimized/>:<span><UserRound size={23}/></span>}<p className={styles.ticketWho}>{b.psychologistName}</p></div>
       <p className={styles.ticketMeta}>
         {b.serviceName}, {place}
       </p>
-      <span className={styles.code}>{b.code}</span><UrgentBadge urgent={b.isUrgent} />
+      <div className={styles.meta}><span className={styles.code}>{b.code}</span><span className={styles.status} data-status={b.status}>{t(`bookings.status.${b.status}`)}</span><UrgentBadge urgent={b.isUrgent}/></div>
       </div>
     </section>
   );
@@ -256,12 +218,12 @@ function Summary({ booking: b }: { booking: Booking }) {
   );
 }
 
-type RowProps = { booking: Booking; onDone: (msg: string) => Promise<void>; onError: (code: string) => void; featured?: boolean; now?: Date };
+type RowProps = { booking: Booking; onDone: (msg: string) => Promise<void>; onError: (code: string) => void; onDetails:()=>void;featured?: boolean; now?: Date };
 
-function Upcoming({ booking: b, onDone, onError, featured, now }: RowProps) {
+function Upcoming({ booking: b, onDone, onError,onDetails, featured, now }: RowProps) {
   const t = useTranslations();
   const locale = useAppLocale();
-  const [mode, setMode] = useState<"idle" | "cancel" | "move">("idle");
+  const [mode, setMode] = useState<"idle" | "move">("idle");
 
   async function move(s: Slot) {
     try {
@@ -280,16 +242,14 @@ function Upcoming({ booking: b, onDone, onError, featured, now }: RowProps) {
         <>
           {b.changeDeadline && <p className={styles.deadline}>{t("bookings.changeUntil", { deadline: formatDateTime(b.changeDeadline, locale) })}</p>}
           <div className={styles.actions}>
-            <button type="button" className="button-quiet" onClick={() => setMode("move")}>
+            <button type="button" className="button" onClick={() => setMode("move")}>
               {t("bookings.reschedule")}
             </button>
-            <button type="button" className="button-quiet" onClick={() => setMode("cancel")}>
-              {t("bookings.cancel")}
-            </button>
+            <button type="button" className="button-quiet" onClick={onDetails}><Eye size={16}/>{t("bookingDetails.view")}</button>
           </div>
         </>
       ) : (
-        <p className={styles.closed}>{t("bookings.contactAdmin")}</p>
+        <><p className={styles.closed}>{t("bookings.contactAdmin")}</p><button type="button" className="button-quiet" onClick={onDetails}>{t("bookingDetails.view")}</button></>
       )}
       {mode === "move" && (
         <div className={styles.move}>
@@ -297,79 +257,7 @@ function Upcoming({ booking: b, onDone, onError, featured, now }: RowProps) {
           <Reschedule booking={b} today={dateKey(now ?? new Date())} onPick={move} />
         </div>
       )}
-      {mode === "cancel" && (
-        <CancelDialog
-          onClose={() => setMode("idle")}
-          onConfirm={async (reason) => {
-            try {
-              await api.post(`/api/bookings/${b.id}/cancel`, { reason });
-              setMode("idle");
-              await onDone(t("bookings.cancelled"));
-            } catch (e) {
-              onError(errorCode(e));
-            }
-          }}
-        />
-      )}
+
     </li>
-  );
-}
-
-/** The same month calendar as booking, for the booking's psychologist, service and place. */
-function Reschedule({ booking: b, today, onPick }: { booking: Booking; today: string; onPick: (s: Slot) => void }) {
-  const tomorrow = addDays(today, 1);
-  const firstMonth = tomorrow.slice(0, 7);
-  const [month, setMonth] = useState(firstMonth);
-  const from = month === firstMonth ? tomorrow : `${month}-01`;
-  const q = new URLSearchParams({ service: b.serviceId, from, days: String(daysInMonth(month) - Number(from.slice(8)) + 1), mode: b.mode });
-  if (b.mode === "in_person" && b.locationId) q.set("location", b.locationId);
-  const res = useApi<{ days: Day[] }>(`/api/psychologists/${b.psychologistId}/slots?${q}`);
-  return (
-    <MonthPicker
-      key={month}
-      month={month}
-      days={res.data?.days ?? []}
-      today={today}
-      selected={null}
-      onSelect={onPick}
-      canGoBack={month > firstMonth}
-      onMonth={(d) => setMonth(addMonths(month, d))}
-    />
-  );
-}
-
-function CancelDialog({ onClose, onConfirm }: { onClose: () => void; onConfirm: (reason: string) => Promise<void> }) {
-  const t = useTranslations("bookings");
-  const titleId = useId();
-  const [reason, setReason] = useState("");
-  const first = useRef<HTMLSelectElement>(null);
-  useEffect(() => first.current?.focus(), []);
-
-  return (
-    <div className={styles.scrim} onKeyDown={(e) => e.key === "Escape" && onClose()}>
-      <div role="dialog" aria-modal="true" aria-labelledby={titleId} className={styles.dialog}>
-        <h3 id={titleId}>{t("cancelTitle")}</h3>
-        <p>{t("cancelBody")}</p>
-        <label className="field">
-          <span>{t("reasonLabel")}</span>
-          <select ref={first} value={reason} onChange={(e) => setReason(e.target.value)}>
-            <option value="">{t("reason.none")}</option>
-            {REASONS.map((r) => (
-              <option key={r} value={r}>
-                {t(`reason.${r}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className={styles.actions}>
-          <button type="button" className="button-danger" onClick={() => onConfirm(reason)}>
-            {t("confirmCancel")}
-          </button>
-          <button type="button" className="button-quiet" onClick={onClose}>
-            {t("keep")}
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
