@@ -205,6 +205,15 @@ func (s *Store) RescheduleBooking(ctx context.Context, r Reschedule) error {
 	if err := audit(ctx, tx, r.ActorID, "reschedule", r.BookingID, map[string]any{"from": oldStart, "to": r.Start}); err != nil {
 		return err
 	}
+	if !oldStart.Equal(r.Start) {
+		_, err = tx.Exec(ctx, `INSERT INTO account_notification(user_id,kind,created_at,details)
+        SELECT c.user_id,'booking_rescheduled',now(),jsonb_build_object('bookingId',b.id,'code',b.code,'from',$2::timestamptz,'start',b.start_at,'psychologistName',p.name,'link','/bookings')
+        FROM booking b JOIN client c ON c.id=b.client_id JOIN psychologist p ON p.id=b.psychologist_id
+        WHERE b.id=$1 AND c.user_id IS NOT NULL`, r.BookingID, oldStart)
+		if err != nil {
+			return fmt.Errorf("reschedule notification: %w", err)
+		}
+	}
 	return tx.Commit(ctx)
 }
 

@@ -104,7 +104,7 @@ describe("AdminCalendar", () => {
 
     const tuesday = await screen.findByRole("region", { name: "Tuesday 10 March" });
     expect(within(tuesday).getByText("Working 09:00 – 13:00, online")).toBeInTheDocument();
-    expect(await within(tuesday).findByRole("button", { name: "09:00, Rina Test, Upcoming" })).toBeInTheDocument();
+    expect(await within(tuesday).findByRole("button", { name: "09:00, Rina Test, Confirmed" })).toBeInTheDocument();
     await waitFor(() => expect(queries.at(-1)).toContain("from=2026-03-09&to=2026-03-15&psychologist=p1"));
   });
 
@@ -140,7 +140,7 @@ describe("AdminCalendar", () => {
     renderWithIntl(<AdminCalendar now={now} />);
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole("button", { name: "09:00, Rina Test, Upcoming" }));
+    await user.click(await screen.findByRole("button", { name: "09:00, Rina Test, Confirmed" }));
     const panel = screen.getByRole("region", { name: "ATT-7K2Q" });
     expect(within(panel).getByText("Rina Test")).toBeInTheDocument();
     await user.click(within(panel).getByRole("button", { name: "Cancel session" }));
@@ -154,8 +154,8 @@ describe("AdminCalendar", () => {
     await user.click(screen.getByRole("button", { name: "Day" }));
 
     const column = await screen.findByRole("region", { name: "Ayu Lestari" });
-    expect(within(column).getByRole("button", { name: "09:00, Rina Test, Upcoming" })).toBeInTheDocument();
-    await waitFor(() => expect(queries.at(-1)).toBe("?from=2026-03-10&to=2026-03-10"));
+    expect(within(column).getByRole("button", { name: "09:00, Rina Test, Confirmed" })).toBeInTheDocument();
+    await waitFor(() => expect(queries).toContain("?from=2026-03-10&to=2026-03-10"));
   });
 });
 

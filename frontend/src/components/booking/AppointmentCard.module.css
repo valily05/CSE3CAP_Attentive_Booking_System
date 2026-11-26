@@ -75,3 +75,9 @@
     border-left: 2px dashed var(--brass);
   }
 }
+/* Account and booking pages share the same restrained confirmation ticket. */
+.card {width:min(100%,54rem);max-width:54rem;margin:1.5rem auto;border:1px solid var(--line);border-radius:1.25rem;box-shadow:0 10px 32px #50381a0a;grid-template-columns:minmax(0,1fr) 15rem;}
+.body {padding:2rem;gap:1.25rem;}.body h2 {font-size:1.8rem;line-height:1.25;letter-spacing:-.03em;font-weight:700;}.successIcon {display:grid;place-items:center;width:3.3rem;height:3.3rem;border-radius:1rem;background:light-dark(#f4e8cf,#3c3526);color:var(--brass-text);}
+.body dl {width:100%;gap:1rem 1.25rem;padding:1.15rem;background:light-dark(#faf6ef,#192b41);border:1px solid var(--line);border-radius:.9rem;font-size:.8rem;line-height:1.7;}.body dt {display:flex;align-items:center;gap:.5rem;}.body dt svg {flex-shrink:0;}.body dd {overflow-wrap:anywhere;font-weight:550;}.keep {font-size:.77rem;line-height:1.85;color:var(--muted);}.body>a {display:inline-flex;align-items:center;gap:.6rem;min-height:2.85rem;font-size:.8rem;}
+.stub {border:0;border-left:1px dashed var(--brass);background:light-dark(#142c52,#1c304f);color:#fbf8f2;padding:1.5rem;gap:.8rem;}.stub>svg {color:#d6a74d;}.stubLabel {font-size:.73rem;color:#c4ccda;}.code {font-size:clamp(1.35rem,2.5vw,1.8rem);color:#e8bd65;letter-spacing:.025em;}
+@media(max-width:47.999rem) {.card {grid-template-columns:1fr;margin:.5rem auto;}.body {padding:1.35rem;gap:1.1rem;}.body h2 {font-size:1.55rem;}.body dl {padding:.9rem;gap:.9rem .7rem;font-size:.75rem;}.stub {border-left:0;border-top:1px dashed var(--brass);padding:1.25rem;grid-template-columns:auto 1fr;align-items:center;}.stub>svg {grid-row:1/3;}.code {font-size:1.5rem;}.stubLabel {font-size:.7rem;}}

@@ -70,3 +70,16 @@ func TestPasswordHash_VerifiesOnlyTheRightPassword(t *testing.T) {
 		t.Fatal("wrong password accepted")
 	}
 }
+
+func TestValidPhoneIndependentOfResidence(t *testing.T) {
+	for _, number := range []string{"081234567890", "+6281234567890", "+65 8123 4567"} {
+		if !auth.ValidPhone(number) {
+			t.Errorf("valid contact number rejected: %q", number)
+		}
+	}
+	for _, number := range []string{"", "abc", "123", "+012345678"} {
+		if auth.ValidPhone(number) {
+			t.Errorf("invalid contact number accepted: %q", number)
+		}
+	}
+}

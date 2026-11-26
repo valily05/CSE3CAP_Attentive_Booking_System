@@ -17,6 +17,7 @@ export function ProfilePage({ id }: { id: string }) {
   const [p, setP] = useState<Psychologist | null>(null);
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [returnQuery]=useState(()=>typeof window==="undefined"?"":window.location.search);
+  const [booked,setBooked]=useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export function ProfilePage({ id }: { id: string }) {
   const places = p.locationIds.map((id) => catalog.locations.find((l) => l.id === id)?.name ?? id);
   return (
     <div className={styles.page}>
+      {!booked&&<>
       <Link href="/" className={styles.back}>
         <ArrowLeft size={16}/> {t("profile.back")}
       </Link>
@@ -69,7 +71,8 @@ export function ProfilePage({ id }: { id: string }) {
         </div>
         <div className={styles.headerArt} aria-hidden="true"><Image src="/brand/booking-calendar-flat.png" alt="" width={1536} height={1024} sizes="(max-width: 560px) 120px, 200px"/></div>
       </header>
-      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} />:<div className={styles.signInCard}><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
+      </>}
+      {me?<BookingFlow psychologist={p} catalog={catalog} me={me.role === "client" ? me : null} onBooked={()=>setBooked(true)} />:<div className={styles.signInCard}><p>{t("directory.signInSchedule")}</p><Link className="button" href={`/signin?next=${encodeURIComponent(`/psychologists/${p.id}${returnQuery}`)}`}>{t("directory.signInBook")}</Link></div>}
     </div>
   );
 }

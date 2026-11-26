@@ -30,7 +30,7 @@ export type Slot = { Start: string; End: string; Mode: Mode; LocationID: string 
 export type Day = { date: string; slots: Slot[] };
 
 export type Booking = {
- psychologistPhoto?:string;psychologistSpecialty?:string;bookingMethod?:"self_service"|"admin_assisted"|"";bookedByName?:string;createdAt?:string;updatedAt?:string;
+ psychologistPhoto?:string;psychologistSpecialty?:string;bookingMethod?:"self_service"|"admin_assisted"|"";bookedByName?:string;createdAt?:string;updatedAt?:string;lastRescheduled?:{from:string;to:string;at:string};
   isUrgent?: boolean;
   id: string;
   code: string;

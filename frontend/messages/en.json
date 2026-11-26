@@ -283,7 +283,7 @@
     },
     "confirmCancel": "Yes, cancel it",
     "cancelled": "Session cancelled.",
-    "moved": "Session moved to {date} at {time}.",
+    "moved": "Session rescheduled to {date} at {time}.",
     "pickNewTime": "Pick a new time",
     "contactAdmin": "Changes for this session are closed. Please contact our admin.",
     "changeUntil": "Change or cancel until {deadline}",
@@ -305,7 +305,11 @@
     "colDate": "Date",
     "colWith": "With",
     "colSession": "Session",
-    "colStatus": "Status"
+    "colStatus": "Status",
+    "confirmChange": "Confirm time change",
+    "savingChange": "Saving…",
+    "selectedTime": "New time: {time}",
+    "chooseTimeFirst": "Select a new time, then confirm your change."
   },
   "auth": {
     "signInTitle": "Sign in",
@@ -685,7 +689,7 @@
     "email": "Email Address",
     "phone": "WhatsApp Number (optional)",
     "country": "Country calling code",
-    "phoneHint": "Enter your number without the country code. Indonesia (+62) is selected by default.",
+    "phoneHint": "Choose your country code, then enter your number without it.",
     "session": "Session Type",
     "online": "Online Session",
     "onsite": "Onsite Session",
@@ -878,7 +882,20 @@
     "onlineVisitStep3Title": "Begin Your Session",
     "onlineVisitStep3Body": "Join your psychologist online at the confirmed appointment time.",
     "updateEta": "Update Your ETA",
-    "updatedAt": "Updated at"
+    "updatedAt": "Updated at",
+    "formEyebrow": "A LITTLE SUPPORT, SOONER",
+    "detailsTitle": "Share your details",
+    "namePlaceholder": "Your full name",
+    "guideTitle": "One step closer to support.",
+    "guideBody": "Our team will help arrange the earliest suitable session.",
+    "guideStep1": "Share your details",
+    "guideStep1Body": "Only your name and email are required to get started.",
+    "guideStep2": "Choose how to meet",
+    "guideStep2Body": "Request an online session or visit an Attentive branch.",
+    "guideStep3": "Keep your booking code",
+    "guideStep3Body": "Send it through WhatsApp for online sessions, or show your QR pass when you arrive.",
+    "guideNotification": "Reopen your request from the notification bell.",
+    "emailPlaceholder": "you@example.com"
   },
   "history": {
     "clientBody": "Your past sessions, attendance and cancelled appointments, all in one place.",
@@ -1040,7 +1057,9 @@
     "body": "Your email is verified. You can now book a session and manage your appointments. We're glad you're here.",
     "intro": "Your account and booking updates.",
     "empty": "You're all caught up.",
-    "dismiss": "Dismiss welcome notification"
+    "dismiss": "Dismiss welcome notification",
+    "rescheduled": "Session rescheduled",
+    "rescheduledBody": "{code} with {name} is now scheduled for {time}."
   },
   "passwordRecovery": {
     "back": "Back to sign in",
@@ -1147,7 +1166,11 @@
     "eyebrow": "YOUR TIME, YOUR SPACE",
     "pageDescription": "Keep track of your sessions and find a time that works for you.",
     "planNext": "A little time, just for you.",
-    "bookSession": "Book a session"
+    "bookSession": "Book a session",
+    "lastRescheduled": "Last rescheduled",
+    "previousTime": "Previous time",
+    "newTime": "New time",
+    "changedAt": "Changed on"
   },
   "notificationsUi": {
     "unread": "Unread",

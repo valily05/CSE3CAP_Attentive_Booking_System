@@ -18,10 +18,10 @@ import styles from "./BookingFlow.module.css";
 type How = { mode: "online"; channel: Channel } | { mode: "in_person"; location: string };
 const CHANNELS: Channel[] = ["video", "voice", "chat"];
 
-type Props = { psychologist: Psychologist; catalog: Catalog; me: Me | null; today?: string };
+type Props = { psychologist: Psychologist; catalog: Catalog; me: Me | null; today?: string; onBooked?:()=>void };
 
 /** G09-4: choose a session, how to meet, then a day on the month calendar and a time. */
-export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }: Props) {
+export function BookingFlow({ psychologist: p, catalog, me, today = todayKey(), onBooked }: Props) {
   const t = useTranslations();
   const locale = useAppLocale();
   const services = catalog.services.filter((s) => p.serviceIds.includes(s.id));
@@ -76,6 +76,7 @@ export function BookingFlow({ psychologist: p, catalog, me, today = todayKey() }
           ? { psychologistId: p.id, serviceId, mode: "online", onlineChannel: how.channel, start: chosen.Start }
           : { psychologistId: p.id, serviceId, mode: "in_person", locationId: how.location, start: chosen.Start };
       setDone(await api.post<Created>("/api/bookings", body));
+      onBooked?.();
     } catch (e) {
       setError(errorCode(e));
       setSlot(null);

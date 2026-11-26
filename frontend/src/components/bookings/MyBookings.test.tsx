@@ -125,9 +125,14 @@ describe("MyBookings", () => {
     const user = userEvent.setup();
 
     await user.click(await screen.findByRole("button", { name: "Change time" }));
+    const confirm=await screen.findByRole("button",{name:"Confirm time change"});
+    expect(confirm).toBeDisabled();
     await user.click(await screen.findByRole("button", { name: "10:15" }));
+    expect(sent).toBeUndefined();
+    expect(confirm).toBeEnabled();
+    await user.click(confirm);
 
-    expect(await screen.findByRole("status")).toHaveTextContent("Session moved to Monday 9 March at 10:15.");
+    expect(await screen.findByRole("status")).toHaveTextContent("Session rescheduled to Monday 9 March at 10:15.");
     expect(sent).toEqual({ start: "2026-03-09T03:15:00Z" });
   });
 
@@ -136,4 +141,15 @@ describe("MyBookings", () => {
     renderBookings(<MyBookings now={now} attendCode="ATT-7K2Q" />);
     expect(await screen.findByText("Thank you for letting us know. See you soon.")).toBeInTheDocument();
   });
+});
+
+it("shows the saved reschedule details inside the booking drawer",async()=>{
+ bookingsApi(()=>[{...base,lastRescheduled:{from:"2026-03-09T02:00:00Z",to:base.start,at:"2026-03-05T03:00:00Z"}}]);
+ renderBookings(<MyBookings now={now}/>);
+ await userEvent.click((await screen.findAllByRole("button",{name:"View Details"}))[0]);
+ const drawer=screen.getByRole("dialog",{name:"Booking Details"});
+ expect(within(drawer).getByRole("heading",{name:"Last rescheduled"})).toBeInTheDocument();
+ expect(within(drawer).getByText("Previous time")).toBeInTheDocument();
+ expect(within(drawer).getByText("New time")).toBeInTheDocument();
+ expect(within(drawer).getByText("Changed on")).toBeInTheDocument();
 });

@@ -12,7 +12,7 @@ const route=vi.hoisted(()=>({path:"/"}));
 vi.mock("next/navigation", () => ({ usePathname: () => route.path, useRouter: () => ({ refresh, push: vi.fn() }) }));
 
 describe("Header", () => {
- it("offers Create account in the header on the sign-in page",()=>{route.path="/signin";renderWithIntl(<Header/>);expect(screen.getByRole("link",{name:"Create account"})).toHaveAttribute("href","/signup");expect(screen.queryByRole("link",{name:"Sign in"})).not.toBeInTheDocument();});
+ it("leaves the sign-in page to its dedicated account header",()=>{route.path="/signin";const {container}=renderWithIntl(<Header/>);expect(container).toBeEmptyDOMElement();route.path="/";});
   it("opens account details, closes with Escape, and signs out through the existing API", async () => {
     let requests=0;
     server.use(

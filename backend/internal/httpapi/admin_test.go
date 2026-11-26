@@ -195,3 +195,19 @@ func TestAdmin_FindsClientsByNameOrPhone(t *testing.T) {
 		t.Fatalf("phone search = %+v", out)
 	}
 }
+
+func TestAdminCreateClient_RejectsInvalidPhoneWithoutRequiringResidence(t *testing.T) {
+	w := bookedMonday(t, nextMonday9)
+	admin := w.e.StaffUser("admin", "phone-check@attentive.test", "")
+	for _, phone := range []string{"", "abc", "123"} {
+		var body struct{ Error string }
+		status := admin.Do("POST", "/api/admin/clients", map[string]any{"name": "Walk-in Contact", "email": "walkin@example.test", "phone": phone}, &body)
+		if status != http.StatusUnprocessableEntity || body.Error != "invalid_phone" {
+			t.Fatalf("invalid phone %q: status=%d error=%q", phone, status, body.Error)
+		}
+	}
+	var created struct{ ID string }
+	if status := admin.Do("POST", "/api/admin/clients", map[string]any{"name": "Walk-in Contact", "email": "walkin@example.test", "phone": "+6581234567"}, &created); status != http.StatusCreated || created.ID == "" {
+		t.Fatalf("valid phone without signup residence: status=%d id=%q", status, created.ID)
+	}
+}

@@ -140,3 +140,54 @@ func TestChanges_SomeoneElsesBookingIsInvisible(t *testing.T) {
 		t.Fatalf("other client's reschedule = %d", s)
 	}
 }
+
+func TestReschedule_SavesMetadataAndClientNotification(t *testing.T) {
+	w := bookedMonday(t, nextMonday9)
+	if status := w.rina.Do("POST", "/api/bookings/"+w.booking.ID+"/reschedule", map[string]any{"start": monday1130}, nil); status != http.StatusNoContent {
+		t.Fatalf("reschedule: %d", status)
+	}
+	var bookings struct {
+		Bookings []struct {
+			Code            string
+			Status          string
+			LastRescheduled *struct{ From, To, At time.Time }
+		}
+	}
+	if status := w.rina.Do("GET", "/api/me/bookings", nil, &bookings); status != 200 {
+		t.Fatal(status)
+	}
+	if len(bookings.Bookings) != 1 {
+		t.Fatalf("bookings: %+v", bookings)
+	}
+	b := bookings.Bookings[0]
+	if b.Code != w.booking.Code || b.Status != "confirmed" || b.LastRescheduled == nil {
+		t.Fatalf("booking: %+v", b)
+	}
+	if !b.LastRescheduled.From.Equal(nextMonday9) || !b.LastRescheduled.To.Equal(monday1130) || b.LastRescheduled.At.IsZero() {
+		t.Fatalf("change: %+v", b.LastRescheduled)
+	}
+	var notices struct {
+		Items []struct {
+			Kind    string
+			Details struct {
+				Code, BookingId string
+				Start           time.Time
+			}
+		}
+	}
+	if status := w.rina.Do("GET", "/api/me/notifications", nil, &notices); status != 200 {
+		t.Fatal(status)
+	}
+	count := 0
+	for _, n := range notices.Items {
+		if n.Kind == "booking_rescheduled" {
+			count++
+			if n.Details.Code != b.Code || n.Details.BookingId != w.booking.ID || !n.Details.Start.Equal(monday1130) {
+				t.Fatalf("notification: %+v", n)
+			}
+		}
+	}
+	if count != 1 {
+		t.Fatalf("reschedule notifications: %d", count)
+	}
+}

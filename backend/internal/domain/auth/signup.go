@@ -38,6 +38,12 @@ func NormalizePhone(p string) string {
 	return strings.NewReplacer(" ", "", "-", "", "(", "", ")", "").Replace(strings.TrimSpace(p))
 }
 
+// ValidPhone validates contact numbers independently of account registration.
+func ValidPhone(phone string) bool {
+	p := NormalizePhone(phone)
+	return phonePattern.MatchString(p) || regexp.MustCompile(`^\+[1-9][0-9]{6,14}$`).MatchString(p)
+}
+
 // ValidateSignUp checks a sign-up form.
 func ValidateSignUp(s SignUp) error {
 	switch {
@@ -47,7 +53,7 @@ func ValidateSignUp(s SignUp) error {
 		return ErrNameRequired
 	case !validEmail(s.Email):
 		return ErrInvalidEmail
-	case !(phonePattern.MatchString(NormalizePhone(s.Phone)) || regexp.MustCompile(`^\+[1-9][0-9]{6,14}$`).MatchString(NormalizePhone(s.Phone))):
+	case !ValidPhone(s.Phone):
 		return ErrInvalidPhone
 	case !ValidPassword(s.Password):
 		return ErrWeakPassword

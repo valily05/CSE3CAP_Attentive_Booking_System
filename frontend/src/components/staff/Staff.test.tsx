@@ -40,7 +40,7 @@ describe("ScheduleList", () => {
 
     await user.click(within(done).getByRole("button", { name: "Did not come" }));
     expect(marked).toEqual({ status: "no_show" });
-    expect(await within(screen.getByText("ATT-A").closest("li")!).findByText("Missed")).toBeInTheDocument();
+    expect(await within(screen.getByText("ATT-A").closest("li")!).findByText("No-show")).toBeInTheDocument();
   });
 });
 

@@ -136,7 +136,7 @@ describe("PsychologistSearch", () => {
     api(() => [citra, budi, ayu]);
     renderWithIntl(<PsychologistSearch />);
     await screen.findByRole("heading", { name: "Ayu Lestari" });
-    expect(screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual(["Ayu Lestari", "Budi Santoso", "Citra Wijaya"]);
+    expect(screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent?.replace(/→$/, ""))).toEqual(["Ayu Lestari", "Budi Santoso", "Citra Wijaya"]);
   });
 
   it("shows a kind message and a way out when nobody matches", async () => {
@@ -159,4 +159,3 @@ describe("PsychologistSearch", () => {
     expect(await screen.findByRole("link",{name:"Ayu Lestari"})).toBeInTheDocument();
   });
 });
-

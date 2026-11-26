@@ -305,7 +305,11 @@
     "colDate": "Tanggal",
     "colWith": "Bersama",
     "colSession": "Sesi",
-    "colStatus": "Status"
+    "colStatus": "Status",
+    "confirmChange": "Konfirmasi perubahan waktu",
+    "savingChange": "Menyimpan…",
+    "selectedTime": "Waktu baru: {time}",
+    "chooseTimeFirst": "Pilih waktu baru, lalu konfirmasi perubahan Anda."
   },
   "auth": {
     "signInTitle": "Masuk",
@@ -685,7 +689,7 @@
     "email": "Alamat Email",
     "phone": "Nomor WhatsApp (opsional)",
     "country": "Kode negara",
-    "phoneHint": "Masukkan nomor tanpa kode negara. Indonesia (+62) dipilih secara default.",
+    "phoneHint": "Pilih kode negara, lalu masukkan nomor tanpa kode negara.",
     "session": "Jenis Sesi",
     "online": "Sesi Online",
     "onsite": "Sesi Tatap Muka",
@@ -878,7 +882,20 @@
     "onlineVisitStep3Title": "Mulai Sesi Anda",
     "onlineVisitStep3Body": "Bergabunglah dengan psikolog secara online pada waktu yang dikonfirmasi.",
     "updateEta": "Perbarui Perkiraan Kedatangan",
-    "updatedAt": "Diperbarui pada"
+    "updatedAt": "Diperbarui pada",
+    "formEyebrow": "DUKUNGAN LEBIH CEPAT",
+    "detailsTitle": "Isi data Anda",
+    "namePlaceholder": "Nama lengkap Anda",
+    "guideTitle": "Selangkah menuju dukungan.",
+    "guideBody": "Tim kami akan membantu mengatur sesi terdekat yang sesuai.",
+    "guideStep1": "Isi data Anda",
+    "guideStep1Body": "Nama dan email diperlukan untuk memulai.",
+    "guideStep2": "Pilih cara bertemu",
+    "guideStep2Body": "Ajukan sesi online atau kunjungi cabang Attentive.",
+    "guideStep3": "Simpan kode booking",
+    "guideStep3Body": "Kirim melalui WhatsApp untuk sesi online atau tunjukkan QR saat tiba.",
+    "guideNotification": "Buka kembali permintaan melalui ikon notifikasi.",
+    "emailPlaceholder": "you@example.com"
   },
   "history": {
     "clientBody": "Sesi terdahulu, kehadiran, dan janji temu yang dibatalkan dalam satu tempat.",
@@ -1040,7 +1057,9 @@
     "body": "Email Anda telah diverifikasi. Kini Anda dapat memesan sesi dan mengelola janji temu. Senang Anda bergabung bersama kami.",
     "intro": "Pembaruan akun dan pemesanan Anda.",
     "empty": "Tidak ada pemberitahuan baru.",
-    "dismiss": "Hapus pemberitahuan selamat datang"
+    "dismiss": "Hapus pemberitahuan selamat datang",
+    "rescheduled": "Sesi dijadwalkan ulang",
+    "rescheduledBody": "{code} bersama {name} kini dijadwalkan pada {time}."
   },
   "passwordRecovery": {
     "back": "Kembali ke masuk",
@@ -1147,7 +1166,11 @@
     "eyebrow": "WAKTU ANDA, RUANG ANDA",
     "pageDescription": "Kelola sesi Anda dan temukan waktu yang sesuai untuk Anda.",
     "planNext": "Sedikit waktu, khusus untuk Anda.",
-    "bookSession": "Pesan sesi"
+    "bookSession": "Pesan sesi",
+    "lastRescheduled": "Terakhir dijadwalkan ulang",
+    "previousTime": "Waktu sebelumnya",
+    "newTime": "Waktu baru",
+    "changedAt": "Diubah pada"
   },
   "notificationsUi": {
     "unread": "Belum dibaca",

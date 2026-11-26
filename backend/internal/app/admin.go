@@ -38,8 +38,8 @@ func (a *App) AdminCreateClient(ctx context.Context, act Actor, c NewWalkInClien
 			return "", auth.ErrInvalidEmail
 		}
 	}
-	if err := auth.ValidateSignUp(auth.SignUp{Name: c.Name, Email: "x@x.id", Phone: c.Phone, Password: "placeholder", AgreedPrivacy: true}); err != nil {
-		return "", err // phone check
+	if !auth.ValidPhone(c.Phone) {
+		return "", auth.ErrInvalidPhone
 	}
 	return a.store.CreateClient(ctx, store.NewClient{Name: c.Name, Email: c.Email, Phone: auth.NormalizePhone(c.Phone)})
 }

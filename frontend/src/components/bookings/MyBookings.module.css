@@ -561,3 +561,12 @@
 .status[data-status=cancelled] {background:light-dark(#fff0f0,#422b35);color:light-dark(#a52e3f,#ffb4bf);border:1px solid light-dark(#ecc5cc,#754451);}
 .legend [data-status=cancelled]::before {background:#b43f50;border:1px solid #b43f50;}
 .chip[data-status=cancelled] {background:light-dark(#fff0f0,#422b35);color:light-dark(#a52e3f,#ffb4bf);border:1px dashed light-dark(#c36170,#b77280);}
+
+.drawerFooter .cancelAction {background:#a62834;color:#fff;border:1px solid #a62834;}
+.drawerFooter .cancelAction:hover:not(:disabled) {background:#88202b;border-color:#88202b;color:#fff;}
+.drawerFooter .cancelAction:focus-visible {outline:2px solid #a62834;outline-offset:3px;}
+
+.rescheduleChoices {border:0;padding:0;margin:0;min-width:0;}
+.rescheduleConfirm {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.85rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);}
+.rescheduleConfirm p {font-size:.75rem;line-height:1.6;color:var(--muted);flex:1 1 12rem;}
+.rescheduleConfirm button {font-size:.75rem;min-height:2.7rem;}
