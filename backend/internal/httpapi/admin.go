@@ -12,6 +12,7 @@ import (
 func (s *server) adminRoutes(mux *http.ServeMux) {
 	admin := func(h http.HandlerFunc) http.HandlerFunc { return s.authed(h, "admin") }
 	mux.HandleFunc("GET /api/admin/bookings", admin(s.calendar))
+	mux.HandleFunc("GET /api/admin/client-directory", admin(s.clientDirectory))
 	mux.HandleFunc("GET /api/admin/clients", admin(s.searchClients))
 	mux.HandleFunc("POST /api/admin/clients", admin(s.createClient))
 	mux.HandleFunc("GET /api/admin/psychologists/{psych}/hours", admin(s.getHours))
@@ -112,7 +113,7 @@ func (s *server) putSettings(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) history(w http.ResponseWriter, r *http.Request) {
-	h, err := s.app.History(r.Context(), actorFrom(r.Context()))
+	h, err := s.app.HistoryAtBranch(r.Context(), actorFrom(r.Context()), r.URL.Query().Get("location"))
 	if err != nil {
 		writeError(w, r, err)
 		return
@@ -126,10 +127,19 @@ func (s *server) report(w http.ResponseWriter, r *http.Request) {
 		writeError(w, r, app.ErrBadRequest)
 		return
 	}
-	rep, err := s.app.Report(r.Context(), actorFrom(r.Context()), r.URL.Query().Get("period"), start)
+	rep, err := s.app.ReportAtBranch(r.Context(), actorFrom(r.Context()), r.URL.Query().Get("period"), start, r.URL.Query().Get("location"))
 	if err != nil {
 		writeError(w, r, err)
 		return
 	}
 	writeJSON(w, http.StatusOK, rep)
+}
+
+func (s *server) clientDirectory(w http.ResponseWriter, r *http.Request) {
+	items, err := s.app.ClientDirectory(r.Context(), actorFrom(r.Context()), r.URL.Query().Get("q"), r.URL.Query().Get("location"))
+	if err != nil {
+		writeError(w, r, err)
+		return
+	}
+	writeJSON(w, 200, map[string]any{"clients": items})
 }

@@ -24,3 +24,11 @@ func (s *server) dismissMyNotification(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
+
+func (s *server) readAllMyNotifications(w http.ResponseWriter, r *http.Request) {
+	if err := s.app.ReadAllMyNotifications(r.Context(), actorFrom(r.Context())); err != nil {
+		writeError(w, r, err)
+		return
+	}
+	w.WriteHeader(http.StatusNoContent)
+}

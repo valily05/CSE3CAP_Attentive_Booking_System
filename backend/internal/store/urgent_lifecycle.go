@@ -256,7 +256,7 @@ func (s *Store) UrgentQueue(ctx context.Context, query, status, mode, location s
 		return nil, nil, 0, err
 	}
 	counts := map[string]int{}
-	rows, err := s.pool.Query(ctx, "SELECT status,count(*) FROM urgent_request GROUP BY status")
+	rows, err := s.pool.Query(ctx, "SELECT status,count(*) FROM urgent_request WHERE ($1='' OR location_id=$1) GROUP BY status", location)
 	if err != nil {
 		return nil, nil, 0, err
 	}
@@ -274,7 +274,7 @@ func (s *Store) UrgentQueue(ctx context.Context, query, status, mode, location s
 		return nil, nil, 0, err
 	}
 	var checked int
-	if err = s.pool.QueryRow(ctx, "SELECT count(*) FROM urgent_request WHERE checked_in_at IS NOT NULL AND status NOT IN ('COMPLETED','CANCELLED')").Scan(&checked); err != nil {
+	if err = s.pool.QueryRow(ctx, "SELECT count(*) FROM urgent_request WHERE checked_in_at IS NOT NULL AND status NOT IN ('COMPLETED','CANCELLED') AND ($1='' OR location_id=$1)", location).Scan(&checked); err != nil {
 		return nil, nil, 0, err
 	}
 	counts["checkedIn"] = checked

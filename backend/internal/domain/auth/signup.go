@@ -93,7 +93,10 @@ func ValidateResidence(s SignUp) error {
 	return nil
 }
 
-func validEmail(e string) bool {
+func validEmail(e string) bool { return ValidEmail(e) }
+
+// ValidEmail validates an address without accepting display names or local-only domains.
+func ValidEmail(e string) bool {
 	a, err := mail.ParseAddress(e)
 	return err == nil && a.Address == e && strings.Contains(e[strings.LastIndex(e, "@"):], ".")
 }

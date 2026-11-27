@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
 import { todayKey, weekStart } from "@/lib/time";
+import {useAdminBranch,branchLocation} from "./AdminBranch";
 import { useDirectory } from "./useDirectory";
 import styles from "./Admin.module.css";
 
@@ -12,6 +13,7 @@ type Report = { totals: Totals; byPsychologist: Record<string, Totals>; byPlace:
 
 /** G09-10: numbers only, never client names. */
 export function Reports({ today = todayKey() }: { today?: string }) {
+  const branch=useAdminBranch();
   const t = useTranslations("admin");
   const te = useTranslations("errors");
   const { catalog } = useDirectory();
@@ -22,8 +24,8 @@ export function Reports({ today = todayKey() }: { today?: string }) {
   const totalsId = useId();
 
   useEffect(() => {
-    api.get<Report>(`/api/admin/reports?period=${period}&start=${start}`).then(setReport, (e) => setError(errorCode(e)));
-  }, [period, start]);
+    api.get<Report>(`/api/admin/reports?period=${period}&start=${start}${branch!=="all"?"&location="+branchLocation(branch):""}`).then(setReport, (e) => setError(errorCode(e)));
+  }, [period, start,branch]);
 
   const placeName = (k: string) => (k === "online" ? t("online") : (catalog.locations.find((l) => l.id === k)?.name ?? k));
   const serviceName = (k: string) => catalog.services.find((s) => s.id === k)?.name ?? k;

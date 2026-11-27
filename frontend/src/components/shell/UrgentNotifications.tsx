@@ -7,8 +7,9 @@ import Link from "next/link";
 import {useAppLocale} from "@/lib/i18n";
 import {formatFullDateTime} from "@/lib/time";
 import { useTranslations } from "next-intl";
-import { api } from "@/lib/api";
-import { markUrgentNotificationSeen, readUrgentNotifications, saveUrgentNotification, URGENT_NOTIFICATIONS_CHANGED, type UrgentNotification } from "@/lib/urgentNotifications";
+import {showToast} from "@/lib/toast";
+import { api,errorCode } from "@/lib/api";
+import { markAllUrgentNotificationsSeen, markUrgentNotificationSeen, readUrgentNotifications, saveUrgentNotification, URGENT_NOTIFICATIONS_CHANGED, type UrgentNotification } from "@/lib/urgentNotifications";
 import type { UrgentReceipt } from "@/components/urgent/types";
 import { useSession } from "./Session";
 import styles from "./Header.module.css";
@@ -58,13 +59,15 @@ export function UrgentNotifications() {
   document.addEventListener("pointerdown", outside); document.addEventListener("keydown", escape);
   return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); };
  }, [open]);
+ const [marking,setMarking]=useState(false);
+ const markAllRead=async()=>{if(marking)return;setMarking(true);try{if(owner)await api.post("/api/me/notifications/read-all");setAccount(current=>current.email===owner?{...current,items:current.items.map(item=>({...item,read:true}))}:current);markAllUrgentNotificationsSeen()}catch(error){showToast(all(`errors.${errorCode(error)}`),true)}finally{setMarking(false)}};
  const unread = items.filter(item => !item.seen).length + notices.filter(item=>!item.read).length;
  return <div className={styles.notifications} ref={panel}>
   <button type="button" className={styles.theme} aria-label={t("notifications")} aria-expanded={open} aria-controls="urgent-notifications" onClick={() => setOpen(!open)}>
    <Bell size={19} aria-hidden="true" />{unread > 0 && <span className={styles.notificationCount}>{unread}</span>}
   </button>
   {open && createPortal(<section ref={menu} id="urgent-notifications" className={styles.notificationPanel} aria-label={t("notifications")}>
-   <h2>{t("notifications")}</h2>
+   <div className={styles.notificationHeading}><h2>{t("notifications")}</h2><button type="button" disabled={!unread||marking} onClick={()=>void markAllRead()}>{ui(marking?"markingRead":"markAllRead")}</button></div>
    {items.length||notices.length?<ul>{notices.map(item=><li key={item.id} data-unread={!item.read||undefined}><Link href={["waiting_slot","booking_rescheduled"].includes(item.kind)?item.details?.link||"/bookings#waiting-list":"/#find-support"} onClick={()=>{void updateNotice(item.id);setOpen(false)}}><span className={styles.notificationIcon}>{item.kind==="booking_rescheduled"?<CalendarClock size={21}/>:item.kind==="waiting_slot"?<BellRing size={21}/>:<HandHeart size={21}/>}</span><div className={styles.notificationCopy}><strong>{item.kind==="booking_rescheduled"?a("rescheduled"):item.kind==="waiting_slot"?w("available"):a("welcome")}</strong><span>{item.kind==="booking_rescheduled"?a("rescheduledBody",{code:item.details?.code||"",name:item.details?.psychologistName||"",time:item.details?.start?formatFullDateTime(item.details.start,locale):""}):item.kind==="waiting_slot"?<>{item.details?.psychologistName}<br/>{item.details?.start&&formatFullDateTime(item.details.start,locale)} · {all(`sessionType.${item.details?.sessionType||"video"}`)} {item.details?.locationName}<br/>{w("viewSlot")}</>:a("body")}</span>{timestamp(item.createdAt)}</div><span className={styles.unreadDot} data-read={item.read||undefined} aria-hidden="true"/>{!item.read&&<span className="visually-hidden">{ui("unread")}</span>}</Link></li>)}{items.map(item=>{const Icon=item.status==="CANCELLED"?CircleX:item.status==="COMPLETED"?CheckCircle2:["CONFIRMED","ASSIGNED"].includes(item.status)?CalendarCheck:PhoneCall;return <li key={item.code} data-unread={!item.seen||undefined}><Link href={`/urgent-confirmation/${item.code}#${item.token}`} onClick={()=>{markUrgentNotificationSeen(item.code);setOpen(false)}}><span className={styles.notificationIcon} data-urgent><Icon size={21}/></span><div className={styles.notificationCopy}><strong>{item.code}</strong><span>{t(`statuses.${item.status}`)}</span><span>{t("viewConfirmation")}</span>{timestamp(item.submittedAt)}</div><span className={styles.unreadDot} data-read={item.seen||undefined} aria-hidden="true"/>{!item.seen&&<span className="visually-hidden">{ui("unread")}</span>}</Link></li>})}</ul>:<div className={styles.notificationEmpty}><span><Bell size={27} strokeWidth={1.5}/></span><strong>{ui("emptyTitle")}</strong><p>{ui("emptyBody")}</p></div>}
   </section>,document.body)}
  </div>;

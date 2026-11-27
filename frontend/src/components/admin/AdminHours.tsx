@@ -6,10 +6,10 @@ import { HoursEditor } from "@/components/staff/HoursEditor";
 import { useDirectory } from "./useDirectory";
 
 /** Admin edits anyone's hours and blocks time (G09-3, G09-9). */
-export function AdminHours() {
+export function AdminHours({initialId=""}:{initialId?:string}) {
   const t = useTranslations("admin");
   const { psychologists } = useDirectory();
-  const [id, setId] = useState("");
+  const [id, setId] = useState(initialId);
   return (
     <>
       <label className="field">
@@ -23,7 +23,7 @@ export function AdminHours() {
           ))}
         </select>
       </label>
-      {id && <HoursEditor key={id} base={`/api/admin/psychologists/${id}`} />}
+      {id && psychologists.some(p=>p.id===id) && <HoursEditor key={id} base={`/api/admin/psychologists/${id}`} />}
     </>
   );
 }

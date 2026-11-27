@@ -159,12 +159,15 @@ type HistoryEntry struct {
 
 // History returns the newest changes first.
 func (s *Store) History(ctx context.Context, limit int) ([]HistoryEntry, error) {
+	return s.HistoryAtBranch(ctx, limit, "")
+}
+func (s *Store) HistoryAtBranch(ctx context.Context, limit int, location string) ([]HistoryEntry, error) {
 	rows, err := s.pool.Query(ctx, `
 		SELECT a.at, COALESCE(u.email, 'system'), a.action, COALESCE(b.code, '')
 		FROM audit_log a
 		LEFT JOIN app_user u ON u.id = a.actor_id
 		LEFT JOIN booking b ON b.id = a.booking_id
-		ORDER BY a.id DESC LIMIT $1`, limit)
+		WHERE ($2='' OR b.location_id=$2) ORDER BY a.id DESC LIMIT $1`, limit, location)
 	if err != nil {
 		return nil, err
 	}
@@ -187,4 +190,12 @@ func (s *Store) PsychologistNames(ctx context.Context) (map[string]string, error
 		out[id] = name
 	}
 	return out, rows.Err()
+}
+
+func (s *Store) ClientDirectory(ctx context.Context, q, location string) ([]ClientSummary, error) {
+	rows, err := s.pool.Query(ctx, `SELECT c.id,c.name,c.phone,c.email FROM client c WHERE ($1='' OR c.name ILIKE '%'||$1||'%' OR c.email ILIKE '%'||$1||'%' OR c.phone ILIKE '%'||$1||'%') AND ($2='' OR EXISTS(SELECT 1 FROM booking b WHERE b.client_id=c.id AND b.location_id=$2)) ORDER BY c.name,c.id LIMIT 200`, q, location)
+	if err != nil {
+		return nil, err
+	}
+	return pgx.CollectRows(rows, pgx.RowToStructByPos[ClientSummary])
 }

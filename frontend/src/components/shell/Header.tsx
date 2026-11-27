@@ -72,7 +72,7 @@ export function Header() {
     root.dataset.theme = next;
   };
 
-  if (path === "/forgot" || path === "/reset-password" || path === "/signin" || path === "/verify" || path === "/signup" || path === "/resend-verification" || path === "/account/residence") return null;
+  if (path.startsWith("/admin") || path === "/forgot" || path === "/reset-password" || path === "/signin" || path === "/verify" || path === "/signup" || path === "/resend-verification" || path === "/account/residence") return null;
 
   return (
     <header className={styles.header}>
@@ -111,6 +111,7 @@ export function Header() {
             <button ref={accountButton} type="button" className={styles.profile} aria-label={t("nav.profile")} aria-expanded={accountOpen} aria-controls="account-panel" onClick={()=>{setAccountOpen(o=>!o);setAccountError(false);}}><UserRound size={19} aria-hidden="true"/></button>
             {accountOpen&&<div id="account-panel" className={styles.accountPanel}>
               <strong>{me.name}</strong><p>{me.email}</p>
+ {me.role==="client"&&<Link href="/account/profile" className={styles.profileLink} onClick={()=>setAccountOpen(false)}><UserRound size={16}/>{t("profile.title")}</Link>}
               <button ref={logoutButton} type="button" disabled={signingOut} onClick={async()=>{
                 setSigningOut(true);setAccountError(false);
                 try{await signOut();setAccountOpen(false);router.push("/");}catch{setAccountError(true);showToast(t("errors.network"),true);}finally{setSigningOut(false);}

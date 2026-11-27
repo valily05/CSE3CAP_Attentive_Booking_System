@@ -62,3 +62,8 @@ func (s *Store) DismissAccountNotification(ctx context.Context, userID, id strin
 	}
 	return nil
 }
+
+func (s *Store) ReadAllAccountNotifications(ctx context.Context, userID string, now time.Time) error {
+	_, err := s.pool.Exec(ctx, `UPDATE account_notification SET read_at=$2 WHERE user_id=$1 AND read_at IS NULL AND dismissed_at IS NULL`, userID, now)
+	return err
+}

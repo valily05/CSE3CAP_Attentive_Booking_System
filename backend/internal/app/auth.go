@@ -116,6 +116,9 @@ func (a *App) VerifyEmail(ctx context.Context, token string) error {
 // VerifyEmailWithNotice exposes the address only after a valid single-use email token.
 func (a *App) VerifyEmailWithNotice(ctx context.Context, token string) (string, error) {
 	userID, err := a.store.UseEmailToken(ctx, HashToken(token), "verify_email", a.clock.Now())
+	if errors.Is(err, store.ErrNotFound) {
+		return a.store.CompleteProfileEmailChange(ctx, HashToken(token), a.clock.Now())
+	}
 	if err != nil {
 		return "", err
 	}

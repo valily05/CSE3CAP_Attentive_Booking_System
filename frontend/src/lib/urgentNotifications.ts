@@ -37,3 +37,10 @@ export function dismissUrgentNotification(code: string) {
   window.dispatchEvent(new Event(URGENT_NOTIFICATIONS_CHANGED));
  } catch { /* Storage is optional. */ }
 }
+
+export function markAllUrgentNotificationsSeen() {
+ try {
+  localStorage.setItem(KEY,JSON.stringify(readUrgentNotifications().map(item=>({...item,seen:true}))));
+  window.dispatchEvent(new Event(URGENT_NOTIFICATIONS_CHANGED));
+ } catch { /* Storage is optional. */ }
+}

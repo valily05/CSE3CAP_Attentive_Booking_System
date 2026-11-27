@@ -100,6 +100,9 @@ type Report struct {
 
 // Report computes the numbers for a week or month starting at start.
 func (a *App) Report(ctx context.Context, act Actor, period string, start time.Time) (Report, error) {
+	return a.ReportAtBranch(ctx, act, period, start, "")
+}
+func (a *App) ReportAtBranch(ctx context.Context, act Actor, period string, start time.Time, location string) (Report, error) {
 	if err := a.requireAdmin(act); err != nil {
 		return Report{}, err
 	}
@@ -116,6 +119,15 @@ func (a *App) Report(ctx context.Context, act Actor, period string, start time.T
 	if err != nil {
 		return Report{}, err
 	}
+	if location != "" {
+		filtered := rows[:0]
+		for _, row := range rows {
+			if row.Place == location {
+				filtered = append(filtered, row)
+			}
+		}
+		rows = filtered
+	}
 	names, err := a.store.PsychologistNames(ctx)
 	if err != nil {
 		return Report{}, err
@@ -128,4 +140,17 @@ func (a *App) Report(ctx context.Context, act Actor, period string, start time.T
 		From: start, To: end, Totals: reports.Summarize(rows), ByPsychologist: byPsych,
 		ByPlace: reports.Breakdown(rows, reports.ByPlace), ByService: reports.Breakdown(rows, reports.ByService),
 	}, nil
+}
+
+func (a *App) ClientDirectory(ctx context.Context, act Actor, q, location string) ([]store.ClientSummary, error) {
+	if err := a.requireAdmin(act); err != nil {
+		return nil, err
+	}
+	return a.store.ClientDirectory(ctx, strings.TrimSpace(q), location)
+}
+func (a *App) HistoryAtBranch(ctx context.Context, act Actor, location string) ([]store.HistoryEntry, error) {
+	if err := a.requireAdmin(act); err != nil {
+		return nil, err
+	}
+	return a.store.HistoryAtBranch(ctx, 200, location)
 }

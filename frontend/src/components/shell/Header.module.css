@@ -198,3 +198,12 @@
 .notificationEmpty>span {display:grid;place-items:center;width:3.5rem;height:3.5rem;border-radius:1.2rem;background:light-dark(#f5ecd9,#2e3d50);color:var(--brass-text);margin-bottom:.2rem;}
 .notificationEmpty>strong {font-size:.9rem;font-weight:600;color:var(--ink);}
 .notificationPanel .notificationEmpty>p {margin:0;max-width:30ch;font-size:.75rem;line-height:1.8;color:var(--muted);}
+
+.notificationHeading {display:flex;align-items:center;justify-content:space-between;gap:.65rem;padding:0 1.1rem .7rem;flex-shrink:0;}
+.notificationPanel .notificationHeading h2 {padding:0;margin:0;}
+.notificationHeading button {border:0;background:transparent;color:var(--ink);font:inherit;font-size:.68rem;font-weight:500;white-space:nowrap;padding:.35rem 0;cursor:pointer;}
+.notificationHeading button:hover:not(:disabled) {color:var(--brass-text);}
+.notificationHeading button:disabled {color:var(--muted);opacity:.65;cursor:default;}
+
+.accountPanel .profileLink{display:flex;align-items:center;gap:.6rem;padding:.65rem .5rem;margin-bottom:.3rem;border-radius:.6rem;font-size:.78rem;text-decoration:none;color:var(--ink)}
+.accountPanel .profileLink:hover{background:light-dark(#142c5210,#ffffff0c)}

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { http, HttpResponse } from "msw";
-import { screen } from "@testing-library/react";
+import { screen,waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { server } from "@/test/server";
 import { renderWithIntl } from "@/test/render";
@@ -74,4 +74,17 @@ describe("Header", () => {
     expect(home).toHaveAttribute("href", "/");
     expect(home.querySelector("img")?.getAttribute("src")).toContain("attentive-logo");
   });
+});
+
+it("marks account and urgent notifications as read without removing them",async()=>{
+ localStorage.setItem("attentive-urgent-notifications",JSON.stringify([{code:"ATT1234",token:"a".repeat(43),submittedAt:"2026-11-20T03:00:00Z",status:"PENDING",seen:false}]));
+ let read=false;
+ server.use(http.get("*/api/auth/me",()=>HttpResponse.json({role:"client",name:"Rina",email:"rina@example.test"})),http.get("*/api/me/notifications",()=>HttpResponse.json({items:[{id:"n1",kind:"welcome",read,createdAt:"2026-11-20T03:00:00Z"}]})),http.post("*/api/me/notifications/read-all",()=>{read=true;return new HttpResponse(null,{status:204})}));
+ renderWithIntl(<SessionProvider><Header/></SessionProvider>);
+ const user=userEvent.setup();await user.click(await screen.findByRole("button",{name:"Notifications"}));
+ const button=await screen.findByRole("button",{name:"Mark all as read"});
+ await waitFor(()=>expect(screen.getByText("Welcome to Attentive.")).toBeInTheDocument());
+ await user.click(button);await waitFor(()=>expect(button).toBeDisabled());
+ expect(read).toBe(true);expect(screen.getByText("Welcome to Attentive.")).toBeInTheDocument();expect(screen.getByText("ATT1234")).toBeInTheDocument();expect(JSON.parse(localStorage.getItem("attentive-urgent-notifications")!)[0].seen).toBe(true);
+ localStorage.removeItem("attentive-urgent-notifications");
 });

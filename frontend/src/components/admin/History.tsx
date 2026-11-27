@@ -5,20 +5,22 @@ import { useTranslations } from "next-intl";
 import { api, errorCode } from "@/lib/api";
 import { formatDateTime } from "@/lib/time";
 import { useAppLocale } from "@/lib/i18n";
+import {useAdminBranch} from "./AdminBranch";
 import styles from "./Admin.module.css";
 
 type Entry = { at: string; actor: string; action: string; code?: string };
 
 /** The history of changes: who did what, and when (G09-9). */
 export function History() {
+  const branch=useAdminBranch();
   const t = useTranslations();
   const locale = useAppLocale();
   const [entries, setEntries] = useState<Entry[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api.get<{ entries: Entry[] }>("/api/admin/history").then((r) => setEntries(r.entries), (e) => setError(errorCode(e)));
-  }, []);
+    api.get<{ entries: Entry[] }>("/api/admin/history"+(branch==="all"?"":"?location="+branch)).then((r) => setEntries(r.entries), (e) => setError(errorCode(e)));
+  }, [branch]);
 
   const describe = (a: string) => {
     if (a.startsWith("status:")) {

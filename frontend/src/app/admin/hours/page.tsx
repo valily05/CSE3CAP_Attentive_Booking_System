@@ -3,13 +3,14 @@ import { AdminHours } from "@/components/admin/AdminHours";
 import { RequireRole } from "@/components/shell/RequireRole";
 import styles from "../../page.module.css";
 
-export default async function Page() {
+export default async function Page({searchParams}:{searchParams:Promise<{psych?:string}>}) {
+  const {psych}=await searchParams;
   const t = await getTranslations("psy");
   return (
     <div className={styles.wide}>
       <h1>{t("hoursTitle")}</h1>
       <RequireRole role="admin">
-        <AdminHours />
+        <AdminHours initialId={psych}/>
       </RequireRole>
     </div>
   );

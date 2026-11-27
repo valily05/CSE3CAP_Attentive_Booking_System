@@ -19,6 +19,7 @@ func (s *server) routes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/auth/reset", s.reset)
 	mux.HandleFunc("GET /api/auth/me", s.authed(s.me))
 	mux.HandleFunc("GET /api/me/notifications", s.authed(s.myNotifications, "client"))
+	mux.HandleFunc("POST /api/me/notifications/read-all", s.authed(s.readAllMyNotifications, "client"))
 	mux.HandleFunc("POST /api/me/notifications/{id}/read", s.authed(s.readMyNotification, "client"))
 	mux.HandleFunc("POST /api/me/notifications/{id}/dismiss", s.authed(s.dismissMyNotification, "client"))
 	mux.HandleFunc("GET /api/me/residence", s.authed(s.myResidence, "client"))
@@ -41,6 +42,10 @@ func (s *server) routes(mux *http.ServeMux) {
 	mux.HandleFunc("PUT /api/psy/hours", s.authed(s.putHours, "psychologist"))
 	mux.HandleFunc("POST /api/psy/unavailability", s.authed(s.addUnavailability, "psychologist"))
 
+	mux.HandleFunc("GET /api/me/profile", s.authed(s.myProfile, "client"))
+	mux.HandleFunc("PUT /api/me/profile", s.authed(s.saveProfile, "client"))
+	mux.HandleFunc("POST /api/me/profile/password", s.authed(s.changeProfilePassword, "client"))
+	mux.HandleFunc("POST /api/me/profile/email", s.authed(s.changeProfileEmail, "client"))
 	s.adminRoutes(mux)
 	s.urgentRoutes(mux)
 }

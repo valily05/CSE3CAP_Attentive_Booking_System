@@ -20,6 +20,7 @@ import {
 import { useAppLocale } from "@/lib/i18n";
 import { useApi } from "@/lib/useApi";
 import type { Booking } from "@/lib/types";
+import {useAdminBranch,branchLocation} from "./AdminBranch";
 import { useDirectory } from "./useDirectory";
 import styles from "./AdminCalendar.module.css";
 
@@ -52,7 +53,8 @@ export function AdminCalendar({ now = new Date() }: { now?: Date }) {
   const [view, setView] = useState<"week" | "day">("week");
   const [from, setFrom] = useState(() => weekStart(dateKey(now)));
   const [chosenPsych, setPsych] = useState("");
-  const [place, setPlace] = useState("");
+  const branch=useAdminBranch();
+  const [place, setPlace] = useState(branchLocation(branch));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [actionError, setError] = useState<string | null>(null);
   const psych = chosenPsych || psychologists[0]?.id || "";
@@ -161,7 +163,7 @@ export function AdminCalendar({ now = new Date() }: { now?: Date }) {
           </h2>
           <label className={styles.place}>
             <span className="visually-hidden">{t("admin.location")}</span>
-            <select value={place} onChange={(e) => setPlace(e.target.value)}>
+            <select disabled={branch!=="all"} value={place} onChange={(e) => setPlace(e.target.value)}>
               <option value="">{t("admin.allPlaces")}</option>
               <option value="online">{t("admin.online")}</option>
               {catalog.locations.map((l) => (
@@ -198,7 +200,7 @@ export function AdminCalendar({ now = new Date() }: { now?: Date }) {
         {list === null ? (
           <div className={styles.skeleton} aria-hidden="true" />
         ) : view === "week" ? (
-          <WeekGrid from={from} list={list} hours={hoursRes.data?.hours ?? []} now={now} label={label} needsMarking={needsMarking} selectedId={selectedId} onSelect={setSelectedId} />
+          <WeekGrid from={from} list={list} hours={(hoursRes.data?.hours ?? []).filter(h=>branch==="all"||h.locationId===branch)} now={now} label={label} needsMarking={needsMarking} selectedId={selectedId} onSelect={setSelectedId} />
         ) : list.length === 0 ? (
           <p className={styles.muted}>{t("admin.empty")}</p>
         ) : (

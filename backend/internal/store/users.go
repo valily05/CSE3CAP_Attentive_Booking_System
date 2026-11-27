@@ -96,6 +96,9 @@ func (s *Store) SetPassword(ctx context.Context, userID, hash string) error {
 		if _, err := tx.Exec(ctx, `UPDATE app_user SET password_hash = $2, failed_logins = 0, locked_until = NULL WHERE id = $1`, userID, hash); err != nil {
 			return err
 		}
+		if _, err := tx.Exec(ctx, `DELETE FROM profile_email_change WHERE user_id=$1`, userID); err != nil {
+			return err
+		}
 		_, err := tx.Exec(ctx, `DELETE FROM auth_session WHERE user_id = $1`, userID)
 		return err
 	})

@@ -9,12 +9,17 @@ import { formatFullDateTime as formatDateTime, todayKey } from "@/lib/time";
 import { useDirectory } from "@/components/admin/useDirectory";
 import type { Day } from "@/lib/types";
 import type { UrgentRequest } from "./types";
-import styles from "./Urgent.module.css";
+import Link from "next/link";
+import {ArrowLeft,ClipboardList,Users,CalendarDays,History} from "lucide-react";
+import {useAdminBranch,adminHref} from "@/components/admin/AdminBranch";
+import {showToast} from "@/lib/toast";
+import styles from "./AdminUrgent.module.css";
 
 type ClientHit = { id: string; name: string; email: string; phone: string };
 type Activity = { action: string; at: string; actor: string };
 
 export function UrgentDetail({ code }: { code: string }) {
+ const ui=useTranslations("urgentAdminUi"),branch=useAdminBranch();
  const t = useTranslations("urgent");
  const errors = useTranslations("errors");
  const locale = useAppLocale();
@@ -29,7 +34,6 @@ export function UrgentDetail({ code }: { code: string }) {
  const [from, setFrom] = useState(todayKey);
  const [busy, setBusy] = useState(false);
  const [error, setError] = useState("");
- const [notice, setNotice] = useState("");
  const hits = useApi<{ clients: ClientHit[] }>(clientQuery.length >= 2 ? "/api/admin/clients?q=" + encodeURIComponent(clientQuery) : null);
  const request = data?.request;
  const psych = psychologists.find((item) => item.id === psychId);
@@ -42,11 +46,11 @@ export function UrgentDetail({ code }: { code: string }) {
  }, [reload]);
 
  async function action(name: string, body: object = {}) {
-  setBusy(true); setError(""); setNotice("");
+  setBusy(true); setError("");
   try {
    await api.post("/api/admin/urgent-requests/" + code + "/" + name, body);
-   reload(); setNotice(t("updated"));
-  } catch (exception) { setError(errorCode(exception)); }
+   reload(); showToast(t("updated"),false);
+  } catch (exception) { setError(errorCode(exception));showToast(errors(errorCode(exception)),true); }
   finally { setBusy(false); }
  }
  function assign(event: FormEvent<HTMLFormElement>) {
@@ -59,13 +63,12 @@ export function UrgentDetail({ code }: { code: string }) {
  const terminal = ["COMPLETED", "CANCELLED"].includes(request.status);
  const eligible = psychologists.filter((item) => mode === "in_person" ? item.sessionTypes.includes("in_person") && item.locationIds.includes(request.locationId) : item.sessionTypes.some((value) => value !== "in_person"));
  return <div className={styles.admin}>
-  <span className={styles.badge}>{t("badge")}</span><h1>{request.bookingCode}</h1>
-  <p>{t(`statuses.${request.status}`)}</p>
-  {notice && <p role="status">{notice}</p>}
+  <Link className={styles.back} href={adminHref("/admin/urgent-requests",branch)}><ArrowLeft size={16}/>{ui("back")}</Link>
+  <header className={styles.detailHeading}><div><span className={styles.badge}>{t("badge")}</span><h1>{request.bookingCode}</h1><p>{ui("detailBody")}</p></div><span className={styles.status} data-status={request.status}><span/>{t(`statuses.${request.status}`)}</span></header>
   {(error || loadError) && <p role="alert" className={styles.error}>{errors(error || loadError || "internal")}</p>}
   <div className={styles.details}>
    <section className={styles.card}>
-    <h2>{t("originalRequest")}</h2>
+    <header className={styles.cardHeading}><span><ClipboardList size={20}/></span><div><h2>{t("originalRequest")}</h2><p>{ui("careBody")}</p></div></header>
     <dl className={styles.facts}>
      <div><dt>{t("name")}</dt><dd>{request.customerName}</dd></div>
      <div><dt>{t("email")}</dt><dd><a href={"mailto:" + request.email}>{request.email}</a></dd></div>
@@ -91,7 +94,7 @@ export function UrgentDetail({ code }: { code: string }) {
       const fields = new FormData(event.currentTarget);
       try {
        await api.put("/api/admin/urgent-locations/" + request.locationId, { address: fields.get("address"), mapsUrl: fields.get("maps"), verified: fields.get("verified") === "on" });
-       reload(); setNotice(t("updated"));
+       reload(); showToast(t("updated"),false);
       } catch (exception) { setError(errorCode(exception)); } finally { setBusy(false); }
      }}>
       <label className="field"><span>{t("address")}</span><input name="address" defaultValue={w.address} required maxLength={1000} /></label>
@@ -102,7 +105,7 @@ export function UrgentDetail({ code }: { code: string }) {
     </details>}
    </section>
    <section className={styles.card}>
-    <h2>{t("linkClient")}</h2>
+    <header className={styles.cardHeading}><span><Users size={20}/></span><div><h2>{t("linkClient")}</h2><p>{ui("linkBody")}</p></div></header>
     <label className={styles.ack}><input type="checkbox" checked={verified} onChange={(event) => setVerified(event.target.checked)} /><span>{t("identityVerified")}</span></label>
     {w.clientId && <p>{t("linkedClient", { name: w.clientName || "", email: w.clientEmail || "" })}</p>}
     <>
@@ -132,7 +135,7 @@ export function UrgentDetail({ code }: { code: string }) {
     </>}
    </section>
    <section className={styles.card}>
-    <h2>{t("assignment")}</h2>
+    <header className={styles.cardHeading}><span><CalendarDays size={20}/></span><div><h2>{t("assignment")}</h2><p>{ui("assignBody")}</p></div></header>
     {w.psychologistId && <p>{psychologists.find((item) => item.id === w.psychologistId)?.name} {w.start && formatDateTime(w.start, locale)}</p>}
     <form onSubmit={assign}>
      <label className="field"><span>{t("psychologist")}</span><select aria-label={t("psychologist")} value={psychId} onChange={(event) => { setPsychId(event.target.value); setServiceId(""); setChannel(""); }} required>
@@ -153,8 +156,8 @@ export function UrgentDetail({ code }: { code: string }) {
     <p className={styles.muted}>{t("assignmentHint")}</p>
    </section>
    <section className={styles.card}>
-    <h2>{t("activityTitle")}</h2>
-    <ol>{data?.activity.map((entry, index) => <li key={entry.at + index}>
+    <header className={styles.cardHeading}><span><History size={20}/></span><div><h2>{t("activityTitle")}</h2><p>{ui("activityBody")}</p></div></header>
+    {!data?.activity.length&&<p className={styles.muted}>{ui("noActivity")}</p>}<ol className={styles.timeline}>{data?.activity.map((entry, index) => <li key={entry.at + index}>
      <p>{t.has("events." + entry.action) ? t("events." + entry.action) : t("updated")}</p>
      <p>{formatDateTime(entry.at, locale)} · {entry.actor === "customer" || entry.actor === "system" ? t("actors." + entry.actor) : entry.actor}</p>
     </li>)}</ol>

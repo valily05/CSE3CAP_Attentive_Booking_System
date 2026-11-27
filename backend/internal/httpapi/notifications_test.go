@@ -54,3 +54,30 @@ func TestWelcomeNotificationLifecycle(t *testing.T) {
 		t.Fatal("dismissed welcome recreated")
 	}
 }
+
+func TestMarkAllNotificationsReadOwnedAndIdempotent(t *testing.T) {
+	e := apitest.New(t)
+	if status := e.Client().Do("POST", "/api/me/notifications/read-all", nil, nil); status != 401 {
+		t.Fatal(status)
+	}
+	c := e.SignUpClient("First Client", "first@example.test", false)
+	other := e.SignUpClient("Other Client", "second@example.test", false)
+	for i := 0; i < 2; i++ {
+		if status := c.Do("POST", "/api/me/notifications/read-all", nil, nil); status != 204 {
+			t.Fatal(status)
+		}
+	}
+	var result struct{ Items []store.AccountNotification }
+	if status := c.Do("GET", "/api/me/notifications", nil, &result); status != 200 {
+		t.Fatal(status)
+	}
+	if len(result.Items) != 1 || !result.Items[0].Read {
+		t.Fatalf("not persisted: %+v", result)
+	}
+	if status := other.Do("GET", "/api/me/notifications", nil, &result); status != 200 {
+		t.Fatal(status)
+	}
+	if len(result.Items) != 1 || result.Items[0].Read {
+		t.Fatalf("another account changed: %+v", result)
+	}
+}

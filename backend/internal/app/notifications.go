@@ -23,3 +23,10 @@ func (a *App) DismissMyNotification(ctx context.Context, actor Actor, id string)
 	}
 	return a.store.DismissAccountNotification(ctx, actor.UserID, id, a.clock.Now())
 }
+
+func (a *App) ReadAllMyNotifications(ctx context.Context, actor Actor) error {
+	if actor.Role != "client" {
+		return ErrForbidden
+	}
+	return a.store.ReadAllAccountNotifications(ctx, actor.UserID, a.clock.Now())
+}
